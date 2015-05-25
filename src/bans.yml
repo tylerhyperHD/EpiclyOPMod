@@ -1,0 +1,9 @@
+## Welcome to FreedomOpMod: Remastered's bans config file - By Camzie99 ##
+names:
+    hun1er227:
+        message: "Get away from this server."
+        perm: true
+
+ips: {}
+    
+uuids: {}
