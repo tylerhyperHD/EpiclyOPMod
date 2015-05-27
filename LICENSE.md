@@ -28,4 +28,4 @@ The above license may be waived by Camzie99 / Cameron B. R. Redmore alone. No ot
 
 **Currently Waived Entities**:
 
-- None
+- BackstabNetwork
