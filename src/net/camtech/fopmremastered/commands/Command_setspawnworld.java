@@ -20,6 +20,7 @@ public class Command_setspawnworld
         Player player = (Player) sender;
         World world = player.getWorld();
         world.setSpawnLocation(player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ());
+        sender.sendMessage(ChatColor.GREEN + "Successfully changed the spawn point of " + world.getName() + " to " + player.getLocation().getBlockX() + ", " + player.getLocation().getBlockY() + ", " + player.getLocation().getBlockZ() + ".");
         return true;
     }
 }

@@ -109,7 +109,7 @@ public class FOPMR_PrivateChats
     
     public static boolean isValidChat(String chat)
     {
-        return chats.getKeys(false).stream().anyMatch((_item) -> (chat.equalsIgnoreCase(chat)));
+        return chats.getKeys(false).stream().anyMatch((_item) -> (chat.equalsIgnoreCase(_item)));
     }
     
     public static FOPMR_PrivateChat getFromName(String name)

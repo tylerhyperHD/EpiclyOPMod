@@ -1,6 +1,7 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Bans;
+import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,7 +24,7 @@ public class Command_unban extends FOPMR_Command
         {
             return false;
         }
-        Player player = Bukkit.getPlayer(args[0]);
+        Player player = FOPMR_Rank.getPlayer(args[0]);
         if (player == null)
         {
             Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - Attempting unban of offline player: " + args[0]);

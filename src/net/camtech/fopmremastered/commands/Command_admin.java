@@ -137,7 +137,7 @@ public class Command_admin
         Player player;
         if (args.length == 2)
         {
-            player = Bukkit.getPlayer(args[1]);
+            player = FOPMR_Rank.getPlayer(args[1]);
             if (player == null)
             {
                 sender.sendMessage("Player: " + args[1] + " is not online.");
@@ -167,7 +167,7 @@ public class Command_admin
                 sender.sendMessage("You only need 2 arguments for a removal.");
                 return true;
             }
-            player = Bukkit.getPlayer(args[1]);
+            player = FOPMR_Rank.getPlayer(args[1]);
             if (player == null)
             {
                 sender.sendMessage("Player: " + args[1] + " is not online.");

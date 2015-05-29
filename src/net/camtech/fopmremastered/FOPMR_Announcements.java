@@ -16,7 +16,7 @@ public class FOPMR_Announcements
         });
     }
 
-    private static void announce(String message, int delay)
+    private static void announce(String message, long delay)
     {
         new BukkitRunnable()
         {

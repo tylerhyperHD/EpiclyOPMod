@@ -4,8 +4,10 @@ import java.io.File;
 import java.util.logging.Level;
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.commands.FOPMR_CommandRegistry;
+import net.camtech.fopmremastered.listeners.FOPMR_BlockListener;
 import net.camtech.fopmremastered.listeners.FOPMR_CamVerifyListener;
 import net.camtech.fopmremastered.listeners.FOPMR_CamzieListener;
+import net.camtech.fopmremastered.listeners.FOPMR_JumpListener;
 import net.camtech.fopmremastered.listeners.FOPMR_PlayerListener;
 import net.camtech.fopmremastered.listeners.FOPMR_TelnetListener;
 import net.camtech.fopmremastered.listeners.FOPMR_ToggleableEventsListener;
@@ -47,10 +49,12 @@ public class FreedomOpModRemastered extends JavaPlugin
         new FOPMR_ToggleableEventsListener();
         new FOPMR_CamzieListener();
         new FOPMR_VoteListener();
+        new FOPMR_BlockListener();
+        new FOPMR_JumpListener();
         FOPMR_Announcements.setup();
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            FileConfiguration config = FOPMR_Configs.admins.getConfig();
+            FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
             if (config.getBoolean(player.getUniqueId().toString() + ".imposter"))
             {
                 FOPMR_Commons.imposters.add(player.getName());
@@ -58,6 +62,7 @@ public class FreedomOpModRemastered extends JavaPlugin
         }
         FOPMR_WorldManager.getAdminWorld();
         FOPMR_WorldManager.getFlatlands();
+        FOPMR_WorldManager.getBuildersWorld();
     }
 
     @Override

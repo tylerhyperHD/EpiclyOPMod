@@ -5,26 +5,25 @@ import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Command_smite extends FOPMR_Command
+@CommandParameters(name="smite", description="Smite a player.", usage="/smite [player] [reason]", rank=Rank.ADMIN)
+public class Command_smite
 {
-    public Command_smite()
-    {
-        super("smite", "/smite [player] [reason]", "Smite a player.", Rank.ADMIN);
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length < 2)
         {
             return false;
         }
-        Player player = Bukkit.getPlayer(args[0]);
+        Player player = FOPMR_Rank.getPlayer(args[0]);
         if (player == null)
         {
             sender.sendMessage("The player " + args[0] + " is not online.");

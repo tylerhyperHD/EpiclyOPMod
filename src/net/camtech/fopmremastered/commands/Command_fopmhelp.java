@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -17,14 +17,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class Command_adminhelp extends FOPMR_Command
+@CommandParameters(name="fopmhelp", description="Receive info on the new commands in the FOPM: R.", usage="/fopmhelp")
+public class Command_fopmhelp
 {
-    public Command_adminhelp()
-    {
-        super("adminhelp", "/adminhelp", "Receive info on the new administrative commands in the FOPM: R.", Rank.ADMIN);
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         sender.sendMessage(ChatColor.GOLD + "Command :|: Description :|: Usage :|: Aliases");
@@ -62,7 +57,10 @@ public class Command_adminhelp extends FOPMR_Command
                             {
                                 message = message + ChatColor.GREEN + " :|: " + ChatColor.RED + "[" + StringUtils.join(cmdconstructed.alias, ", ") + "]";
                             }
-                            sender.sendMessage(message);
+                            if(FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(sender), cmdconstructed.rank))
+                            {
+                                sender.sendMessage(message);
+                            }
                         } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                         {
                             Bukkit.broadcastMessage("" + ex);

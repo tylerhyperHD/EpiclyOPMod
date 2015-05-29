@@ -10,6 +10,18 @@ general:
     joinMessage: "&-&lWelcome to FreedomOp %player%, I hope you have a great time! If you enjoy the server please vote for us at the links in /votelinks!"
     #Should the main world wipe on start?
     wipe: false
+    #What URL should be shown for ban appeals?
+    url: "fop.us.to"
+    
+jumppads:
+    #Are jumppads enabled?
+    enabled: false
+    #What strength should jumppads be? (Keep this less than or equal to 10!)
+    strength: 5
+    #Are speedpads enabled?
+    speed: false
+    #What strength should speedpads be? (Keep this less than or equal to 10!)
+    speedstrength: 5
 
 toggles:
     #Are explosions enabled?

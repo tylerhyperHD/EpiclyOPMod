@@ -29,6 +29,7 @@ public class Command_fopm
                 FOPMR_Configs.getAnnouncements().reloadConfig();
                 sender.sendMessage(ChatColor.GREEN + "FOPM: Remastered Configs reloaded!");
                 FOPMR_CommandRegistry.registerCommands();
+                sender.sendMessage(ChatColor.GREEN + "FOPM: Remastered Commands reloaded!");
                 return true;
             }
             return false;

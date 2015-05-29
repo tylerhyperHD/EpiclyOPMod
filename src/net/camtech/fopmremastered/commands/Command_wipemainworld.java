@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 
 public class Command_wipemainworld extends FOPMR_Command
 {
-
     public Command_wipemainworld()
     {
         super("wipemainworld", "/wipemainwold", "Wipe the main world.", Rank.EXECUTIVE);
@@ -22,5 +21,4 @@ public class Command_wipemainworld extends FOPMR_Command
         Bukkit.broadcastMessage(ChatColor.GREEN + sender.getName() + " - Wiping Main World.");
         return true;
     }
-
 }

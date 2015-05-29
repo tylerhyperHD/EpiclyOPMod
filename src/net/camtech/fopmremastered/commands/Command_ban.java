@@ -26,7 +26,7 @@ public class Command_ban extends FOPMR_Command
         {
             return false;
         }
-        final Player player = Bukkit.getPlayer(args[0]);
+        final Player player = FOPMR_Rank.getPlayer(args[0]);
         String reason = "No reason given... - " + sender.getName();
         if (args.length > 1)
         {

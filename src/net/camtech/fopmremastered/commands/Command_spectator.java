@@ -8,16 +8,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
-public class Command_creative extends FOPMR_Command
+@CommandParameters(name="spectator", description="Set a player's gamemode to spectator mode.", usage="/spectator <player>", aliases="gmsp")
+public class Command_spectator
 {
-    public Command_creative()
-    {
-        super("creative", "/creative <player>", "Set yourself to creative mode.", Arrays.asList("gmc"));
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!(sender instanceof Player))
@@ -40,14 +33,13 @@ public class Command_creative extends FOPMR_Command
                 sender.sendMessage("The player selected is not online.");
                 return true;
             }
-            player.setGameMode(GameMode.CREATIVE);
-            sender.sendMessage(ChatColor.GOLD + "Gamemode set to Creative.");
-            player.sendMessage(ChatColor.GOLD + sender.getName() + " set your gamemode to Creative.");
+            player.setGameMode(GameMode.SPECTATOR);
+            sender.sendMessage(ChatColor.GOLD + "Gamemode set to Spectator.");
+            player.sendMessage(ChatColor.GOLD + sender.getName() + " set your gamemode to Spectator.");
             return true;
         }
-        ((Player) sender).setGameMode(GameMode.CREATIVE);
-        sender.sendMessage(ChatColor.GOLD + "Gamemode set to Creative.");
+        ((Player) sender).setGameMode(GameMode.SPECTATOR);
+        sender.sendMessage(ChatColor.GOLD + "Gamemode set to Spectator.");
         return true;
     }
-
 }

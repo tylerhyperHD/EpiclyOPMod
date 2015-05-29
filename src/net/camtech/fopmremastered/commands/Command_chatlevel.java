@@ -28,6 +28,7 @@ public class Command_chatlevel extends FOPMR_Command
         }
         if (!(sender instanceof Player))
         {
+            sender.sendMessage(ChatColor.GREEN + "You must be in-game to use this command.");
             return true;
         }
         Player player = (Player) sender;

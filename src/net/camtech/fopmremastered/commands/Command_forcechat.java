@@ -1,6 +1,5 @@
 package net.camtech.fopmremastered.commands;
 
-import java.util.Arrays;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.ArrayUtils;
@@ -11,21 +10,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Command_forcechat extends FOPMR_Command
+@CommandParameters(name="forcechat", description="Force a player to send a chat message.", usage="/forchat [player] [message]", rank=Rank.SENIOR, aliases="fc, fchat, forcec")
+public class Command_forcechat
 {
-    public Command_forcechat()
-    {
-        super("forcechat", "/forcechat [player] [message]", "Force a player to send a chat message.", Arrays.asList("fc", "fchat", "forcec"), Rank.SENIOR);
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length < 2)
         {
             return false;
         }
-        Player player = Bukkit.getPlayer(args[0]);
+        Player player = FOPMR_Rank.getPlayer(args[0]);
         if (player == null)
         {
             sender.sendMessage(ChatColor.RED + "The player you attempted to select is not online.");

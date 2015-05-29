@@ -1,17 +1,21 @@
 package net.camtech.fopmremastered.commands;
 
-import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_Rank;
-import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.*;
-
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
-
+import net.camtech.camutils.CUtils_Methods;
+import net.camtech.fopmremastered.FOPMR_Rank;
+import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import static net.camtech.fopmremastered.FreedomOpModRemastered.plugin;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.command.TabExecutor;
 
 public abstract class FOPMR_Command implements CommandExecutor, TabExecutor
 {
@@ -151,9 +155,9 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor
             @SuppressWarnings("unchecked")
             HashMap<String, Command> knownCommands = (HashMap<String, Command>) map;
             knownCommands.remove(cmd.getName());
-            for (String alias : cmd.getAliases())
+            for (String registeredalias : cmd.getAliases())
             {
-                knownCommands.remove(alias);
+                knownCommands.remove(registeredalias);
             }
         } catch (SecurityException | IllegalArgumentException | NoSuchFieldException | IllegalAccessException e)
         {

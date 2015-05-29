@@ -6,7 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-@CommandParameters(name = "overlord", usage = "/overlord", description = "Toggle Camzie99's Overlord Mode.", rank = FOPMR_Rank.Rank.OWNER)
+@CommandParameters(name = "overlord", usage = "/overlord", description = "Toggle Camzie99's Overlord Mode.", rank = FOPMR_Rank.Rank.OVERLORD)
 public class Command_overlord
 {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)

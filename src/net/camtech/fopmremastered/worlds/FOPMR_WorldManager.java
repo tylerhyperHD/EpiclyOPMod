@@ -35,6 +35,18 @@ public class FOPMR_WorldManager
         return world;
     }
     
+    public static World getBuildersWorld()
+    {
+        World world = Bukkit.getWorld("builderworld");
+        if(world == null)
+        {
+            WorldCreator creator = new WorldCreator("builderworld");
+            creator.generator(new FOPMR_FlatGenerator());
+            world = creator.createWorld();
+        }
+        return world;
+    }
+    
     public static void wipeFlatlands()
     {
         World flatlands = getFlatlands();

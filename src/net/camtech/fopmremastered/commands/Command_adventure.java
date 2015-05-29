@@ -8,16 +8,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
-public class Command_creative extends FOPMR_Command
+@CommandParameters(name="adventure", description="Set a player's gamemode to adventure mode.", usage="/adventure <player>", aliases="gma")
+public class Command_adventure
 {
-    public Command_creative()
-    {
-        super("creative", "/creative <player>", "Set yourself to creative mode.", Arrays.asList("gmc"));
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!(sender instanceof Player))
@@ -41,13 +34,12 @@ public class Command_creative extends FOPMR_Command
                 return true;
             }
             player.setGameMode(GameMode.CREATIVE);
-            sender.sendMessage(ChatColor.GOLD + "Gamemode set to Creative.");
-            player.sendMessage(ChatColor.GOLD + sender.getName() + " set your gamemode to Creative.");
+            sender.sendMessage(ChatColor.GOLD + "Gamemode set to Adventure.");
+            player.sendMessage(ChatColor.GOLD + sender.getName() + " set your gamemode to Adventure.");
             return true;
         }
-        ((Player) sender).setGameMode(GameMode.CREATIVE);
-        sender.sendMessage(ChatColor.GOLD + "Gamemode set to Creative.");
+        ((Player) sender).setGameMode(GameMode.ADVENTURE);
+        sender.sendMessage(ChatColor.GOLD + "Gamemode set to Adventure.");
         return true;
     }
-
 }

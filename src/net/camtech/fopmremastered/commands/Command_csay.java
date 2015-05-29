@@ -13,17 +13,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name = "csay", usage = "/csay [level] [message]", description = "Send a message from console.", rank = FOPMR_Rank.Rank.SUPER)
+@CommandParameters(name = "csay", usage = "/csay [level] [message]", description = "Send a message to a specific chat.", rank = FOPMR_Rank.Rank.ADMIN)
 public class Command_csay
 {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if (sender instanceof Player)
-        {
-            sender.sendMessage(ChatColor.RED + "This can only be used from console.");
-            return true;
-        }
         if (args.length < 2)
         {
             return false;

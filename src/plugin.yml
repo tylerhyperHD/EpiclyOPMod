@@ -1,5 +1,5 @@
 name: FreedomOpModRemastered
-version: 1.9
+version: 1.95
 description: My attempt at making a freedom plugin.
 author: Camzie99
 website: http://fop.us.to
@@ -7,4 +7,4 @@ website: http://fop.us.to
 main: net.camtech.fopmremastered.FreedomOpModRemastered
 database: false
 depend: [CamUtils]
-softdepend: [CamVerify, BukkitTelnet, BarAPI]
+softdepend: [CamVerify, BukkitTelnet, BarAPI, CoreProtect]

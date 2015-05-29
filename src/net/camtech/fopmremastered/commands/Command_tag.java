@@ -10,15 +10,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Command_tag extends FOPMR_Command
+@CommandParameters(name="tag", description="Set your tag", usage="/tag [tag] | [off | default]")
+public class Command_tag
 {
-
-    public Command_tag()
-    {
-        super("tag", "/tag [tag]");
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length == 0)

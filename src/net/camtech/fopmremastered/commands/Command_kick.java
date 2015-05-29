@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+@CommandParameters(name="kick", description="Kick a player.", usage="/kick [player] <reason>", rank=Rank.ADMIN)
 public class Command_kick extends FOPMR_Command
 {
 
@@ -28,7 +29,7 @@ public class Command_kick extends FOPMR_Command
         }
         if (args.length == 1)
         {
-            Player player = Bukkit.getPlayer(args[0]);
+            Player player = FOPMR_Rank.getPlayer(args[0]);
             if (player == null)
             {
                 sender.sendMessage("The player " + args[0] + " is not online.");
@@ -45,7 +46,7 @@ public class Command_kick extends FOPMR_Command
         else
         {
             String message = CUtils_Methods.colour(StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " "));
-            Player player = Bukkit.getPlayer(args[0]);
+            Player player = FOPMR_Rank.getPlayer(args[0]);
             if (player == null)
             {
                 sender.sendMessage("The player " + args[0] + " is not online.");

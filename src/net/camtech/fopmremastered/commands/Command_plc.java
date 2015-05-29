@@ -8,16 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.Arrays;
-
-public class Command_plc extends FOPMR_Command
+@CommandParameters(name="plc", description="Manage plugins.", usage="/plc [enable | disable | reload] [plugin name]", aliases="plugincontrol", rank=Rank.EXECUTIVE)
+public class Command_plc
 {
-    public Command_plc()
-    {
-        super("plc", "/plc [enable | disable | reload] [plugin name]", "Manage plugins.", Arrays.asList("plugincontrol"), Rank.EXECUTIVE);
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length != 2)

@@ -17,7 +17,7 @@ public class Command_op
         {
             return false;
         }
-        Player player = Bukkit.getPlayer(args[0]);
+        Player player = FOPMR_Rank.getPlayer(args[0]);
         if(player == null)
         {
             sender.sendMessage(ChatColor.RED + args[0] + " is offline.");

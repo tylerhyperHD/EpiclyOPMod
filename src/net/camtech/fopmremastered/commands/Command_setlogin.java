@@ -2,17 +2,17 @@ package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.FOPMR_Configs;
+import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="setlogin", description="Change yours or somebody else's login message. (Player must be online at the present time)", usage="/setlogin <player> <message>", rank=Rank.EXECUTIVE)
+@CommandParameters(name="setlogin", description="Change yours or somebody else's login message. (Player must be online at the present time)", usage="/setlogin [player] [message]", rank=Rank.EXECUTIVE)
 public class Command_setlogin
 {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
@@ -21,7 +21,7 @@ public class Command_setlogin
         {
             return false;
         }
-        Player player = Bukkit.getPlayer(args[0]);
+        Player player = FOPMR_Rank.getPlayer(args[0]);
         if(player == null)
         {
             sender.sendMessage(ChatColor.RED + "The player you listed: " + args[0] + " is not online...");

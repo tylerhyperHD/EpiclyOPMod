@@ -5,14 +5,14 @@ import net.camtech.camutils.CUtils_Config;
 public class FOPMR_Configs
 {
 
-    static CUtils_Config admins;
-    static CUtils_Config players = admins;
-    static CUtils_Config commands;
-    static CUtils_Config bans;
-    static CUtils_Config mainconfig;
-    static CUtils_Config reports;
-    static CUtils_Config announcements;
-    static CUtils_Config chats;
+    private static CUtils_Config admins;
+    private static CUtils_Config commands;
+    private static CUtils_Config bans;
+    private static CUtils_Config mainconfig;
+    private static CUtils_Config reports;
+    private static CUtils_Config announcements;
+    private static CUtils_Config chats;
+    private static CUtils_Config areas;
 
     public FOPMR_Configs()
     {
@@ -30,6 +30,8 @@ public class FOPMR_Configs
         announcements.saveDefaultConfig();
         chats = new CUtils_Config(FreedomOpModRemastered.plugin, "chats.yml");
         chats.saveDefaultConfig();
+        areas = new CUtils_Config(FreedomOpModRemastered.plugin, "areas.yml");
+        areas.saveDefaultConfig();
     }
 
     public static CUtils_Config getAdmins()
@@ -45,11 +47,6 @@ public class FOPMR_Configs
     public static CUtils_Config getBans()
     {
         return bans;
-    }
-
-    public static CUtils_Config getPlayers()
-    {
-        return players;
     }
 
     public static CUtils_Config getMainConfig()
@@ -70,5 +67,10 @@ public class FOPMR_Configs
     public static CUtils_Config getChats()
     {
         return chats;
+    }
+    
+    public static CUtils_Config getAreas()
+    {
+        return areas;
     }
 }

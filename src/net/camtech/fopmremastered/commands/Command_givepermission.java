@@ -5,9 +5,9 @@
  */
 package net.camtech.fopmremastered.commands;
 
+import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,7 +23,7 @@ public class Command_givepermission
         {
             return false;
         }
-        Player player = Bukkit.getPlayer(args[0]);
+        Player player = FOPMR_Rank.getPlayer(args[0]);
         if(player == null)
         {
             sender.sendMessage(ChatColor.RED + "The player could not be found.");

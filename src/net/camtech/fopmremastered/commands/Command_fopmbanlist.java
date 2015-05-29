@@ -8,15 +8,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class Command_fopmbanlist extends FOPMR_Command
+@CommandParameters(name="fopmbanlist", description="View and manage bans.", usage="/fopmbanlist [[clear] [names | ips | uuids]]", rank=Rank.ADMIN)
+public class Command_fopmbanlist
 {
-
-    public Command_fopmbanlist()
-    {
-        super("fopmbanlist", "/fopmbanlist <[clear] [names | ips | uuids]>", "View and manage bans.", Rank.ADMIN);
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length != 0 && args.length != 2)

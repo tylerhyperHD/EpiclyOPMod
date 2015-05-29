@@ -1,6 +1,5 @@
 package net.camtech.fopmremastered.commands;
 
-import java.util.Arrays;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.StringUtils;
@@ -10,14 +9,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Command_gcmd extends FOPMR_Command
+@CommandParameters(name="gcmd", description="Run a command as another player", usage="/gcmd [player] [command]", rank=Rank.ADMIN, aliases="sudo")
+public class Command_gcmd
 {
-    public Command_gcmd()
-    {
-        super("gcmd", "/gcmd [player] [command]", "Run a command as another player", Arrays.asList("sudo"), Rank.ADMIN);
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length < 2)
@@ -25,7 +19,7 @@ public class Command_gcmd extends FOPMR_Command
             return false;
         }
 
-        final Player player = Bukkit.getPlayer(args[0]);
+        final Player player = FOPMR_Rank.getPlayer(args[0]);
 
         if (player == null)
         {

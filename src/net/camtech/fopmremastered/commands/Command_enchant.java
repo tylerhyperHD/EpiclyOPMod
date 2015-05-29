@@ -99,6 +99,10 @@ public class Command_enchant
                 }
                 for (Enchantment ench : Enchantment.values())
                 {
+                    if(ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS))
+                    {
+                        continue;
+                    }
                     itemInHand.addUnsafeEnchantment(ench, level);
                 }
                 return true;

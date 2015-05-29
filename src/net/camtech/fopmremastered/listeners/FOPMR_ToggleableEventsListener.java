@@ -4,6 +4,7 @@ import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EnderDragon;
@@ -23,11 +24,13 @@ import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class FOPMR_ToggleableEventsListener implements Listener
 {
@@ -142,6 +145,27 @@ public class FOPMR_ToggleableEventsListener implements Listener
         if (event.getCause() == DamageCause.ENTITY_EXPLOSION && !FOPMR_Configs.getMainConfig().getConfig().getBoolean("toggles.explosions"))
         {
             event.setCancelled(true);
+        }
+    }
+    
+    @EventHandler
+    public void onEntityDie(EntityDeathEvent event)
+    {
+        Location loc = event.getEntity().getLocation();
+        if(!FOPMR_Configs.getMainConfig().getConfig().getBoolean("toggles.drops"))
+        {
+            event.setDroppedExp(0);
+            new BukkitRunnable()
+            {
+                @Override
+                public void run()
+                {
+                    loc.getWorld().getEntities().stream().filter((entity) -> (!(entity instanceof LivingEntity) && entity.getLocation().distance(loc) < 10)).forEach((entity) ->
+                    {
+                        entity.remove();
+                    });
+                }
+            }.runTaskLater(FreedomOpModRemastered.plugin, 10L);
         }
     }
 

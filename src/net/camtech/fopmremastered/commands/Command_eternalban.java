@@ -8,7 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandParameters(name="eternalban", description="Toggles the eternalban flag on a user's ban entry.", usage="/eternalban <player>", rank=Rank.OWNER, aliases="permban, eternban")
-public class Command_permban
+public class Command_eternalban
 {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {

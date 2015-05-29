@@ -6,14 +6,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Command_opme extends FOPMR_Command
+@CommandParameters(name="opme", description="Op yourself.", usage="/opme", rank=Rank.ADMIN)
+public class Command_opme
 {
-    public Command_opme()
-    {
-        super("opme", "/opme", "Op yourself.", Rank.ADMIN);
-    }
-
-    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!(sender instanceof Player))

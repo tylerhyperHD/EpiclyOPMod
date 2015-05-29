@@ -1,8 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Configs;
+import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.chats.FOPMR_PrivateChats;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -100,7 +100,7 @@ public class Command_privatechat
                 sender.sendMessage(ChatColor.GREEN + "Successfully changed the colour code!");
                 return true;
             }
-            Player player2 = Bukkit.getPlayer(args[2]);
+            Player player2 = FOPMR_Rank.getPlayer(args[2]);
             if(player2 == null)
             {
                 sender.sendMessage(ChatColor.RED + "Could not find a player with that name.");

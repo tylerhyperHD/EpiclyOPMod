@@ -121,7 +121,7 @@ public class FOPMR_PrivateChat
     
     public boolean removePlayer(Player sender, Player player)
     {
-        if(!isOwner(sender) && !this.allowed.contains(player.getName()))
+        if((!isOwner(sender) && !sender.getName().equals(player.getName())) || !this.allowed.contains(player.getName()))
         {
             return false;
         }
