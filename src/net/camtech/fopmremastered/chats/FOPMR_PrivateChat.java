@@ -62,18 +62,21 @@ public class FOPMR_PrivateChat
     
     public void sendToChat(Player player, String message)
     {
-        allowed.stream().forEach((to) ->
+        for(String to : allowed)
         {
             Player player2 = Bukkit.getPlayer(to);
-            if(player != null)
+            if(player2 != null)
             {
-                player2.sendMessage(colour + "[" + this.name + "] " + player.getName() + ": " + message);
+                player2.sendMessage(colour
+                        + "[" + this.name + "] "
+                        + player.getName() + ": "
+                        + message);
             }
-        });
-        Player owner = Bukkit.getPlayer(this.owner);
-        if(owner != null)
+        }
+        Player playerowner = Bukkit.getPlayer(this.owner);
+        if(playerowner != null)
         {
-            owner.sendMessage(colour + "[" + this.name + "] " + player.getName() + ": " + message);
+            playerowner.sendMessage(colour + "[" + this.name + "] " + player.getName() + ": " + message);
         }
         Bukkit.getOnlinePlayers().stream().filter((admin) -> (FOPMR_Rank.getRank(admin).level > this.rank.level && !(admin.getName().equals(this.owner)) && !this.canAccess(admin))).forEach((Player admin) ->
         {

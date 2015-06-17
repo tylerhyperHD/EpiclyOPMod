@@ -2,6 +2,7 @@ package net.camtech.fopmremastered.commands;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import net.camtech.camutils.CUtils_Methods;
@@ -19,10 +20,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name = "admin", usage = "/admin [[add | delete] [username] <rank>] | [list]", description = "Add somebody to admin.")
+@CommandParameters(name = "admin", usage = "/admin [[add | delete] [username] <rank>] | [list] | [purge]", description = "Add somebody to admin.")
 public class Command_admin
 {
-
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         FileConfiguration admins = FOPMR_Configs.getAdmins().getConfig();
@@ -81,6 +81,9 @@ public class Command_admin
                         case OWNER:
                             owners.add(name);
                             break;
+                        case OVERLORD:
+                            owners.add(name);
+                            break;
                         default:
                             break;
                     }
@@ -111,11 +114,12 @@ public class Command_admin
             {
                 FOPMR_Commons.adminAction(sender.getName(), "Purging the player list.", true);
                 sender.sendMessage(ChatColor.RED + "PREPARE FOR SPAM!");
+                HashMap<String, Long> removedAdmins = new HashMap<>();
                 for (String name : admins.getConfigurationSection("").getKeys(false))
                 {
                    if(!admins.contains(name + ".lastLogin"))
                    {
-                       return true;
+                       continue;
                    }
                    long lasttime = admins.getLong(name + ".lastLogin");
                    long current = System.currentTimeMillis();
@@ -123,8 +127,19 @@ public class Command_admin
                    if(change > 604800000)
                    {
                        sender.sendMessage("Removed " + admins.getString(name + ".lastName") + ", time since last login in milliseconds: " + change + ".");
+                       if(FOPMR_Rank.getFromUsername(admins.getString(name + ".lastName")).level >= 1)
+                       {
+                           removedAdmins.put(admins.getString(name + ".lastName"), lasttime);
+                       }
                        admins.set(name, null);
                    }
+                }
+                sender.sendMessage(ChatColor.RED + "The following admins were removed due to inactivity.");
+                sender.sendMessage(ChatColor.GOLD + "Admin Name " + ChatColor.RED + " :|: " + ChatColor.GOLD + "Last Login Date.");
+                for(String name : removedAdmins.keySet())
+                {
+                    Date date = new Date(removedAdmins.get(name));
+                    sender.sendMessage(ChatColor.GOLD + name + ChatColor.RED + " :|: " + ChatColor.GOLD + date.toGMTString());
                 }
                 return true;
             }

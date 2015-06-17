@@ -12,6 +12,10 @@ general:
     wipe: false
     #What URL should be shown for ban appeals?
     url: "fop.us.to"
+    #What URL should be shown for admin applications?
+    admininfo: "http://fop.us.to/forums/index.php?threads/application-template-must-be-followed.2/"
+    #Who should Ops see for information regarding applications?
+    adminmanager: DarkHorse108
     
 jumppads:
     #Are jumppads enabled?
@@ -54,5 +58,7 @@ toggles:
     ghast: false
     #Are withers enabled?
     wither: false
+    #Are admin applications enabled?
+    apps: true
     
     

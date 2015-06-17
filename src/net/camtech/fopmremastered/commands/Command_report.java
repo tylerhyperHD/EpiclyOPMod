@@ -59,7 +59,7 @@ public class Command_report
                 return true;
             }
         }
-        String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length));
+        String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         String name = args[0];
         if(Bukkit.getPlayer(name) != null)
         {

@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name = "builder", description = "Master Builder Management!", usage = "/builder [world] | [add] [player] | [remove] [player]")
+@CommandParameters(name = "builder", description = "Master Builder Management!", usage = "/builder [world] [list] | [add] [player] | [remove] [player]")
 public class Command_builder
 {
 
@@ -50,6 +50,15 @@ public class Command_builder
                 {
                     sender.sendMessage("The builder's world cannot be found. Please contact Camzie99.");
                 }
+                return true;
+            }
+            if(args[0].equalsIgnoreCase("list"))
+            {
+                sender.sendMessage(ChatColor.GREEN + "The following users are Master Builders.");
+                FOPMR_Configs.getAdmins().getConfig().getKeys(false).stream().filter((uuid) -> (FOPMR_Configs.getAdmins().getConfig().getBoolean(uuid + ".builder"))).forEach((uuid) ->
+                {
+                    sender.sendMessage(ChatColor.GREEN + " - " + FOPMR_Configs.getAdmins().getConfig().getString(uuid + ".lastName"));
+                });
                 return true;
             }
         }

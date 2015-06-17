@@ -62,10 +62,10 @@ public class Command_csay
                             colour = ChatColor.GREEN;
                             break;
                         case "6":
-                            colour = ChatColor.DARK_PURPLE;
+                            colour = ChatColor.DARK_AQUA;
                             break;
                         case "7":
-                            colour = ChatColor.DARK_RED;
+                            colour = ChatColor.BLUE;
                             break;
                         default:
                             break;

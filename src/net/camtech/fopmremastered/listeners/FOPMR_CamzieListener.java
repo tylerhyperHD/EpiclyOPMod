@@ -2,7 +2,6 @@ package net.camtech.fopmremastered.listeners;
 
 import java.util.ArrayList;
 import java.util.Random;
-import net.camtech.camutils.CUtils_Particle;
 import net.camtech.camutils.CUtils_Player;
 import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
@@ -29,12 +28,16 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class FOPMR_CamzieListener implements Listener
 {
+
+    private boolean recovered = false;
+    
     public FOPMR_CamzieListener()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
@@ -43,28 +46,32 @@ public class FOPMR_CamzieListener implements Listener
     @EventHandler
     public void onCamzieHit(EntityDamageByEntityEvent event)
     {
-        if (!FOPMR_Commons.camOverlordMode)
+        if(!FOPMR_Commons.camOverlordMode)
         {
             return;
         }
-        if (event.getEntity() instanceof Player)
+        if(event.getEntity() instanceof Player)
         {
             Player player = (Player) event.getEntity();
-            if (player.getName().equals("Camzie99"))
+            if(player.getName().equals("Camzie99"))
             {
-                event.getDamager().getWorld().strikeLightningEffect(event.getDamager().getLocation());
-                event.getDamager().getWorld().strikeLightningEffect(event.getDamager().getLocation().add(5, 0, 5));
-                event.getDamager().getWorld().strikeLightningEffect(event.getDamager().getLocation().add(5, 0, -5));
-                event.getDamager().getWorld().strikeLightningEffect(event.getDamager().getLocation().add(-5, 0, 5));
-                event.getDamager().getWorld().strikeLightningEffect(event.getDamager().getLocation().add(-5, 0, -5));
+                event.getDamager().teleport(event.getDamager().getLocation().add(0, 10, 0));
+                if(player.getHealth() - event.getFinalDamage() <= 0 && !recovered)
+                {
+                    event.setCancelled(true);
+                    player.setHealth(1d);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 10000, 255));
+                    event.getDamager().sendMessage(ChatColor.RED + "Hahaha!");
+                    recovered = true;
+                }
             }
         }
-        if (event.getDamager() instanceof Player)
+        if(event.getDamager() instanceof Player)
         {
             Player hitter = (Player) event.getDamager();
-            if (hitter.getName().equals("Camzie99"))
+            if(hitter.getName().equals("Camzie99"))
             {
-                if (hitter.isSneaking())
+                if(hitter.isSneaking())
                 {
                     ((LivingEntity) event.getEntity()).addPotionEffect(PotionEffectType.CONFUSION.createEffect(5, 5));
                     ((LivingEntity) event.getEntity()).addPotionEffect(PotionEffectType.SLOW.createEffect(5, 5));
@@ -75,22 +82,65 @@ public class FOPMR_CamzieListener implements Listener
     }
 
     @EventHandler
+    public void onCamzieLightning(EntityDamageEvent event)
+    {
+        if(!FOPMR_Commons.camOverlordMode)
+        {
+            return;
+        }
+        if(event.getCause() == DamageCause.LIGHTNING)
+        {
+            if(event.getEntity() instanceof Player)
+            {
+                Player player = (Player) event.getEntity();
+                if(player.getName().equals("Camzie99"))
+                {
+                    event.setCancelled(true);
+                    double amount;
+                    amount = player.getHealth() + event.getDamage();
+                    if(amount > player.getMaxHealth())
+                    {
+                        amount = player.getMaxHealth();
+                    }
+                    player.setHealth(amount);
+                }
+                else
+                {
+                    player.sendMessage(ChatColor.RED + "Face my WRATH!");
+                    player.setHealthScale(0d);
+                    player.setHealthScaled(true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 100000, -255));
+                    new BukkitRunnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            player.setHealthScale(1d);
+                            player.setHealthScaled(false);
+                        }
+                    }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 5L);
+                }
+            }
+        }
+    }
+
+    @EventHandler
     public void onCamzieInteract(PlayerInteractEvent event)
     {
-        if (!FOPMR_Commons.camOverlordMode)
+        if(!FOPMR_Commons.camOverlordMode)
         {
             return;
         }
         final Player player = event.getPlayer();
-        if (player.getName().equals("Camzie99"))
+        if(player.getName().equals("Camzie99"))
         {
-            if (player.isSneaking())
+            if(player.isSneaking())
             {
-                if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK)
+                if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK)
                 {
                     CUtils_Player cplayer = new CUtils_Player(player);
                     Location loc;
-                    if (!cplayer.isTargetingEntity(30))
+                    if(!cplayer.isTargetingEntity(30))
                     {
                         loc = cplayer.getTargetBlock(30);
                     }
@@ -99,25 +149,25 @@ public class FOPMR_CamzieListener implements Listener
                         loc = cplayer.getTargetEntity(30).getLocation();
                     }
                     player.getWorld().createExplosion(loc.getX(), loc.getY() + 1, loc.getZ(), 3, true, false);
-                    for (int i = 0; i < 10; i++)
+                    for(int i = 0; i < 10; i++)
                     {
                         int x = new Random().nextInt(3);
                         int y = new Random().nextInt(3);
                         int z = new Random().nextInt(3);
-                        if (new Random().nextBoolean())
+                        if(new Random().nextBoolean())
                         {
                             x = -x;
                         }
-                        if (new Random().nextBoolean())
+                        if(new Random().nextBoolean())
                         {
                             y = -y;
                         }
-                        if (new Random().nextBoolean())
+                        if(new Random().nextBoolean())
                         {
                             z = -z;
                         }
                         final Location newloc = new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y, loc.getZ() + z);
-                        if (newloc.getBlock().getType() != Material.AIR)
+                        if(newloc.getBlock().getType() != Material.AIR)
                         {
                             continue;
                         }
@@ -132,13 +182,24 @@ public class FOPMR_CamzieListener implements Listener
                             }
                         }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 2L);
                     }
-                    if (cplayer.isTargetingEntity(30))
+                    if(cplayer.isTargetingEntity(30))
                     {
                         Entity entity = cplayer.getTargetEntity(30);
-                        if (entity instanceof LivingEntity)
+                        if(entity instanceof LivingEntity)
                         {
                             LivingEntity lentity = (LivingEntity) entity;
                             lentity.setVelocity(player.getLocation().getDirection().multiply(3).add(new Vector(0, 2, 0)));
+                            new BukkitRunnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    for(int i = 0; i < 10; i++)
+                                    {
+                                        lentity.getWorld().strikeLightning(lentity.getLocation());
+                                    }
+                                }
+                            }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 2L);
                         }
                     }
                 }
@@ -166,20 +227,20 @@ public class FOPMR_CamzieListener implements Listener
                     }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 2L);
                 }
             }
-            else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR)
+            else if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR)
             {
                 CUtils_Player cplayer = new CUtils_Player(player);
                 long total = 5;
                 boolean isTarget = false;
                 Location loc;
-                if (cplayer.isTargetingEntity())
+                if(cplayer.isTargetingEntity())
                 {
                     final LivingEntity e = cplayer.getTargetEntity();
                     loc = e.getLocation();
                     double damage = 3;
                     e.teleport(loc);
                     e.setVelocity(new Vector(0, 0, 0));
-                    if (player.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE))
+                    if(player.hasPotionEffect(PotionEffectType.INCREASE_DAMAGE))
                     {
                         damage = damage * 1.8;
                     }
@@ -191,15 +252,12 @@ public class FOPMR_CamzieListener implements Listener
                     loc = cplayer.getTargetBlock(20);
                     loc.add(0.0d, 1.0d, 0.0d);
                 }
-                CUtils_Particle freeze = CUtils_Particle.SNOW_DIG;
-                final Block orig = loc.getBlock();
-                final Material origMaterial = orig.getType();
-                CUtils_Particle.sendToLocation(freeze, loc, 3, 3, 3, 10, 20);
-                for (BlockFace face : BlockFace.values())
+                Block orig = loc.getBlock();
+                for(BlockFace face : BlockFace.values())
                 {
                     final Block block = orig.getRelative(face);
                     final Material original = block.getType();
-                    if (original.equals(Material.AIR))
+                    if(original.equals(Material.AIR))
                     {
                         block.setType(Material.ICE);
                         new BukkitRunnable()
@@ -212,15 +270,15 @@ public class FOPMR_CamzieListener implements Listener
                         }.runTaskLater(plugin, 20L * 5L);
                     }
                 }
-                if (isTarget)
+                if(isTarget)
                 {
                     LivingEntity e = cplayer.getTargetEntity(20);
                     Block next = loc.add(0.0d, 1.0d, 0.0d).getBlock();
-                    for (BlockFace face : BlockFace.values())
+                    for(BlockFace face : BlockFace.values())
                     {
                         final Block block = next.getRelative(face);
                         final Material original = block.getType();
-                        if (original.equals(Material.AIR));
+                        if(original.equals(Material.AIR));
                         {
                             block.setType(Material.ICE);
                             new BukkitRunnable()
@@ -235,14 +293,14 @@ public class FOPMR_CamzieListener implements Listener
                     }
                 }
             }
-            else if (event.getAction() == RIGHT_CLICK_BLOCK)
+            else if(event.getAction() == RIGHT_CLICK_BLOCK)
             {
                 final Block orig = event.getClickedBlock();
-                for (BlockFace face : BlockFace.values())
+                for(BlockFace face : BlockFace.values())
                 {
                     final Block block = orig.getRelative(face);
                     final Material original = block.getType();
-                    if (!original.equals(Material.AIR))
+                    if(!original.equals(Material.AIR))
                     {
                         block.setType(Material.AIR);
                         new BukkitRunnable()
@@ -256,7 +314,7 @@ public class FOPMR_CamzieListener implements Listener
                     }
                 }
                 final Material original2 = orig.getType();
-                if (!original2.equals(Material.AIR))
+                if(!original2.equals(Material.AIR))
                 {
                     orig.setType(Material.AIR);
                     new BukkitRunnable()
@@ -275,12 +333,12 @@ public class FOPMR_CamzieListener implements Listener
     @EventHandler
     public void onCamzieInteractWithEntity(PlayerInteractEntityEvent event)
     {
-        if (!FOPMR_Commons.camOverlordMode)
+        if(!FOPMR_Commons.camOverlordMode)
         {
             return;
         }
         final Player player = event.getPlayer();
-        if (player.getName().equals("Camzie99"))
+        if(player.getName().equals("Camzie99"))
         {
             final Entity e = event.getRightClicked();
             new BukkitRunnable()
@@ -297,16 +355,16 @@ public class FOPMR_CamzieListener implements Listener
     @EventHandler
     public void onCamzieJump(final PlayerMoveEvent event)
     {
-        if (!FOPMR_Commons.camOverlordMode)
+        if(!FOPMR_Commons.camOverlordMode)
         {
             return;
         }
         Player player = event.getPlayer();
-        if (event.getTo().getY() > event.getFrom().getY() && player.isSneaking())
+        if(event.getTo().getY() > event.getFrom().getY() && player.isSneaking())
         {
-            if (player.getName().equals("Camzie99") && !player.isFlying())
+            if(player.getName().equals("Camzie99") && !player.isFlying())
             {
-                if (event.getFrom().subtract(0, 1, 0).getBlock().getType() != Material.AIR)
+                if(event.getFrom().subtract(0, 1, 0).getBlock().getType() != Material.AIR)
                 {
                     player.setVelocity(player.getLocation().getDirection().multiply(1.3));
                     new BukkitRunnable()
@@ -326,9 +384,9 @@ public class FOPMR_CamzieListener implements Listener
                             locations.add(loc.getBlock().getLocation().add(0, 0, 1));
                             locations.add(loc.getBlock().getLocation().add(0, 0, -1));
                             locations.add(loc.getBlock().getLocation().add(-1, 0, 0));
-                            for (final Location l : locations)
+                            for(final Location l : locations)
                             {
-                                if (l.getBlock().getType() == Material.AIR)
+                                if(l.getBlock().getType() == Material.AIR)
                                 {
                                     l.getBlock().setType(Material.FIRE);
                                     new BukkitRunnable()
@@ -351,16 +409,16 @@ public class FOPMR_CamzieListener implements Listener
     @EventHandler
     public void onCamzieFall(EntityDamageEvent event)
     {
-        if (!FOPMR_Commons.camOverlordMode)
+        if(!FOPMR_Commons.camOverlordMode)
         {
             return;
         }
-        if (event.getEntity() instanceof Player)
+        if(event.getEntity() instanceof Player)
         {
             Player player = (Player) event.getEntity();
-            if (player.getName().equals("Camzie99") && player.isSneaking())
+            if(player.getName().equals("Camzie99") && player.isSneaking())
             {
-                if (event.getCause() == DamageCause.FALL || event.getCause() == DamageCause.LIGHTNING)
+                if(event.getCause() == DamageCause.FALL || event.getCause() == DamageCause.LIGHTNING)
                 {
                     event.setCancelled(true);
                 }
