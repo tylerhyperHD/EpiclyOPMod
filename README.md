@@ -2,3 +2,7 @@ The **FreedomOpMod: Remastered** is an all new type of freedom plugin, it takes 
 
 You can get a compiled version here:
 https://bitbucket.org/Camzie99/freedomopmod-remastered/downloads
+You will also need the configs module from here:
+https://bitbucket.org/Camzie99/freedomopmod-remastered-configs/downloads
+And CamUtils which is here:
+https://bitbucket.org/Camzie99/CamUtils/downloads
