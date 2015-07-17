@@ -5,4 +5,4 @@ https://bitbucket.org/Camzie99/freedomopmod-remastered/downloads
 You will also need the configs module from here:
 https://bitbucket.org/Camzie99/freedomopmod-remastered-configs/downloads
 And CamUtils which is here:
-https://bitbucket.org/Camzie99/CamUtils/downloads
+https://bitbucket.org/Camzie99/camutils/downloads
