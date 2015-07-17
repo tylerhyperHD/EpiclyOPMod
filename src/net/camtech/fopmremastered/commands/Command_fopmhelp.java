@@ -31,6 +31,7 @@ public class Command_fopmhelp
             return false;
         }
         ArrayList<String> messages = new ArrayList<>();
+        List<List<String>> pages = null;
         sender.sendMessage(ChatColor.GOLD + "Command :|: Description :|: Usage :|: Aliases");
         try
         {
@@ -70,20 +71,7 @@ public class Command_fopmhelp
                             {
                                 messages.add(message);
                             }
-                            List<List<String>> pages = FOPMR_Commons.chopped(messages, 10);
-                            try
-                            {
-                                int i = Integer.parseInt(args[0]);
-                                for(String command : pages.get(i))
-                                {
-                                    sender.sendMessage(command);
-                                }
-                                sender.sendMessage(ChatColor.GOLD + "Help page " + i + " / " + pages.size());
-                            }
-                            catch(Exception ex)
-                            {
-                                sender.sendMessage(ChatColor.RED + "The argument must be a page number!");
-                            }
+                            pages = FOPMR_Commons.chopped(messages, 10);
                         }
                         catch(ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                         {
@@ -96,6 +84,19 @@ public class Command_fopmhelp
         catch(Exception ex)
         {
             FreedomOpModRemastered.plugin.getLogger().severe(ex.getLocalizedMessage());
+        }
+        try
+        {
+            int i = Integer.parseInt(args[0]);
+            for(String command : pages.get(i))
+            {
+                sender.sendMessage(command);
+            }
+            sender.sendMessage(ChatColor.GOLD + "Help page " + i + " / " + pages.size());
+        }
+        catch(Exception ex)
+        {
+            sender.sendMessage(ChatColor.RED + "The argument must be a page number!");
         }
         return true;
     }
