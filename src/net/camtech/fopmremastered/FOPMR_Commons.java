@@ -2,6 +2,7 @@ package net.camtech.fopmremastered;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class FOPMR_Commons
 {
+
     public static ArrayList<String> imposters = new ArrayList<>();
     public static boolean camOverlordMode = false;
     public static boolean globalFreeze = false;
@@ -41,10 +43,10 @@ public class FOPMR_Commons
     {
         Bukkit.broadcastMessage((isRed ? ChatColor.RED : ChatColor.DARK_AQUA) + name + " - " + msg);
     }
-    
+
     public static void openVoteShop(Player player)
     {
-        Inventory inv = Bukkit.createInventory(null, 27, ChatColor.GREEN + "" +  ChatColor.BOLD + "$$ " + ChatColor.GOLD + "VoteShop " + ChatColor.GREEN + "" + ChatColor.BOLD + "$$");
+        Inventory inv = Bukkit.createInventory(null, 27, ChatColor.GREEN + "" + ChatColor.BOLD + "$$ " + ChatColor.GOLD + "VoteShop " + ChatColor.GREEN + "" + ChatColor.BOLD + "$$");
         ItemStack randomChat = new ItemStack(Material.SIGN, 1);
         ItemMeta randomChatMeta = randomChat.getItemMeta();
         if(!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour"))
@@ -79,5 +81,18 @@ public class FOPMR_Commons
         votes.setItemMeta(votesMeta);
         inv.setItem(13, votes);
         player.openInventory(inv);
+    }
+
+    public static <T> List<List<T>> chopped(List<T> list, final int L)
+    {
+        List<List<T>> parts = new ArrayList<>();
+        final int N = list.size();
+        for(int i = 0; i < N; i += L)
+        {
+            parts.add(new ArrayList<>(
+                    list.subList(i, Math.min(N, i + L)))
+            );
+        }
+        return parts;
     }
 }

@@ -153,7 +153,7 @@ public class FOPMR_Rank
     {
         return getRank(player).equals(rank);
     }
-    
+
     public static Player getPlayer(String nick)
     {
         for(Player player : Bukkit.getOnlinePlayers())
@@ -169,7 +169,7 @@ public class FOPMR_Rank
         }
         return null;
     }
-    
+
     public static boolean isMasterBuilder(Player player)
     {
         if(!FreedomOpModRemastered.configs.getAdmins().getConfig().contains(player.getUniqueId() + ".builder"))
@@ -189,6 +189,8 @@ public class FOPMR_Rank
             FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
             FreedomOpModRemastered.configs.getAdmins().saveConfig();
             Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - verifying " + player.getName() + " as an admin.");
+            colourTabName(player);
+            FOPMR_BoardManager.updateStats(player);
             return;
         }
         if(getRank(sender).level <= getRank(player).level && rank != Rank.OP)
@@ -320,6 +322,7 @@ public class FOPMR_Rank
         FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
         FreedomOpModRemastered.configs.getAdmins().saveConfig();
         colourTabName(player);
+        FOPMR_BoardManager.updateStats(player);
     }
 
     public enum Rank

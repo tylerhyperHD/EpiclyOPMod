@@ -2,6 +2,7 @@ package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -20,6 +21,7 @@ public class Command_commandunblock
         }
         FreedomOpModRemastered.configs.getCommands().getConfig().set(args[0].toLowerCase(), null);
         FreedomOpModRemastered.configs.getCommands().saveConfig();
+        sender.sendMessage(ChatColor.RED + "Unblocked command: " + args[0]);
         return true;
     }
 }

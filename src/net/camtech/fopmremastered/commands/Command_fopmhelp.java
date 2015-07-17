@@ -4,11 +4,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.CodeSource;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
@@ -17,31 +20,37 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-@CommandParameters(name="fopmhelp", description="Receive info on the new commands in the FOPM: R.", usage="/fopmhelp")
+@CommandParameters(name = "fopmhelp", description = "Receive info on the new commands in the FOPM: R.", usage = "/fopmhelp [page number]")
 public class Command_fopmhelp
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
+        if(args.length != 1)
+        {
+            return false;
+        }
+        ArrayList<String> messages = new ArrayList<>();
         sender.sendMessage(ChatColor.GOLD + "Command :|: Description :|: Usage :|: Aliases");
         try
         {
             Pattern PATTERN = Pattern.compile("net/camtech/fopmremastered/commands/(Command_[^\\$]+)\\.class");
             CodeSource codeSource = FreedomOpModRemastered.class.getProtectionDomain().getCodeSource();
-            if (codeSource != null)
+            if(codeSource != null)
             {
                 ZipInputStream zip = new ZipInputStream(codeSource.getLocation().openStream());
                 ZipEntry zipEntry;
-                while ((zipEntry = zip.getNextEntry()) != null)
+                while((zipEntry = zip.getNextEntry()) != null)
                 {
                     String entryName = zipEntry.getName();
                     Matcher matcher = PATTERN.matcher(entryName);
-                    if (matcher.find())
+                    if(matcher.find())
                     {
                         try
                         {
                             Class<?> commandClass = Class.forName("net.camtech.fopmremastered.commands." + matcher.group(1));
                             FOPMR_Command cmdconstructed;
-                            if (commandClass.isAnnotationPresent(CommandParameters.class))
+                            if(commandClass.isAnnotationPresent(CommandParameters.class))
                             {
                                 Annotation annotation = commandClass.getAnnotation(CommandParameters.class);
                                 CommandParameters params = (CommandParameters) annotation;
@@ -53,22 +62,38 @@ public class Command_fopmhelp
                                 cmdconstructed = (FOPMR_Command) construct.newInstance();
                             }
                             String message = ChatColor.GOLD + cmdconstructed.command + ChatColor.GREEN + " :|: " + ChatColor.BLUE + cmdconstructed.description + ChatColor.GREEN + " :|: " + ChatColor.AQUA + cmdconstructed.usage;
-                            if (!(cmdconstructed.alias == null) && !cmdconstructed.alias.isEmpty())
+                            if(!(cmdconstructed.alias == null) && !cmdconstructed.alias.isEmpty())
                             {
                                 message = message + ChatColor.GREEN + " :|: " + ChatColor.RED + "[" + StringUtils.join(cmdconstructed.alias, ", ") + "]";
                             }
                             if(FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(sender), cmdconstructed.rank))
                             {
-                                sender.sendMessage(message);
+                                messages.add(message);
                             }
-                        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+                            List<List<String>> pages = FOPMR_Commons.chopped(messages, 10);
+                            try
+                            {
+                                int i = Integer.parseInt(args[0]);
+                                for(String command : pages.get(i))
+                                {
+                                    sender.sendMessage(command);
+                                }
+                                sender.sendMessage(ChatColor.GOLD + "Help page " + i + " / " + pages.size());
+                            }
+                            catch(Exception ex)
+                            {
+                                sender.sendMessage(ChatColor.RED + "The argument must be a page number!");
+                            }
+                        }
+                        catch(ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                         {
                             Bukkit.broadcastMessage("" + ex);
                         }
                     }
                 }
             }
-        } catch (Exception ex)
+        }
+        catch(Exception ex)
         {
             FreedomOpModRemastered.plugin.getLogger().severe(ex.getLocalizedMessage());
         }

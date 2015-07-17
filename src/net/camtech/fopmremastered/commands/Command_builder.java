@@ -9,7 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name = "builder", description = "Master Builder Management!", usage = "/builder [world] [list] | [add] [player] | [remove] [player]")
+@CommandParameters(name = "builder", description = "Master Builder Management!", usage = "/builder [list] | [add] [player] | [remove] [player]")
 public class Command_builder
 {
 
