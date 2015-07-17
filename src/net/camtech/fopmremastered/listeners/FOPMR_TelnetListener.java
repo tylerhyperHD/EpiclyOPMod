@@ -2,7 +2,6 @@ package net.camtech.fopmremastered.listeners;
 
 import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
 import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
@@ -52,7 +51,7 @@ public class FOPMR_TelnetListener implements Listener
     public void onTelnetCommand(TelnetCommandEvent event)
     {
         CommandSender player = event.getSender();
-        FileConfiguration commands = FOPMR_Configs.getCommands().getConfig();
+        FileConfiguration commands = FreedomOpModRemastered.configs.getCommands().getConfig();
         for (String blocked : commands.getConfigurationSection("").getKeys(false))
         {
             if (blocked.equalsIgnoreCase(event.getCommand().replaceAll("/", "")))

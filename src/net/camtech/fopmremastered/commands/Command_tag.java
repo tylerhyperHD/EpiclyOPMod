@@ -1,9 +1,9 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,19 +34,19 @@ public class Command_tag
             }
         }
         Player player = (Player) sender;
-        if(!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && nick.contains("&-"))
+        if(!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && nick.contains("&-"))
         {
             player.sendMessage(ChatColor.RED + "You cannot use random chat colours, you must purchase it in the VoteShop (/vs).");
             nick = nick.replaceAll("&-", "");
         }
-        if(!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(nick))
+        if(!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(nick))
         {
             player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
             nick = nick.replaceAll("&.", "");
         }
         player.sendMessage(ChatColor.GREEN + "Tag set to " + CUtils_Methods.colour(nick));
-        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".tag", nick + "&r");
-        FOPMR_Configs.getAdmins().saveConfig();
+        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".tag", nick + "&r");
+        FreedomOpModRemastered.configs.getAdmins().saveConfig();
         return true;
     }
 

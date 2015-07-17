@@ -73,7 +73,7 @@ public class FOPMR_ProtectedArea
     
     public boolean addPlayer(Player sender, Player player)
     {
-        if(!isOwner(sender))
+        if(!isOwner(sender) && getRank().level > FOPMR_Rank.getRank(sender).level)
         {
             return false;
         }
@@ -90,7 +90,7 @@ public class FOPMR_ProtectedArea
     
     public boolean removePlayer(Player sender, Player player)
     {
-        if(!isOwner(sender) || !this.allowed.contains(player.getName()))
+        if((!isOwner(sender) || !this.allowed.contains(player.getName())) && getRank().level > FOPMR_Rank.getRank(sender).level)
         {
             return false;
         }

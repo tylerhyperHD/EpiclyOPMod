@@ -14,7 +14,6 @@ public class FOPMR_FlatGenerator extends ChunkGenerator
         return true;
     }
 
-
     public int xyzToByte(int x, int y, int z)
     {
         return (x * 16 + z) * 128 + y;

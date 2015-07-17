@@ -39,10 +39,6 @@ public class Command_ban extends FOPMR_Command
         }
         else
         {
-            if(FOPMR_Rank.getRank(player).level < FOPMR_Rank.getRank(sender).level)
-            {
-                Bukkit.dispatchCommand(sender, "co rb t:1d u:" + player.getName() + " r:#global");
-            }
             Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - Attempting to ban player: " + player.getName());
             FOPMR_Bans.addBan(player, reason);
         }

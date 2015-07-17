@@ -1,5 +1,6 @@
 package net.camtech.fopmremastered.commands;
 
+import java.util.Arrays;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,8 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-
-import java.util.Arrays;
 
 public class Command_rd extends FOPMR_Command
 {

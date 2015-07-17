@@ -10,9 +10,9 @@ public class FOPMR_Announcements
     public static void setup()
     {
         System.out.println("Announcements Loaded.");
-        FOPMR_Configs.getAnnouncements().getConfig().getKeys(false).stream().forEach((announce) ->
+        FreedomOpModRemastered.configs.getAnnouncements().getConfig().getKeys(false).stream().forEach((announce) ->
         {
-            announce(FOPMR_Configs.getAnnouncements().getConfig().getString(announce + ".message"), FOPMR_Configs.getAnnouncements().getConfig().getInt(announce + ".time"));
+            announce(FreedomOpModRemastered.configs.getAnnouncements().getConfig().getString(announce + ".message"), FreedomOpModRemastered.configs.getAnnouncements().getConfig().getInt(announce + ".time"));
         });
     }
 

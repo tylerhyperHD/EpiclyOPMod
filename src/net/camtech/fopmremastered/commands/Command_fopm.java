@@ -1,8 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,13 +21,9 @@ public class Command_fopm
                     sender.sendMessage("Only admins can reload the FOPM: Remastered configuration files.");
                     return true;
                 }
-                FOPMR_Configs.getAdmins().reloadConfig();
-                FOPMR_Configs.getBans().reloadConfig();
-                FOPMR_Configs.getCommands().reloadConfig();
-                FOPMR_Configs.getMainConfig().reloadConfig();
-                FOPMR_Configs.getReports().reloadConfig();
-                FOPMR_Configs.getAnnouncements().reloadConfig();
+                FreedomOpModRemastered.configs.reloadConfigs();
                 sender.sendMessage(ChatColor.GREEN + "FOPM: Remastered Configs reloaded!");
+                FOPMR_CommandRegistry.unregisterCommands();
                 FOPMR_CommandRegistry.registerCommands();
                 sender.sendMessage(ChatColor.GREEN + "FOPM: Remastered Commands reloaded!");
                 return true;

@@ -3,10 +3,10 @@ package net.camtech.fopmremastered.protectedareas;
 
 
 import java.util.ArrayList;
-import net.camtech.camutils.CUtils_Config;
-import net.camtech.fopmremastered.FOPMR_Configs;
+import net.camtech.fopmremastered.FOPMR_Config;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,8 +15,8 @@ import org.bukkit.entity.Player;
 
 public class FOPMR_ProtectedAreas
 {
-    public static CUtils_Config config = FOPMR_Configs.getAreas();
-    public static FileConfiguration areas = FOPMR_Configs.getAreas().getConfig();
+    public static FOPMR_Config config = FreedomOpModRemastered.configs.getAreas();
+    public static FileConfiguration areas = FreedomOpModRemastered.configs.getAreas().getConfig();
     
     public static boolean canAccess(Player player, String area)
     {
@@ -66,7 +66,7 @@ public class FOPMR_ProtectedAreas
             return false;
         }
         FOPMR_ProtectedArea parea = getFromName(area);
-        if(parea.isOwner(player))
+        if(parea.isOwner(player) || parea.getRank().level <= FOPMR_Rank.getRank(player).level)
         {
             removeArea(parea);
             player.sendMessage("Deleted area successfully!");

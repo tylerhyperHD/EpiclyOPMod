@@ -2,7 +2,6 @@ package net.camtech.fopmremastered;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,7 +14,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class FOPMR_Commons
 {
     public static ArrayList<String> imposters = new ArrayList<>();
-    public static HashMap<String, String> guests = new HashMap<>();
     public static boolean camOverlordMode = false;
     public static boolean globalFreeze = false;
 
@@ -49,7 +47,7 @@ public class FOPMR_Commons
         Inventory inv = Bukkit.createInventory(null, 27, ChatColor.GREEN + "" +  ChatColor.BOLD + "$$ " + ChatColor.GOLD + "VoteShop " + ChatColor.GREEN + "" + ChatColor.BOLD + "$$");
         ItemStack randomChat = new ItemStack(Material.SIGN, 1);
         ItemMeta randomChatMeta = randomChat.getItemMeta();
-        if(!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour"))
+        if(!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour"))
         {
             randomChatMeta.setDisplayName(ChatColor.BLUE + "Random Chat Colours");
             randomChatMeta.setLore(Arrays.asList(ChatColor.GREEN + "Gain access to use &- in chat, nicks and tags.", ChatColor.GREEN + "&- Randomly colours the following text!", ChatColor.GREEN + "Price: 3 Votes"));
@@ -63,7 +61,7 @@ public class FOPMR_Commons
         inv.setItem(1, randomChat);
         ItemStack chat = new ItemStack(Material.PAPER, 1);
         ItemMeta chatMeta = randomChat.getItemMeta();
-        if(!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours"))
+        if(!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours"))
         {
             chatMeta.setDisplayName(ChatColor.BLUE + "Chat Colours");
             chatMeta.setLore(Arrays.asList(ChatColor.GREEN + "Gain access to use colours in chat, nicks and tags.", ChatColor.GREEN + "Price: 3 Votes"));
@@ -77,7 +75,7 @@ public class FOPMR_Commons
         inv.setItem(7, chat);
         ItemStack votes = new ItemStack(Material.DIAMOND, 1);
         ItemMeta votesMeta = votes.getItemMeta();
-        votesMeta.setDisplayName(ChatColor.BLUE + "You have " + ChatColor.GOLD + FOPMR_Configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes") + ChatColor.BLUE + " votes.");
+        votesMeta.setDisplayName(ChatColor.BLUE + "You have " + ChatColor.GOLD + FreedomOpModRemastered.configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes") + ChatColor.BLUE + " votes.");
         votes.setItemMeta(votesMeta);
         inv.setItem(13, votes);
         player.openInventory(inv);

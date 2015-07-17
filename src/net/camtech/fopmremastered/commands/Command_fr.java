@@ -2,9 +2,9 @@ package net.camtech.fopmremastered.commands;
 
 import java.util.Arrays;
 import net.camtech.fopmremastered.FOPMR_Commons;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -32,9 +32,9 @@ public class Command_fr extends FOPMR_Command
                 {
                     continue;
                 }
-                FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".freeze", FOPMR_Commons.globalFreeze);
-                FOPMR_Configs.getAdmins().saveConfig();
-                player.sendMessage((FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".freeze") ? (ChatColor.RED + "You are now frozen.") : (ChatColor.AQUA + "You are now unfrozen.")));
+                FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".freeze", FOPMR_Commons.globalFreeze);
+                FreedomOpModRemastered.configs.getAdmins().saveConfig();
+                player.sendMessage((FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".freeze") ? (ChatColor.RED + "You are now frozen.") : (ChatColor.AQUA + "You are now unfrozen.")));
             }
             return true;
         }
@@ -52,9 +52,9 @@ public class Command_fr extends FOPMR_Command
                 return true;
             }
             FOPMR_Commons.adminAction(sender.getName(), "Toggling freeze over " + player.getName() + ".", true);
-            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".freeze", !FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".freeze"));
-            FOPMR_Configs.getAdmins().saveConfig();
-            player.sendMessage((FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".freeze") ? (ChatColor.RED + "You are now frozen.") : (ChatColor.AQUA + "You are now unfrozen.")));
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".freeze", !FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".freeze"));
+            FreedomOpModRemastered.configs.getAdmins().saveConfig();
+            player.sendMessage((FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".freeze") ? (ChatColor.RED + "You are now frozen.") : (ChatColor.AQUA + "You are now unfrozen.")));
             return true;
         }
         return false;

@@ -140,6 +140,10 @@ public class FOPMR_PrivateChat
     
     public boolean isOwner(Player player)
     {
+        if(FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), rank))
+        {
+            return true;
+        }
         return (this.owner == null ? player.getName() == null : this.owner.equals(player.getName()));
     }
 }

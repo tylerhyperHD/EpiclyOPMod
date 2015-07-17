@@ -21,8 +21,8 @@ public class FOPMR_Rank
             }
             else
             {
-                FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
-                OfflinePlayer offplayer = Bukkit.getOfflinePlayer(player.getName().replaceAll("[^A-Za-z0-9]", ""));
+                FileConfiguration config = FreedomOpModRemastered.configs.getAdmins().getConfig();
+                OfflinePlayer offplayer = Bukkit.getOfflinePlayer(player.getName().replaceAll("[^A-Za-z0-9_]", ""));
                 if(offplayer == null)
                 {
                     return Rank.SUPER;
@@ -45,7 +45,7 @@ public class FOPMR_Rank
         {
             for(Rank rank : Rank.values())
             {
-                FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
+                FileConfiguration config = FreedomOpModRemastered.configs.getAdmins().getConfig();
                 if(config.getString(((Player) player).getUniqueId().toString() + ".rank").equalsIgnoreCase(rank.name))
                 {
                     return rank;
@@ -66,7 +66,7 @@ public class FOPMR_Rank
         {
             for(Rank rank : Rank.values())
             {
-                FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
+                FileConfiguration config = FreedomOpModRemastered.configs.getAdmins().getConfig();
                 if(!config.contains(player.getUniqueId().toString()))
                 {
                     return Rank.OP;
@@ -172,26 +172,22 @@ public class FOPMR_Rank
     
     public static boolean isMasterBuilder(Player player)
     {
-        if(!FOPMR_Configs.getAdmins().getConfig().contains(player.getUniqueId() + ".builder"))
+        if(!FreedomOpModRemastered.configs.getAdmins().getConfig().contains(player.getUniqueId() + ".builder"))
         {
-            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId() + ".builder", false);
-            FOPMR_Configs.getAdmins().saveConfig();
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId() + ".builder", false);
+            FreedomOpModRemastered.configs.getAdmins().saveConfig();
         }
-        if(isExecutive(player))
-        {
-            return true;
-        }
-        return FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId() + ".builder");
+        return FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId() + ".builder");
     }
 
     public static void setRank(Player player, Rank rank, CommandSender sender)
     {
-        if(getRank(player) == Rank.IMPOSTER)
+        if(getRank(player) == Rank.IMPOSTER && !rank.equals(Rank.OP))
         {
             FOPMR_Commons.imposters.remove(player.getName());
-            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".imposter", false);
-            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
-            FOPMR_Configs.getAdmins().saveConfig();
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".imposter", false);
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
+            FreedomOpModRemastered.configs.getAdmins().saveConfig();
             Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - verifying " + player.getName() + " as an admin.");
             return;
         }
@@ -208,29 +204,34 @@ public class FOPMR_Rank
         if(rank.level < getRank(player).level && (!rank.equals(Rank.OP)))
         {
             sender.sendMessage(ChatColor.RED + rank.name + " is a lower rank than " + player.getName() + "'s current rank of " + getRank(player).name + ".");
-            FOPMR_Configs.getAdmins().saveConfig();
+            FreedomOpModRemastered.configs.getAdmins().saveConfig();
             return;
         }
         Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - adding " + player.getName() + " to the clearance level of " + rank.level + " as " + CUtils_Methods.aOrAn(rank.name) + " " + rank.name);
-        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".rank", rank.name);
-        FOPMR_Configs.getAdmins().saveConfig();
+        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".rank", rank.name);
+        FreedomOpModRemastered.configs.getAdmins().saveConfig();
         colourTabName(player);
+        FOPMR_BoardManager.updateStats(player);
     }
 
     public static String getTag(Player player)
     {
-        if(!"default&r".equals(FOPMR_Configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")) && !"off&r".equals(FOPMR_Configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")) && !"default".equals(FOPMR_Configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")) && !"off".equals(FOPMR_Configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")))
+        if(!"default&r".equals(FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")) && !"off&r".equals(FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")) && !"default".equals(FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")) && !"off".equals(FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag")))
         {
-            return FOPMR_Configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag");
+            return FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".tag");
         }
         return getRank(player).tag;
     }
 
     public static Rank getRankFromIp(String ip)
     {
-        FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
+        FileConfiguration config = FreedomOpModRemastered.configs.getAdmins().getConfig();
         for(String uuid : config.getConfigurationSection("").getKeys(false))
         {
+            if(config.getString(uuid + ".lastIp") == null)
+            {
+                continue;
+            }
             if(config.getString(uuid + ".lastIp").equals(ip))
             {
                 for(Rank rank : Rank.values())
@@ -247,7 +248,7 @@ public class FOPMR_Rank
 
     public static String getNameFromIp(String ip)
     {
-        FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
+        FileConfiguration config = FreedomOpModRemastered.configs.getAdmins().getConfig();
         if(ip == null)
         {
             return null;
@@ -256,7 +257,7 @@ public class FOPMR_Rank
         {
             if(config.getString(uuid + ".lastIp") == null)
             {
-                return null;
+                continue;
             }
             if(config.getString(uuid + ".lastIp").equals(ip))
             {
@@ -315,9 +316,9 @@ public class FOPMR_Rank
     public static void unImposter(Player player)
     {
         FOPMR_Commons.imposters.remove(player.getName());
-        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".imposter", false);
-        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
-        FOPMR_Configs.getAdmins().saveConfig();
+        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".imposter", false);
+        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
+        FreedomOpModRemastered.configs.getAdmins().saveConfig();
         colourTabName(player);
     }
 
@@ -325,7 +326,7 @@ public class FOPMR_Rank
     {
 
         OP("Op", "&7[&cOp&7]&r", 0), ADMIN("Admin", "&7[&eAdmin&7]&r", 1), SUPER("Super Admin", "&7[&bSA&7]&r", 2), SENIOR("Senior Admin", "&7[&dSrA&7]&r", 3), CONSOLE("CONSOLE", "&7[&aCONSOLE&7]&r", 3),
-        EXECUTIVE("Executive", "&7[&6Exec&7]&r", 4), SPECIALIST("Specialist", "&7[&aSpec&7]&r", 5), SYSTEM("System Admin", "&7[&5Sys-Admin&7]&r", 6), OWNER("Owner", "&7[&4Owner&7]&r", 7),
+        EXECUTIVE("Executive", "&7[&6Exec&7]&r", 4), SPECIALIST("Specialist", "&7[&aSpec&7]&r", 5), SYSTEM("System Admin", "&7[&5Sys-Admin&7]&r", 6), DARTH("Darth", "&7[&5DarthSalamon&7]", 6), OWNER("Owner", "&7[&4Owner&7]&r", 7),
         OVERLORD("Overlord", "&7[&bOverlord&7]", 8), IMPOSTER("Imposter", "&7[Imp]&r", -1);
 
         public final String name;

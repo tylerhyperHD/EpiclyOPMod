@@ -10,10 +10,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
+import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
@@ -23,6 +26,30 @@ public class FOPMR_BlockListener implements Listener
     public FOPMR_BlockListener()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
+    }
+    
+    @EventHandler
+    public void onPistonPush(BlockPistonExtendEvent event)
+    {
+        for(Block block : event.getBlocks())
+        {
+            if(block.getType() == Material.SLIME_BLOCK)
+            {
+                event.setCancelled(true);
+            }
+        }
+    }
+    
+    @EventHandler
+    public void onPistonPull(BlockPistonRetractEvent event)
+    {
+        for(Block block : event.getBlocks())
+        {
+            if(block.getType() == Material.SLIME_BLOCK)
+            {
+                event.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler

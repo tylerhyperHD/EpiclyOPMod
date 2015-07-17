@@ -4,7 +4,7 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
-public class FOPMR_PermissionsManager
+public class FOPMR_PermissionsInterface
 {
     public static HashMap<Player, PermissionAttachment> attachments = new HashMap<>();
     

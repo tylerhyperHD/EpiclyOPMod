@@ -1,9 +1,9 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -27,7 +27,7 @@ public class Command_setlogin
             sender.sendMessage(ChatColor.RED + "The player you listed: " + args[0] + " is not online...");
             return true;
         }
-        FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
+        FileConfiguration config = FreedomOpModRemastered.configs.getAdmins().getConfig();
         String message = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         config.set(player.getUniqueId().toString() + ".login", message);
         sender.sendMessage(ChatColor.GREEN + "Set " + player.getName() + "'s login message to \"" + CUtils_Methods.colour(message) + "\".");

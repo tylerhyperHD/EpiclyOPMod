@@ -1,7 +1,7 @@
 package net.camtech.fopmremastered.commands;
 
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -33,8 +33,8 @@ public class Command_accesslevel
             sender.sendMessage(ChatColor.RED + "You can only set the access level to your rank or lower.");
             return true;
         }
-        FOPMR_Configs.getMainConfig().getConfig().set("general.accessLevel", level);
-        FOPMR_Configs.getMainConfig().saveConfig();
+        FreedomOpModRemastered.configs.getMainConfig().getConfig().set("general.accessLevel", level);
+        FreedomOpModRemastered.configs.getMainConfig().saveConfig();
         for (Player player : Bukkit.getOnlinePlayers())
         {
             if (FOPMR_Rank.getRank(player).level < level)

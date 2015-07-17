@@ -3,7 +3,6 @@ package net.camtech.fopmremastered.listeners;
 import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -29,7 +28,7 @@ public class FOPMR_VoteListener implements Listener
         {
             event.setCancelled(true);
             ItemStack item = event.getCurrentItem();
-            FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
+            FileConfiguration config = FreedomOpModRemastered.configs.getAdmins().getConfig();
             String entry = ((Player) event.getWhoClicked()).getUniqueId().toString();
             int votes = config.getInt(entry + ".votes");
             switch(item.getType())
@@ -51,7 +50,7 @@ public class FOPMR_VoteListener implements Listener
                 default:
                     break;
             }
-            FOPMR_Configs.getAdmins().saveConfig();
+            FreedomOpModRemastered.configs.getAdmins().saveConfig();
         }
 
     }
@@ -65,18 +64,18 @@ public class FOPMR_VoteListener implements Listener
         int votes = 0;
         if(player != null)
         {
-            votes = FOPMR_Configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes");
+            votes = FreedomOpModRemastered.configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes");
             votes++;
-            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".votes", votes);
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".votes", votes);
             player.sendMessage(CUtils_Methods.colour("&-Thank you for voting! You now have " + CUtils_Methods.randomChatColour() + votes + " &-votes to spend in the VoteShop!"));
         }
         else
         {
             OfflinePlayer offplayer = Bukkit.getOfflinePlayer(vote.getUsername());
-            votes = FOPMR_Configs.getAdmins().getConfig().getInt(offplayer.getUniqueId().toString() + ".votes");
-            FOPMR_Configs.getAdmins().getConfig().set(offplayer.getUniqueId().toString() + ".votes", votes++);
+            votes = FreedomOpModRemastered.configs.getAdmins().getConfig().getInt(offplayer.getUniqueId().toString() + ".votes");
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(offplayer.getUniqueId().toString() + ".votes", votes++);
         }
-        FOPMR_Configs.getAdmins().saveConfig();
+        FreedomOpModRemastered.configs.getAdmins().saveConfig();
     }
     
 }

@@ -1,5 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
+import java.util.Arrays;
+import java.util.List;
+import static me.StevenLawson.BukkitTelnet.BukkitTelnet.server;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.StringUtils;
@@ -7,11 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static me.StevenLawson.BukkitTelnet.BukkitTelnet.server;
 
 public class Command_wildcard extends FOPMR_Command
 {

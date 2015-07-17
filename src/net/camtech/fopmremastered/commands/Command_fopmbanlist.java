@@ -1,8 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
 import java.util.ArrayList;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -21,9 +21,9 @@ public class Command_fopmbanlist
         ArrayList<String> ips = new ArrayList<>();
         ArrayList<String> uuids = new ArrayList<>();
 
-        for (String name : FOPMR_Configs.getBans().getConfig().getConfigurationSection("names").getKeys(false))
+        for (String name : FreedomOpModRemastered.configs.getBans().getConfig().getConfigurationSection("names").getKeys(false))
         {
-            if (FOPMR_Configs.getBans().getConfig().getBoolean("names." + name + ".perm"))
+            if (FreedomOpModRemastered.configs.getBans().getConfig().getBoolean("names." + name + ".perm"))
             {
                 names.add(ChatColor.RED + name);
             }
@@ -32,9 +32,9 @@ public class Command_fopmbanlist
                 names.add(ChatColor.AQUA + name);
             }
         }
-        for (String ip : FOPMR_Configs.getBans().getConfig().getConfigurationSection("ips").getKeys(false))
+        for (String ip : FreedomOpModRemastered.configs.getBans().getConfig().getConfigurationSection("ips").getKeys(false))
         {
-            if (FOPMR_Configs.getBans().getConfig().getBoolean("ips." + ip + ".perm"))
+            if (FreedomOpModRemastered.configs.getBans().getConfig().getBoolean("ips." + ip + ".perm"))
             {
                 ips.add(ChatColor.RED + ip.replaceAll("-", "\\."));
             }
@@ -43,9 +43,9 @@ public class Command_fopmbanlist
                 ips.add(ChatColor.AQUA + ip.replaceAll("-", "\\."));
             }
         }
-        for (String uuid : FOPMR_Configs.getBans().getConfig().getConfigurationSection("uuids").getKeys(false))
+        for (String uuid : FreedomOpModRemastered.configs.getBans().getConfig().getConfigurationSection("uuids").getKeys(false))
         {
-            if (FOPMR_Configs.getBans().getConfig().getBoolean("uuids." + uuid + ".perm"))
+            if (FreedomOpModRemastered.configs.getBans().getConfig().getBoolean("uuids." + uuid + ".perm"))
             {
                 uuids.add(ChatColor.RED + uuid);
             }
@@ -88,38 +88,38 @@ public class Command_fopmbanlist
                 {
                     case "names":
                         message = "Name";
-                        for (String name : FOPMR_Configs.getBans().getConfig().getConfigurationSection("names").getKeys(false))
+                        for (String name : FreedomOpModRemastered.configs.getBans().getConfig().getConfigurationSection("names").getKeys(false))
                         {
-                            if (FOPMR_Configs.getBans().getConfig().getBoolean("names." + name + ".perm"))
+                            if (FreedomOpModRemastered.configs.getBans().getConfig().getBoolean("names." + name + ".perm"))
                             {
                                 continue;
                             }
-                            FOPMR_Configs.getBans().getConfig().set("names." + name, null);
-                            FOPMR_Configs.getBans().saveConfig();
+                            FreedomOpModRemastered.configs.getBans().getConfig().set("names." + name, null);
+                            FreedomOpModRemastered.configs.getBans().saveConfig();
                         }
                         break;
                     case "ips":
                         message = "IP";
-                        for (String ip : FOPMR_Configs.getBans().getConfig().getConfigurationSection("ips").getKeys(false))
+                        for (String ip : FreedomOpModRemastered.configs.getBans().getConfig().getConfigurationSection("ips").getKeys(false))
                         {
-                            if (FOPMR_Configs.getBans().getConfig().getBoolean("ips." + ip.replaceAll("\\.", "-") + ".perm"))
+                            if (FreedomOpModRemastered.configs.getBans().getConfig().getBoolean("ips." + ip.replaceAll("\\.", "-") + ".perm"))
                             {
                                 continue;
                             }
-                            FOPMR_Configs.getBans().getConfig().set("ips." + ip.replaceAll("\\.", "-"), null);
-                            FOPMR_Configs.getBans().saveConfig();
+                            FreedomOpModRemastered.configs.getBans().getConfig().set("ips." + ip.replaceAll("\\.", "-"), null);
+                            FreedomOpModRemastered.configs.getBans().saveConfig();
                         }
                         break;
                     case "uuids":
                         message = "UUID";
-                        for (String uuid : FOPMR_Configs.getBans().getConfig().getConfigurationSection("uuids").getKeys(false))
+                        for (String uuid : FreedomOpModRemastered.configs.getBans().getConfig().getConfigurationSection("uuids").getKeys(false))
                         {
-                            if (FOPMR_Configs.getBans().getConfig().getBoolean("uuids." + uuid + ".perm"))
+                            if (FreedomOpModRemastered.configs.getBans().getConfig().getBoolean("uuids." + uuid + ".perm"))
                             {
                                 continue;
                             }
-                            FOPMR_Configs.getBans().getConfig().set("uuids." + uuid, null);
-                            FOPMR_Configs.getBans().saveConfig();
+                            FreedomOpModRemastered.configs.getBans().getConfig().set("uuids." + uuid, null);
+                            FreedomOpModRemastered.configs.getBans().saveConfig();
                         }
                         break;
                     default:
