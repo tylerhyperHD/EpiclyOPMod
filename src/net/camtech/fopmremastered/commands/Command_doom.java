@@ -37,7 +37,7 @@ public class Command_doom extends FOPMR_Command
             return true;
         }
         String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
-        FOPMR_Bans.addBan(player, reason);
+        FOPMR_Bans.addBan(player, reason, sender.getName());
         FOPMR_Rank.setRank(player, Rank.OP, sender);
         Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - Dooming " + player.getName() + " to a never-ending oblivion in the deepest burning pits of Hell.");
         return true;

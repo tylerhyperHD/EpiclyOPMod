@@ -1,6 +1,7 @@
 package net.camtech.fopmremastered;
 
 import net.camtech.camutils.CUtils_Methods;
+import static net.camtech.fopmremastered.FreedomOpModRemastered.configs;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -209,6 +210,12 @@ public class FOPMR_Rank
             FreedomOpModRemastered.configs.getAdmins().saveConfig();
             return;
         }
+        String message = sender.getName() + " has promoted " + player.getName() + " to the clearance level of " + rank.level + " as " + CUtils_Methods.aOrAn(rank.name) + " " + rank.name + ".\nCongratulations! Please ensure you read the new lounges that you have access to for more details on your new rank!";
+        if(rank.equals(Rank.OP))
+        {
+            message = sender.getName() + " has demoted " + player.getName() + " to the clearance level of 0 as an Op.\nWe hope any issues are resolved shortly.";
+        }
+        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.promotionsid"), message);
         Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - adding " + player.getName() + " to the clearance level of " + rank.level + " as " + CUtils_Methods.aOrAn(rank.name) + " " + rank.name);
         FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".rank", rank.name);
         FreedomOpModRemastered.configs.getAdmins().saveConfig();

@@ -72,6 +72,7 @@ public class FreedomOpModRemastered extends JavaPlugin
                 FOPMR_Commons.imposters.add(player.getName());
             }
         }
+        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"), "FreedomOpMod: Remastered has just been enabled.");
     }
 
     @Override
@@ -88,5 +89,6 @@ public class FreedomOpModRemastered extends JavaPlugin
         {
             ChatColor.RED, pdf.getName()
         });
+        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"), "FreedomOpMod: Remastered has just been disabled.");
     }
 }

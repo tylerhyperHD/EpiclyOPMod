@@ -88,7 +88,7 @@ public class Command_fopmhelp
         try
         {
             int i = Integer.parseInt(args[0]);
-            for(String command : pages.get(i))
+            for(String command : pages.get(i - 1))
             {
                 sender.sendMessage(command);
             }

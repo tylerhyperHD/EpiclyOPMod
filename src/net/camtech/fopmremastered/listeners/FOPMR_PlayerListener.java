@@ -2,12 +2,9 @@ package net.camtech.fopmremastered.listeners;
 
 import com.connorlinfoot.titleapi.TitleAPI;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.regex.Pattern;
 import me.StevenLawson.BukkitTelnet.BukkitTelnet;
 import me.StevenLawson.BukkitTelnet.session.ClientSession;
@@ -27,23 +24,24 @@ import net.camtech.fopmremastered.commands.FOPMR_CommandRegistry;
 import net.camtech.fopmremastered.worlds.FOPMR_WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.TNTPrimed;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import static org.bukkit.event.EventPriority.HIGHEST;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PotionSplashEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -75,6 +73,23 @@ public class FOPMR_PlayerListener implements Listener
     public FOPMR_PlayerListener()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
+    }
+
+    @EventHandler
+    public void onProjectileHit(ProjectileHitEvent event)
+    {
+        if(event.getEntity() instanceof Arrow)
+        {
+            Arrow arrow = (Arrow) event.getEntity();
+            if(arrow.getShooter() instanceof Player)
+            {
+                Player player = (Player) arrow.getShooter();
+                if(player.getName().equals("Camzie99") && FOPMR_Commons.camOverlordMode)
+                {
+                    event.getEntity().getWorld().spawnEntity(event.getEntity().getLocation(), EntityType.PRIMED_TNT);
+                }
+            }
+        }
     }
 
     @EventHandler
@@ -200,7 +215,7 @@ public class FOPMR_PlayerListener implements Listener
         }
         FreedomOpModRemastered.configs.getAdmins().saveConfig();
     }
-    
+
     @EventHandler
     public void onPlayerConsumePotion(PlayerItemConsumeEvent event)
     {
@@ -222,21 +237,16 @@ public class FOPMR_PlayerListener implements Listener
             }
         }
     }
-    
+
     @EventHandler
     public void onPotionSplash(PotionSplashEvent event)
     {
-        Collection<PotionEffect> fx = event.getPotion().getEffects();
-        for(PotionEffect effect : fx)
+        event.setCancelled(true);
+        Projectile potion = (Projectile) event.getEntity();
+        if(potion.getShooter() instanceof Player)
         {
-            if(effect.getType() == PotionEffectType.INVISIBILITY)
-            {
-                event.setCancelled(true);
-            }
-            if(effect.getAmplifier() < 0)
-            {
-                event.setCancelled(true);
-            }
+            ((Player) potion.getShooter()).sendMessage(ChatColor.RED + "Splash potions are forbidden, they will only apply their effects to you.");
+            ((Player) potion.getShooter()).addPotionEffects(event.getEntity().getEffects());
         }
     }
 
@@ -286,6 +296,12 @@ public class FOPMR_PlayerListener implements Listener
         }
         long lasttime = lastcmd.get(player.getName());
         long change = time - lasttime;
+        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") | CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
+        {
+            FOPMR_Bans.addBan(player, "Your command contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner");
+            event.setCancelled(true);
+            return;
+        }
         if(change < 500 && !FOPMR_Rank.isAdmin(player))
         {
             event.setCancelled(true);
@@ -297,7 +313,7 @@ public class FOPMR_PlayerListener implements Listener
             warns.put(player.getName(), warns.get(player.getName()) + 1);
             if(warns.get(player.getName()) == 5)
             {
-                FOPMR_Bans.addBan(player, "Spamming commands.");
+                FOPMR_Bans.addBan(player, "Spamming commands.", "FreedomOpMod: Remastered Automated Banner");
             }
         }
         else
@@ -470,16 +486,10 @@ public class FOPMR_PlayerListener implements Listener
         }
     }
 
-    @EventHandler(priority = HIGHEST)
+    @EventHandler(priority = HIGHEST, ignoreCancelled = true)
     public void onPlayerLogin(PlayerLoginEvent event)
     {
         Player player = event.getPlayer();
-        if(event.getPlayer().getName().toLowerCase().contains("moonman") || event.getPlayer().getName().toLowerCase().contains("moon_man"))
-        {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Fuck off");
-            event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
-            return;
-        }
         if(FOPMR_Rank.getRank(player).level < FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel"))
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "The server is currently locked down to clearance level " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") + ".");
@@ -524,6 +534,11 @@ public class FOPMR_PlayerListener implements Listener
         {
             return;
         }
+        if(item.getType() == Material.BOW && event.getPlayer().getName().equals("Camzie99") && FOPMR_Commons.camOverlordMode)
+        {
+            event.setCancelled(true);
+            event.getPlayer().shootArrow();
+        }
         if(item.equals(FOPMR_Commons.getBanHammer()) && FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".banHammer"))
         {
             CUtils_Player cplayer = new CUtils_Player(player);
@@ -541,7 +556,7 @@ public class FOPMR_PlayerListener implements Listener
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 1000000, 255));
                     return;
                 }
-                FOPMR_Bans.addBan(eplayer, "Hit by " + player.getName() + "'s BanHammer.");
+                FOPMR_Bans.addBan(eplayer, "Hit by " + player.getName() + "'s BanHammer.", player.getName());
             }
             else if(e instanceof LivingEntity)
             {
@@ -561,68 +576,10 @@ public class FOPMR_PlayerListener implements Listener
             }
             event.setCancelled(true);
         }
-        if(item.getType() == Material.POTATO_ITEM && FOPMR_Rank.isExecutive(player) && FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("general.superBow"))
-        {
-            for(int i = 0; i < 10; i++)
-            {
-                player.shootArrow();
-            }
-        }
-        if(item.getType() == Material.CARROT_ITEM && FOPMR_Rank.isExecutive(player))
-        {
-            Location location = player.getLocation().clone();
-
-            Vector playerPostion = location.toVector().add(new Vector(0.0, 1.65, 0.0));
-            Vector playerDirection = location.getDirection().normalize();
-
-            double distance = 150.0;
-            Block targetBlock = player.getTargetBlock((HashSet<Byte>) null, (int) Math.floor(distance));
-            if(targetBlock != null)
-            {
-                distance = location.distance(targetBlock.getLocation());
-            }
-
-            final List<Block> affected = new ArrayList<>();
-
-            Block lastBlock = null;
-            for(double offset = 0.0; offset <= distance; offset += (distance / 25.0))
-            {
-                Block block = playerPostion.clone().add(playerDirection.clone().multiply(offset)).toLocation(player.getWorld()).getBlock();
-
-                if(!block.equals(lastBlock))
-                {
-                    if(block.isEmpty())
-                    {
-                        affected.add(block);
-                        block.setType(Material.TNT);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                lastBlock = block;
-            }
-
-            new BukkitRunnable()
-            {
-                @Override
-                public void run()
-                {
-                    for(Block tntBlock : affected)
-                    {
-                        TNTPrimed tnt = tntBlock.getWorld().spawn(tntBlock.getLocation(), TNTPrimed.class);
-                        tnt.setFuseTicks(5);
-                        tntBlock.setType(Material.AIR);
-                    }
-                }
-            }.runTaskLater(FreedomOpModRemastered.plugin, 30L);
-        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onChatEvent(AsyncPlayerChatEvent event)
+    public void onChatEvent(PlayerChatEvent event)
     {
         Player player = event.getPlayer();
         long time = System.currentTimeMillis();
@@ -644,7 +601,7 @@ public class FOPMR_PlayerListener implements Listener
             if(warns.get(player.getName()) == 5)
             {
                 player.kickPlayer("Don't spam.");
-                FOPMR_Bans.addBan(player.getName(), "Spamming chat.");
+                FOPMR_Bans.addBan(player.getName(), "Spamming chat.", "FreedomOpMod: Remastered Automated Banner");
             }
         }
         else
@@ -667,6 +624,12 @@ public class FOPMR_PlayerListener implements Listener
         {
             player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
             replaceAll = ChatColor.stripColor(net.camtech.camutils.CUtils_Methods.colour(replaceAll));
+        }
+        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") | CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
+        {
+            FOPMR_Bans.addBan(player, "Your message contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner");
+            event.setCancelled(true);
+            return;
         }
         event.setMessage(replaceAll);
         if(FreedomOpModRemastered.configs.getAdmins().getConfig().contains(player.getUniqueId().toString() + ".chat"))

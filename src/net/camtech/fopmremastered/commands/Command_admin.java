@@ -1,6 +1,7 @@
 package net.camtech.fopmremastered.commands;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +11,9 @@ import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import static net.camtech.fopmremastered.FOPMR_Rank.isSuper;
+import net.camtech.fopmremastered.FOPMR_RestManager;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
+import static net.camtech.fopmremastered.FreedomOpModRemastered.configs;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -23,17 +26,18 @@ import org.bukkit.entity.Player;
 @CommandParameters(name = "admin", usage = "/admin [[add | delete] [username] <rank>] | [list] | [purge]", description = "Add somebody to admin.")
 public class Command_admin
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         FileConfiguration admins = FreedomOpModRemastered.configs.getAdmins().getConfig();
-        if (args.length == 1)
+        if(args.length == 1)
         {
-            if (args[0].equalsIgnoreCase("list"))
+            if(args[0].equalsIgnoreCase("list"))
             {
                 HashMap<String, String> adminlist = new HashMap<>();
-                for (String name : admins.getConfigurationSection("").getKeys(false))
+                for(String name : admins.getConfigurationSection("").getKeys(false))
                 {
-                    if (!admins.getString(name + ".rank").equalsIgnoreCase("op"))
+                    if(!admins.getString(name + ".rank").equalsIgnoreCase("op"))
                     {
                         adminlist.put(CUtils_Methods.colour(" " + ChatColor.GOLD + admins.getString(name + ".lastName")), admins.getString(name + ".rank"));
                     }
@@ -87,7 +91,6 @@ public class Command_admin
                         default:
                             break;
                     }
-                    //sender.sendMessage("Added " + name + " to " + rank.name + ".");
                 }
                 arrays.stream().forEach((array) ->
                 {
@@ -112,35 +115,43 @@ public class Command_admin
             }
             if(args[0].equalsIgnoreCase("purge") && FOPMR_Rank.isSenior(sender))
             {
+                if((sender instanceof Player || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) != 1) && !sender.getName().equals("Camzie99"))
+                {
+                    sender.sendMessage(ChatColor.RED + "Purging can only be done on a Sunday by the Console.");
+                    return true;
+                }
                 FOPMR_Commons.adminAction(sender.getName(), "Purging the player list.", true);
                 sender.sendMessage(ChatColor.RED + "PREPARE FOR SPAM!");
                 HashMap<String, Long> removedAdmins = new HashMap<>();
-                for (String name : admins.getConfigurationSection("").getKeys(false))
+                for(String name : admins.getConfigurationSection("").getKeys(false))
                 {
-                   if(!admins.contains(name + ".lastLogin"))
-                   {
-                       continue;
-                   }
-                   long lasttime = admins.getLong(name + ".lastLogin");
-                   long current = System.currentTimeMillis();
-                   long change = current - lasttime;
-                   if(change > 604800000)
-                   {
-                       sender.sendMessage("Removed " + admins.getString(name + ".lastName") + ", time since last login in milliseconds: " + change + ".");
-                       if(FOPMR_Rank.getFromUsername(admins.getString(name + ".lastName")).level >= 1)
-                       {
-                           removedAdmins.put(admins.getString(name + ".lastName"), lasttime);
-                       }
-                       admins.set(name, null);
-                   }
+                    if(!admins.contains(name + ".lastLogin"))
+                    {
+                        continue;
+                    }
+                    long lasttime = admins.getLong(name + ".lastLogin");
+                    long current = System.currentTimeMillis();
+                    long change = current - lasttime;
+                    if(change > 604800000)
+                    {
+                        sender.sendMessage("Removed " + admins.getString(name + ".lastName") + ", time since last login in milliseconds: " + change + ".");
+                        if(FOPMR_Rank.getFromUsername(admins.getString(name + ".lastName")).level >= 1)
+                        {
+                            removedAdmins.put(admins.getString(name + ".lastName"), lasttime);
+                        }
+                        admins.set(name, null);
+                    }
                 }
                 sender.sendMessage(ChatColor.RED + "The following admins were removed due to inactivity.");
                 sender.sendMessage(ChatColor.GOLD + "Admin Name " + ChatColor.RED + " :|: " + ChatColor.GOLD + "Last Login Date.");
+                String message = "FreedomOpMod: Remastered Automatic Admin Purging\nThe following admins were removed due to inacitvity.\nAdmin Name :|: Last Login Date.";
                 for(String name : removedAdmins.keySet())
                 {
                     Date date = new Date(removedAdmins.get(name));
                     sender.sendMessage(ChatColor.GOLD + name + ChatColor.RED + " :|: " + ChatColor.GOLD + date.toGMTString());
+                    message += "\n" + name + " :|: " + date.toGMTString();
                 }
+                FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.removalsid"), message);
                 return true;
             }
             return false;
@@ -150,17 +161,17 @@ public class Command_admin
             return true;
         }
         Player player;
-        if (args.length == 2)
+        if(args.length == 2)
         {
             player = FOPMR_Rank.getPlayer(args[1]);
-            if (player == null)
+            if(player == null)
             {
                 sender.sendMessage("Player: " + args[1] + " is not online.");
                 return true;
             }
-            if (args[0].equalsIgnoreCase("delete"))
+            if(args[0].equalsIgnoreCase("delete"))
             {
-                if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), FOPMR_Rank.getRank(sender)))
+                if(FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), FOPMR_Rank.getRank(sender)))
                 {
                     sender.sendMessage("You can only remove someone of a lower rank than yourself from admin.");
                     return true;
@@ -168,22 +179,22 @@ public class Command_admin
                 FOPMR_Rank.setRank(player, FOPMR_Rank.Rank.OP, sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase("add"))
+            if(args[0].equalsIgnoreCase("add"))
             {
                 FOPMR_Rank.setRank(player, FOPMR_Rank.Rank.ADMIN, sender);
                 return true;
             }
             return false;
         }
-        if (args.length >= 3)
+        if(args.length >= 3)
         {
-            if (!args[0].equalsIgnoreCase("add"))
+            if(!args[0].equalsIgnoreCase("add"))
             {
                 sender.sendMessage("You only need 2 arguments for a removal.");
                 return true;
             }
             player = FOPMR_Rank.getPlayer(args[1]);
-            if (player == null)
+            if(player == null)
             {
                 sender.sendMessage("Player: " + args[1] + " is not online.");
                 return true;
@@ -192,12 +203,13 @@ public class Command_admin
             try
             {
                 level = Integer.parseInt(args[2]);
-            } catch (Exception ex)
+            }
+            catch(Exception ex)
             {
                 String rank = StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ");
                 level = FOPMR_Rank.getFromName(rank).level;
             }
-            if (level == 0)
+            if(level == 0)
             {
                 Bukkit.broadcastMessage(StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ") + " is an invalid rank.");
                 return true;

@@ -1,5 +1,6 @@
 package net.camtech.fopmremastered;
 
+import static net.camtech.fopmremastered.FreedomOpModRemastered.configs;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -13,7 +14,7 @@ public class FOPMR_Bans
     private static boolean ipBan = false;
     private static boolean uuidBan = false;
 
-    public static void addBan(final Player player, final String reason)
+    public static void addBan(final Player player, final String reason, String banner)
     {
         player.setGameMode(GameMode.SURVIVAL);
         player.getInventory().clear();
@@ -31,11 +32,14 @@ public class FOPMR_Bans
         player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 10f, false, false);
         player.getWorld().strikeLightning(player.getLocation());
         player.setHealth(0d);
-        addBan(player.getName(), reason);
+        addBan(player.getName(), reason, banner);
     }
 
-    public static void addBan(String name, String reason)
+    public static void addBan(String name, String reason, String banner)
     {
+        
+        String message = name + " has been banned by " + banner + " with the reason: " + reason.split(" — ")[0] + ".";
+        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.banid"), message);
         if (!FreedomOpModRemastered.configs.getAdmins().getConfig().contains(Bukkit.getOfflinePlayer(name).getUniqueId().toString()))
         {
             Bukkit.broadcastMessage(ChatColor.RED + name + " could not be found.");
@@ -180,6 +184,7 @@ public class FOPMR_Bans
 
     public static boolean isBanned(String name, String ip)
     {
+        
         if (FreedomOpModRemastered.configs.getBans().getConfig().contains("names." + name))
         {
             return true;
@@ -201,6 +206,11 @@ public class FOPMR_Bans
         }
         
         if(ip.equals("70.189.160.159"))
+        {
+            return true;
+        }
+        
+        if(name.contains("PvP"))
         {
             return true;
         }
@@ -233,6 +243,10 @@ public class FOPMR_Bans
         if (FreedomOpModRemastered.configs.getBans().getConfig().contains("uuids." + Bukkit.getOfflinePlayer(name).getUniqueId().toString()))
         {
             return FreedomOpModRemastered.configs.getBans().getConfig().getString("uuids." + Bukkit.getOfflinePlayer(name).getUniqueId().toString() + ".reason");
+        }
+        if(name.contains("PvP"))
+        {
+            return "Stupid idiot who serial greifs always using the same kind of name, welcome to hardcoded permban.";
         }
         return "Player is not banned.";
     }

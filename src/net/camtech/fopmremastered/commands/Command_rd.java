@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 
 public class Command_rd extends FOPMR_Command
@@ -29,7 +30,7 @@ public class Command_rd extends FOPMR_Command
             for (Entity e : world.getEntities())
             {
                 entities++;
-                if (!(e instanceof LivingEntity))
+                if (!(e instanceof LivingEntity) && !(e instanceof ItemFrame))
                 {
                     e.remove();
                     cleared++;
