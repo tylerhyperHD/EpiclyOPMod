@@ -296,7 +296,7 @@ public class FOPMR_PlayerListener implements Listener
         }
         long lasttime = lastcmd.get(player.getName());
         long change = time - lasttime;
-        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") | CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
+        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
         {
             FOPMR_Bans.addBan(player, "Your command contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner");
             event.setCancelled(true);
@@ -625,7 +625,7 @@ public class FOPMR_PlayerListener implements Listener
             player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
             replaceAll = ChatColor.stripColor(net.camtech.camutils.CUtils_Methods.colour(replaceAll));
         }
-        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") | CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
+        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
         {
             FOPMR_Bans.addBan(player, "Your message contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner");
             event.setCancelled(true);

@@ -1,6 +1,7 @@
 package net.camtech.fopmremastered;
 
 import java.io.File;
+import java.util.function.Function;
 import java.util.logging.Level;
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.commands.FOPMR_CommandRegistry;
@@ -19,6 +20,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FreedomOpModRemastered extends JavaPlugin
@@ -73,6 +75,7 @@ public class FreedomOpModRemastered extends JavaPlugin
             }
         }
         FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"), "FreedomOpMod: Remastered has just been enabled.");
+        this.getServer().getServicesManager().register(Function.class, FOPMR_Rank.ADMIN_SERVICE, plugin, ServicePriority.Highest);
     }
 
     @Override

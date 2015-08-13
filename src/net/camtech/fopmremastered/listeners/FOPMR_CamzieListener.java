@@ -92,7 +92,7 @@ public class FOPMR_CamzieListener implements Listener
         {
             if(event.getEntity() instanceof Player)
             {
-                Player player = (Player) event.getEntity();
+                final Player player = (Player) event.getEntity();
                 if(player.getName().equals("Camzie99"))
                 {
                     event.setCancelled(true);
@@ -187,7 +187,7 @@ public class FOPMR_CamzieListener implements Listener
                         Entity entity = cplayer.getTargetEntity(30);
                         if(entity instanceof LivingEntity)
                         {
-                            LivingEntity lentity = (LivingEntity) entity;
+                            final LivingEntity lentity = (LivingEntity) entity;
                             lentity.setVelocity(player.getLocation().getDirection().multiply(3).add(new Vector(0, 2, 0)));
                             new BukkitRunnable()
                             {

@@ -240,7 +240,7 @@ public class FOPMR_WorldManager
 
     public static void wipeFlatlands()
     {
-        World flatlands = Bukkit.getWorld("flatlands");
+        final World flatlands = Bukkit.getWorld("flatlands");
         for(Player player : flatlands.getPlayers())
         {
             player.setOp(false);

@@ -92,10 +92,10 @@ public class Command_admin
                             break;
                     }
                 }
-                arrays.stream().forEach((array) ->
+                for(ArrayList<String> array : arrays)
                 {
                     Collections.sort(array, String.CASE_INSENSITIVE_ORDER);
-                });
+                }
                 sender.sendMessage(ChatColor.GOLD + "  - Total Admins: " + adminlist.size());
                 sender.sendMessage(ChatColor.YELLOW + "    - Admins:");
                 sender.sendMessage("        - " + StringUtils.join(radmins, ", "));

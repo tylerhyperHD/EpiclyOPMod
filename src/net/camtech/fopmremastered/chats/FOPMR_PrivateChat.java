@@ -78,10 +78,13 @@ public class FOPMR_PrivateChat
         {
             playerowner.sendMessage(colour + "[" + this.name + "] " + player.getName() + ": " + message);
         }
-        Bukkit.getOnlinePlayers().stream().filter((admin) -> (FOPMR_Rank.getRank(admin).level > this.rank.level && !(admin.getName().equals(this.owner)) && !this.canAccess(admin))).forEach((Player admin) ->
+        for(Player admin : Bukkit.getOnlinePlayers())
         {
-            admin.sendMessage(colour + "[" + FOPMR_PrivateChat.this.name + " **SPY**] " + player.getName() + ": " + message);
-        });
+            if(FOPMR_Rank.getRank(admin).level > this.rank.level && !(admin.getName().equals(this.owner)) && !this.canAccess(admin))
+            {
+                admin.sendMessage(colour + "[" + FOPMR_PrivateChat.this.name + " (PChat Spy)] " + player.getName() + ": " + message);
+            }
+        }
     }
     
     public boolean canAccess(Player player)
