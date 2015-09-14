@@ -1,10 +1,16 @@
 package net.camtech.fopmremastered.listeners;
 
 import com.connorlinfoot.titleapi.TitleAPI;
+import com.google.gson.Gson;
 import java.lang.reflect.Field;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import me.StevenLawson.BukkitTelnet.BukkitTelnet;
 import me.StevenLawson.BukkitTelnet.session.ClientSession;
@@ -13,7 +19,7 @@ import net.camtech.camutils.CUtils_Player;
 import net.camtech.fopmremastered.FOPMR_Bans;
 import net.camtech.fopmremastered.FOPMR_BoardManager;
 import net.camtech.fopmremastered.FOPMR_Commons;
-import net.camtech.fopmremastered.FOPMR_Config;
+import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
 import net.camtech.fopmremastered.FOPMR_PermissionsInterface;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
@@ -27,7 +33,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -95,108 +100,88 @@ public class FOPMR_PlayerListener implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event)
     {
-        FOPMR_Config adminConfig = FreedomOpModRemastered.configs.getAdmins();
-        FileConfiguration config = adminConfig.getConfig();
-        final Player player = event.getPlayer();
-        if(Bukkit.getPluginManager().getPlugin("TitleAPI") != null)
+        try
         {
-            TitleAPI.sendTitle(player, 20, 40, 20, CUtils_Methods.colour("&-Hi there " + CUtils_Methods.randomChatColour() + player.getName() + "&-!"), CUtils_Methods.colour("&-Welcome to " + CUtils_Methods.randomChatColour() + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.name") + "&-!"));
-            TitleAPI.sendTabTitle(player, CUtils_Methods.colour("&-Welcome to FreedomOp " + CUtils_Methods.randomChatColour() + player.getName() + "&-!"), CUtils_Methods.colour("&-Running the " + CUtils_Methods.randomChatColour() + "FreedomOpMod: Remastered &-by Camzie99!"));
-        }
-        for(String UUID : config.getKeys(false))
-        {
-            if(((config.getString(UUID + ".lastName").equals(player.getName()))
-                    && !(config.getString(UUID + ".lastIp").equals(player.getAddress().getHostString())))
+            final Player player = event.getPlayer();
+            if(Bukkit.getPluginManager().getPlugin("TitleAPI") != null)
+            {
+                TitleAPI.sendTitle(player, 20, 40, 20, CUtils_Methods.colour("&-Hi there " + CUtils_Methods.randomChatColour() + player.getName() + "&-!"), CUtils_Methods.colour("&-Welcome to " + CUtils_Methods.randomChatColour() + FreedomOpModRemastered.plugin.getConfig().getString("general.name") + "&-!"));
+                TitleAPI.sendTabTitle(player, CUtils_Methods.colour("&-Welcome to FreedomOp " + CUtils_Methods.randomChatColour() + player.getName() + "&-!"), CUtils_Methods.colour("&-Running the " + CUtils_Methods.randomChatColour() + "FreedomOpMod: Remastered &-by Camzie99!"));
+            }
+            ResultSet set = FOPMR_DatabaseInterface.getAllResults("UUID", player.getUniqueId().toString(), "PLAYERS");
+            if(set.next() && !(set.getString("IP").equals(player.getAddress().getHostString()))
                     && (!FOPMR_Rank.getRank(player).equals(FOPMR_Rank.Rank.OP) || FOPMR_Rank.isMasterBuilder(player)))
 
             {
                 FOPMR_Commons.imposters.add(player.getName());
-                config.set(UUID + ".imposter", true);
-            }
-        }
-        if(config.contains(player.getUniqueId().toString()))
-        {
-            if(!(config.getString(player.getUniqueId().toString()) + ".lastName").equals(player.getName()))
-            {
-                config.set(player.getUniqueId().toString() + ".lastName", player.getName());
-            }
-            if(!(config.getString(player.getUniqueId().toString()) + ".lastIp").equals(player.getAddress().getHostString()) && FOPMR_Rank.getRank(player) == FOPMR_Rank.Rank.OP)
-            {
-                config.set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
-            }
-            if(!"default".equals(config.getString(player.getUniqueId().toString() + ".login")))
-            {
-                event.setJoinMessage(ChatColor.AQUA + player.getName() + " " + CUtils_Methods.colour(config.getString(player.getUniqueId().toString() + ".login")));
-            }
-            else if(FOPMR_Rank.getRank(player) != FOPMR_Rank.Rank.OP)
-            {
-                event.setJoinMessage(ChatColor.AQUA + player.getName() + " is " + CUtils_Methods.aOrAn(FOPMR_Rank.getRank(player).name) + " " + FOPMR_Rank.getRank(player).name);
+                FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), true, "IMPOSTER", "PLAYERS");
             }
             if(FOPMR_Rank.getRank(player) == Rank.IMPOSTER)
             {
                 Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " is an imposter!");
                 player.sendMessage(ChatColor.RED + "Please verify you are who you are logged in as or you will be banned!");
             }
-        }
-        else
-        {
-            player.sendMessage(ChatColor.GREEN + "Hey there! Welcome to the FreedomOpMod: Remastered!, do /fopm to find out more info.");
-            config.set(player.getUniqueId().toString() + ".lastName", player.getName());
-            config.set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
-            config.set(player.getUniqueId().toString() + ".chat", "");
-            config.set(player.getUniqueId().toString() + ".rank", "Op");
-            config.set(player.getUniqueId().toString() + ".login", "default");
-            config.set(player.getUniqueId().toString() + ".votes", 0);
-            config.set(player.getUniqueId().toString() + ".imposter", false);
-            config.set(player.getUniqueId().toString() + ".chatLevel", 0);
-            config.set(player.getUniqueId().toString() + ".displayName", player.getName());
-            config.set(player.getUniqueId().toString() + ".tag", "default");
-            config.set(player.getUniqueId().toString() + ".builder", false);
-            config.set(player.getUniqueId().toString() + ".banHammer", false);
-            config.set(player.getUniqueId().toString() + ".cmdblock", false);
-            config.set(player.getUniqueId().toString() + ".djump", false);
-            config.set(player.getUniqueId().toString() + ".muted", false);
-            config.set(player.getUniqueId().toString() + ".randomChatColour", false);
-            config.set(player.getUniqueId().toString() + ".chatColours", false);
-            config.set(player.getUniqueId().toString() + ".lastLogin", System.currentTimeMillis());
-        }
-        config.set(player.getUniqueId().toString() + ".chatColours", true);
-        config.set(player.getUniqueId().toString() + ".randomChatColour", true);
-        adminConfig.saveConfig();
-
-        if(FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") > 0)
-        {
-            new BukkitRunnable()
+            else
             {
-                @Override
-                public void run()
+                player.sendMessage(ChatColor.GREEN + "Hey there! Welcome to the FreedomOpMod: Remastered!, do /fopm to find out more info.");
+                try
                 {
-                    player.sendMessage(ChatColor.RED + "Server is currently locked down to clearance level " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") + " (" + FOPMR_Rank.getFromLevel(FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel")).name + ").");
+                    FOPMR_DatabaseInterface.generateNewPlayer(player);
                 }
-            }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 5L);
+                catch(SQLException ex)
+                {
+                    Logger.getLogger(FOPMR_PlayerListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if(FreedomOpModRemastered.plugin.getConfig().getInt("general.accessLevel") > 0)
+            {
+                new BukkitRunnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        player.sendMessage(ChatColor.RED + "Server is currently locked down to clearance level " + FreedomOpModRemastered.plugin.getConfig().getInt("general.accessLevel") + " (" + FOPMR_Rank.getFromLevel(FreedomOpModRemastered.plugin.getConfig().getInt("general.accessLevel")).name + ").");
+                    }
+                }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 5L);
+            }
+            player.sendMessage(CUtils_Methods.colour(FreedomOpModRemastered.plugin.getConfig().getString("general.joinMessage").replaceAll("%player%", player.getName())));
+            FOPMR_DatabaseInterface.generateNewPlayer(player);
+            FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), System.currentTimeMillis(), "LASTLOGIN", "PLAYERS");
+            if(!FOPMR_Rank.isSystem(player))
+            {
+                FOPMR_PermissionsInterface.removePermission(player, "icu.control");
+                FOPMR_PermissionsInterface.removePermission(player, "icu.stop");
+            }
+            if(!player.getName().equals("Camzie99"))
+            {
+                FOPMR_PermissionsInterface.removePermission(player, "icu.exempt");
+            }
+            if(!FOPMR_Rank.isAdmin(player))
+            {
+                FOPMR_PermissionsInterface.removePermission(player, "worldedit.limit.unrestricted");
+                FOPMR_PermissionsInterface.removePermission(player, "worldedit.anyblock");
+                FOPMR_PermissionsInterface.removePermission(player, "worldedit.history.clear");
+                FOPMR_PermissionsInterface.removePermission(player, "worldedit.snapshot.restore");
+                FOPMR_PermissionsInterface.removePermission(player, "worldedit.limit");
+            }
+            FOPMR_Rank.colourTabName(player);
+            FOPMR_BoardManager.updateStats(player);
+            String message = FOPMR_DatabaseInterface.getLoginMessage(player.getUniqueId().toString());
+            if(message == null || "default".equalsIgnoreCase(message) || "".equalsIgnoreCase(message))
+            {
+                message = CUtils_Methods.aOrAn(FOPMR_Rank.getRank(player).name) + " " + FOPMR_Rank.getRank(player).name + "";
+            }
+            if(FOPMR_Rank.getRank(player) == Rank.OP)
+            {
+                return;
+            }
+            event.setJoinMessage(ChatColor.AQUA + player.getName() + ", " + CUtils_Methods.colour(message) + ChatColor.AQUA + ", has joined the game.");
         }
-        player.sendMessage(CUtils_Methods.colour(FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.joinMessage").replaceAll("%player%", player.getName())));
-        config.set(player.getUniqueId().toString() + ".lastLogin", System.currentTimeMillis());
-        FOPMR_PermissionsInterface.removeMoreProtectPermissions(player);
-        if(!FOPMR_Rank.isSystem(player))
+        catch(Exception ex)
         {
-            FOPMR_PermissionsInterface.removePermission(player, "icu.control");
-            FOPMR_PermissionsInterface.removePermission(player, "icu.stop");
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
-        if(!player.getName().equals("Camzie99"))
-        {
-            FOPMR_PermissionsInterface.removePermission(player, "icu.exempt");
-        }
-        if(!FOPMR_Rank.isAdmin(player))
-        {
-            FOPMR_PermissionsInterface.removePermission(player, "worldedit.limit.unrestricted");
-            FOPMR_PermissionsInterface.removePermission(player, "worldedit.anyblock");
-            FOPMR_PermissionsInterface.removePermission(player, "worldedit.history.clear");
-            FOPMR_PermissionsInterface.removePermission(player, "worldedit.snapshot.restore");
-            FOPMR_PermissionsInterface.removePermission(player, "worldedit.limit");
-        }
-        FOPMR_Rank.colourTabName(player);
-        FOPMR_BoardManager.updateStats(player);
     }
 
     @EventHandler
@@ -208,12 +193,14 @@ public class FOPMR_PlayerListener implements Listener
             FOPMR_Commons.imposters.remove(player.getName());
         }
         FOPMR_WorldManager.removeGuestsFromModerator(player);
-        FileConfiguration admins = FreedomOpModRemastered.configs.getAdmins().getConfig();
-        if(admins.getBoolean(player.getUniqueId().toString() + ".imposter"))
+        try
         {
-            admins.set(player.getUniqueId().toString() + ".imposter", false);
+            FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), false, "IMPOSTER", "PLAYERS");
         }
-        FreedomOpModRemastered.configs.getAdmins().saveConfig();
+        catch(Exception ex)
+        {
+            FreedomOpModRemastered.plugin.handleException(ex);
+        }
     }
 
     @EventHandler
@@ -287,174 +274,292 @@ public class FOPMR_PlayerListener implements Listener
     @EventHandler
     public void onCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
-        Player player = event.getPlayer();
+        try
+        {
+            Player player = event.getPlayer();
 
-        long time = System.currentTimeMillis();
-        if(!lastcmd.containsKey(player.getName()))
-        {
-            lastcmd.put(player.getName(), 0l);
-        }
-        long lasttime = lastcmd.get(player.getName());
-        long change = time - lasttime;
-        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
-        {
-            FOPMR_Bans.addBan(player, "Your command contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner");
-            event.setCancelled(true);
-            return;
-        }
-        if(change < 500 && !FOPMR_Rank.isAdmin(player))
-        {
-            event.setCancelled(true);
-            player.sendMessage(ChatColor.RED + "Please do not type commands so quickly.");
-            if(!warns.containsKey(player.getName()))
+            long time = System.currentTimeMillis();
+            if(!lastcmd.containsKey(player.getName()))
             {
-                warns.put(player.getName(), 0);
+                lastcmd.put(player.getName(), 0l);
             }
-            warns.put(player.getName(), warns.get(player.getName()) + 1);
-            if(warns.get(player.getName()) == 5)
+            long lasttime = lastcmd.get(player.getName());
+            long change = time - lasttime;
+            if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
             {
-                FOPMR_Bans.addBan(player, "Spamming commands.", "FreedomOpMod: Remastered Automated Banner");
-            }
-        }
-        else
-        {
-            lastcmd.put(player.getName(), time);
-        }
-        if(FOPMR_Rank.isImposter(player))
-        {
-            player.sendMessage("You cannot send commands whilst impostered.");
-            event.setCancelled(true);
-        }
-        if(FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".cmdblock"))
-        {
-            player.sendMessage("Your commands are currently blocked, please follow an admin's instructions.");
-            event.setCancelled(true);
-        }
-        if(event.getMessage().split(" ")[0].contains(":"))
-        {
-            player.sendMessage("You cannot send plugin specific commands.");
-            event.setCancelled(true);
-        }
-        if(event.getMessage().replaceAll("/", "").split(" ")[0].contains("mv") && !FOPMR_Rank.isOwner(player))
-        {
-            player.sendMessage("You cannot use multiverse commands.");
-            event.setCancelled(true);
-        }
-        FileConfiguration commands = FreedomOpModRemastered.configs.getCommands().getConfig();
-        for(String blocked : commands.getKeys(false))
-        {
-            if((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked)) && FOPMR_Rank.getRank(player).level < commands.getInt(blocked + ".rank"))
-            {
+                FOPMR_Bans.addBan(player, "Your command contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner", false);
                 event.setCancelled(true);
-                if(commands.getBoolean(blocked + ".kick"))
-                {
-                    player.kickPlayer(commands.getString(blocked + ".message"));
-                    return;
-                }
-                player.sendMessage(CUtils_Methods.colour(commands.getString(blocked + ".message")));
                 return;
             }
-            if(cmap.getCommand(blocked) == null)
+            if(change < 500 && !FOPMR_Rank.isAdmin(player))
             {
-                continue;
-            }
-            if(cmap.getCommand(blocked).getAliases() == null)
-            {
-                continue;
-            }
-            for(String blocked2 : cmap.getCommand(blocked).getAliases())
-            {
-                if((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked2) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked2)) && FOPMR_Rank.getRank(player).level < commands.getInt(blocked + ".rank") && !FOPMR_CommandRegistry.isFOPMRCommand(blocked2))
+                event.setCancelled(true);
+                player.sendMessage(ChatColor.RED + "Please do not type commands so quickly.");
+                if(!warns.containsKey(player.getName()))
                 {
-                    event.setCancelled(true);
-                    if(commands.getBoolean(blocked + ".kick"))
+                    warns.put(player.getName(), 0);
+                }
+                warns.put(player.getName(), warns.get(player.getName()) + 1);
+                if(warns.get(player.getName()) == 5)
+                {
+                    FOPMR_Bans.addBan(player, "Spamming commands.", "FreedomOpMod: Remastered Automated Banner", false);
+                }
+            }
+            else
+            {
+                lastcmd.put(player.getName(), time);
+            }
+            if(FOPMR_Rank.isImposter(player))
+            {
+                player.sendMessage("You cannot send commands whilst impostered.");
+                event.setCancelled(true);
+            }
+            if(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "CMDBLOCK", "PLAYERS"))
+            {
+                player.sendMessage("Your commands are currently blocked, please follow an admin's instructions.");
+                event.setCancelled(true);
+            }
+            if(event.getMessage().split(" ")[0].contains(":"))
+            {
+                player.sendMessage("You cannot send plugin specific commands.");
+                event.setCancelled(true);
+            }
+            if(event.getMessage().replaceAll("/", "").split(" ")[0].contains("mv") && !FOPMR_Rank.isOwner(player))
+            {
+                player.sendMessage("You cannot use multiverse commands.");
+                event.setCancelled(true);
+            }
+            ResultSet set = FOPMR_DatabaseInterface.getAllResults(null, null, "COMMANDS");
+            if(!FOPMR_CommandRegistry.isFOPMRCommand(event.getMessage().replaceAll("/", "")))
+            {
+                while(set.next())
+                {
+                    String blocked = (String) set.getObject("COMMAND");
+                    if((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked)) && FOPMR_Rank.getRank(player).level < set.getInt("RANK"))
                     {
-                        player.kickPlayer(commands.getString(blocked + ".message"));
-                        return;
+                        if(set.getObject("ARGS") != null)
+                        {
+                            Gson gson = new Gson();
+                            ArrayList<String> list = gson.fromJson((String) set.getObject("ARGS"), ArrayList.class);
+                            if(list != null && !list.isEmpty())
+                            {
+                                Boolean isArg = false;
+                                for(String arg : list)
+                                {
+                                    for(String arg2 : event.getMessage().split(" "))
+                                    {
+                                        if(arg2.equalsIgnoreCase(arg))
+                                        {
+                                            isArg = true;
+                                        }
+                                    }
+                                }
+                                if(!isArg)
+                                {
+                                    continue;
+                                }
+                            }
+                            if(FOPMR_CommandRegistry.isFOPMRCommand(blocked))
+                            {
+                                continue;
+                            }
+                            event.setCancelled(true);
+                            if(set.getBoolean("KICK"))
+                            {
+                                player.kickPlayer(set.getString("MESSAGE"));
+                                return;
+                            }
+                            player.sendMessage(CUtils_Methods.colour(set.getString("MESSAGE")));
+                            return;
+                        }
+                        else
+                        {
+                            if(FOPMR_CommandRegistry.isFOPMRCommand(blocked))
+                            {
+                                continue;
+                            }
+                            event.setCancelled(true);
+                            if(set.getBoolean("KICK"))
+                            {
+                                player.kickPlayer(set.getString("MESSAGE"));
+                                return;
+                            }
+                            player.sendMessage(CUtils_Methods.colour(set.getString("MESSAGE")));
+                            return;
+                        }
                     }
-                    player.sendMessage(CUtils_Methods.colour(commands.getString(blocked + ".message")));
-                    return;
+                    if(cmap.getCommand(blocked) == null)
+                    {
+                        continue;
+                    }
+                    if(cmap.getCommand(blocked).getAliases() == null)
+                    {
+                        continue;
+                    }
+
+                    for(String blocked2 : cmap.getCommand(blocked).getAliases())
+                    {
+
+                        if((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked2) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked2)) && FOPMR_Rank.getRank(player).level < set.getInt("RANK"))
+                        {
+                            if(set.getObject("ARGS") != null)
+                            {
+                                Gson gson = new Gson();
+                                ArrayList<String> list = gson.fromJson((String) set.getObject("ARGS"), ArrayList.class);
+                                if(list != null && !list.isEmpty())
+                                {
+                                    Boolean isArg = false;
+                                    for(String arg : list)
+                                    {
+                                        for(String arg2 : event.getMessage().split(" "))
+                                        {
+                                            if(arg2.equalsIgnoreCase(arg))
+                                            {
+                                                isArg = true;
+                                            }
+                                        }
+                                    }
+                                    if(!isArg)
+                                    {
+                                        continue;
+                                    }
+                                }
+                                if(FOPMR_CommandRegistry.isFOPMRCommand(blocked2))
+                                {
+                                    continue;
+                                }
+                                event.setCancelled(true);
+                                if(set.getBoolean("KICK"))
+                                {
+                                    player.kickPlayer(set.getString("MESSAGE"));
+                                    return;
+                                }
+                                player.sendMessage(CUtils_Methods.colour(set.getString("MESSAGE")));
+                                return;
+                            }
+                            else
+                            {
+                                if(FOPMR_CommandRegistry.isFOPMRCommand(blocked2))
+                                {
+                                    continue;
+                                }
+                                event.setCancelled(true);
+                                if(set.getBoolean("KICK"))
+                                {
+                                    player.kickPlayer(set.getString("MESSAGE"));
+                                    return;
+                                }
+                                player.sendMessage(CUtils_Methods.colour(set.getString("MESSAGE")));
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            for(Player player2 : Bukkit.getOnlinePlayers())
+            {
+                if(((FOPMR_Rank.getRank(player2).level > FOPMR_Rank.getRank(player).level) || (player2.getName().equals("Camzie99") && FOPMR_Rank.isOwner(player2))) && player2 != player)
+                {
+                    player2.sendMessage(ChatColor.GRAY + player.getName() + ": " + event.getMessage().toLowerCase());
                 }
             }
         }
-        for(Player player2 : Bukkit.getOnlinePlayers())
+        catch(Exception ex)
         {
-            if(((FOPMR_Rank.getRank(player2).level > FOPMR_Rank.getRank(player).level) || (player2.getName().equals("Camzie99") && FOPMR_Rank.isOwner(player2))) && player2 != player)
-            {
-                player2.sendMessage(ChatColor.GRAY + player.getName() + ": " + event.getMessage().toLowerCase());
-            }
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
     }
 
     @EventHandler
     public void doubleJump(PlayerToggleFlightEvent event)
     {
-        final Player player = event.getPlayer();
-        if(event.isFlying() && FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean((player.getUniqueId().toString() + ".djump")))
+        try
         {
-            player.setFlying(false);
-            Vector jump = player.getLocation().getDirection().multiply(2).setY(1.1);
-            player.setVelocity(player.getVelocity().add(jump));
-            event.setCancelled(true);
+            final Player player = event.getPlayer();
+            if(event.isFlying() && FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "DOUBLEJUMP", "PLAYERS"))
+            {
+                player.setFlying(false);
+                Vector jump = player.getLocation().getDirection().multiply(2).setY(1.1);
+                player.setVelocity(player.getVelocity().add(jump));
+                event.setCancelled(true);
+            }
+        }
+        catch(Exception ex)
+        {
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
     }
 
     @EventHandler
     public void onConsoleCommand(ServerCommandEvent event)
     {
-        CommandSender player = event.getSender();
-        if(event.getCommand().split(" ")[0].contains(":"))
+        try
         {
-            player.sendMessage("You cannot send plugin specific commands.");
-            event.setCommand("");
-        }
-        FileConfiguration commands = FreedomOpModRemastered.configs.getCommands().getConfig();
-        for(String blocked : commands.getConfigurationSection("").getKeys(false))
-        {
-            String[] command = event.getCommand().split(" ");
-            if(blocked.equalsIgnoreCase(command[0].replaceAll("/", "")))
+            CommandSender player = event.getSender();
+            if(event.getCommand().split(" ")[0].contains(":"))
             {
-                if(!FOPMR_Rank.isRank(player, commands.getInt(blocked + ".rank")))
+                player.sendMessage("You cannot send plugin specific commands.");
+                event.setCommand("");
+            }
+            ResultSet set = FOPMR_DatabaseInterface.getAllResults(null, null, "COMMANDS");
+            while(set.next())
+            {
+                String[] command = event.getCommand().split(" ");
+                if(((String) set.getObject("COMMAND")).equalsIgnoreCase(command[0].replaceAll("/", "")))
                 {
-                    player.sendMessage(ChatColor.RED + "You are not authorised to use this command.");
-                    event.setCommand("");
+                    if(!FOPMR_Rank.isRank(player, (Integer) set.getObject("RANK")))
+                    {
+                        player.sendMessage(ChatColor.RED + "You are not authorised to use this command.");
+                        event.setCommand("");
+                    }
                 }
             }
+        }
+        catch(Exception ex)
+        {
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event)
     {
-        if(event.getFrom() == null || event.getTo() == null)
+        try
         {
-            return;
-        }
-        Player player = event.getPlayer();
-        Collection<PotionEffect> fx = player.getActivePotionEffects();
-        for(PotionEffect effect : fx)
-        {
-            if(effect.getType() == PotionEffectType.INVISIBILITY)
+            if(event.getFrom() == null || event.getTo() == null)
             {
-                player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                return;
+            }
+            Player player = event.getPlayer();
+            Collection<PotionEffect> fx = player.getActivePotionEffects();
+            for(PotionEffect effect : fx)
+            {
+                if(effect.getType() == PotionEffectType.INVISIBILITY)
+                {
+                    player.removePotionEffect(PotionEffectType.INVISIBILITY);
+                }
+            }
+            if(FOPMR_Rank.isImposter(player))
+            {
+                player.sendMessage("You cannot move whilst impostered.");
+                event.setCancelled(true);
+                player.teleport(player);
+            }
+            if(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "FROZEN", "PLAYERS"))
+            {
+                player.sendMessage("You cannot move whilst frozen.");
+                event.setCancelled(true);
+                player.teleport(player);
+            }
+            if(!FOPMR_WorldManager.canAccess(event.getTo().getWorld().getName(), player))
+            {
+                player.teleport(Bukkit.getWorld("world").getSpawnLocation());
+                event.setCancelled(true);
             }
         }
-        if(FOPMR_Rank.isImposter(player))
+        catch(Exception ex)
         {
-            player.sendMessage("You cannot move whilst impostered.");
-            event.setCancelled(true);
-            player.teleport(player);
-        }
-        if(FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".freeze"))
-        {
-            player.sendMessage("You cannot move whilst frozen.");
-            event.setCancelled(true);
-            player.teleport(player);
-        }
-        if(!FOPMR_WorldManager.canAccess(event.getTo().getWorld().getName(), player))
-        {
-            player.teleport(Bukkit.getWorld("world").getSpawnLocation());
-            event.setCancelled(true);
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
     }
 
@@ -489,234 +594,244 @@ public class FOPMR_PlayerListener implements Listener
     @EventHandler(priority = HIGHEST, ignoreCancelled = true)
     public void onPlayerLogin(PlayerLoginEvent event)
     {
-        Player player = event.getPlayer();
-        if(FOPMR_Rank.getRank(player).level < FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel"))
+        try
         {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "The server is currently locked down to clearance level " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") + ".");
-            event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
-            return;
-        }
-        boolean hasNonAlpha = player.getName().matches("^.*[^a-zA-Z0-9_].*$");
-        if(hasNonAlpha)
-        {
-            event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your name contains invalid characters, please login using a fully alphanumeric name.");
-            event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
-            return;
-        }
-        for(Player oplayer : Bukkit.getOnlinePlayers())
-        {
-            if(oplayer.getName().equalsIgnoreCase(player.getName()) && FOPMR_Rank.isAdmin(oplayer))
+            Player player = event.getPlayer();
+            if(FOPMR_Rank.getRank(player).level < FreedomOpModRemastered.plugin.getConfig().getInt("general.accessLevel"))
             {
-                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "An admin is already logged in with that username.");
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "The server is currently locked down to clearance level " + FreedomOpModRemastered.plugin.getConfig().getInt("general.accessLevel") + ".");
                 event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
                 return;
             }
+            boolean hasNonAlpha = player.getName().matches("^.*[^a-zA-Z0-9_].*$");
+            if(hasNonAlpha)
+            {
+                event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "Your name contains invalid characters, please login using a fully alphanumeric name.");
+                event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+                return;
+            }
+            for(Player oplayer : Bukkit.getOnlinePlayers())
+            {
+                if(oplayer.getName().equalsIgnoreCase(player.getName()) && FOPMR_Rank.isAdmin(oplayer))
+                {
+                    event.disallow(PlayerLoginEvent.Result.KICK_OTHER, "An admin is already logged in with that username.");
+                    event.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+                    return;
+                }
+            }
+            if(FOPMR_Rank.isAdmin(player) && FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "IMPOSTER", "PLAYERS") && (FOPMR_DatabaseInterface.getIpFromName(player.getName()).equals(event.getAddress().getHostAddress())))
+            {
+                event.allow();
+                return;
+            }
+            if(FOPMR_Bans.isBanned(player.getName(), event.getAddress().getHostAddress()))
+            {
+                event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "You are banned:\nReason: " + FOPMR_Bans.getReason(player.getName(), event.getAddress().getHostAddress()) + " (You may appeal the ban at our forums accessible from " + FreedomOpModRemastered.plugin.getConfig().getString("general.url") + ")");
+                event.setResult(PlayerLoginEvent.Result.KICK_BANNED);
+            }
         }
-        if(FOPMR_Rank.isAdmin(player) && !FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".imposter") && (FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".lastIp").equals(event.getAddress().getHostAddress())))
+        catch(Exception ex)
         {
-            event.allow();
-            return;
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
-        if(FOPMR_Bans.isBanned(player.getName(), event.getAddress().getHostAddress()))
-        {
-            event.disallow(PlayerLoginEvent.Result.KICK_BANNED, "You are banned:\nReason: " + FOPMR_Bans.getReason(player.getName(), event.getAddress().getHostAddress()) + " (You may appeal the ban at our forums accessible from " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.url") + ")");
-            event.setResult(PlayerLoginEvent.Result.KICK_BANNED);
-        }
-
     }
 
     @EventHandler
     public void onPlayerUseItem(PlayerInteractEvent event)
     {
-        ItemStack item = event.getItem();
-        Player player = event.getPlayer();
-        if(item == null)
+        try
         {
-            return;
-        }
-        if(item.getType() == Material.BOW && event.getPlayer().getName().equals("Camzie99") && FOPMR_Commons.camOverlordMode)
-        {
-            event.setCancelled(true);
-            event.getPlayer().shootArrow();
-        }
-        if(item.equals(FOPMR_Commons.getBanHammer()) && FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".banHammer"))
-        {
-            CUtils_Player cplayer = new CUtils_Player(player);
-            final Entity e = cplayer.getTargetEntity(50);
-            if(e instanceof Player)
+            ItemStack item = event.getItem();
+            Player player = event.getPlayer();
+            if(item == null)
             {
-                Player eplayer = (Player) e;
-                if(eplayer.getName().equals("Camzie99"))
-                {
-                    player.sendMessage(ChatColor.RED + "HAHAHAHA! I hereby curse thee " + player.getName() + "!");
-                    player.setMaxHealth(1d);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1000000, 255));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000000, 255));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 1000000, 255));
-                    return;
-                }
-                FOPMR_Bans.addBan(eplayer, "Hit by " + player.getName() + "'s BanHammer.", player.getName());
+                return;
             }
-            else if(e instanceof LivingEntity)
+            if(item.getType() == Material.BOW && event.getPlayer().getName().equals("Camzie99") && FOPMR_Commons.camOverlordMode)
             {
-                final LivingEntity le = (LivingEntity) e;
-                le.setVelocity(le.getVelocity().add(new Vector(0, 3, 0)));
-                new BukkitRunnable()
+                event.setCancelled(true);
+                event.getPlayer().shootArrow();
+            }
+            if(item.equals(FOPMR_Commons.getBanHammer()) && FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "BANHAMMER", "PLAYERS"))
+            {
+                CUtils_Player cplayer = new CUtils_Player(player);
+                final Entity e = cplayer.getTargetEntity(50);
+                if(e instanceof Player)
                 {
-                    @Override
-                    public void run()
+                    Player eplayer = (Player) e;
+                    if(eplayer.getName().equals("Camzie99"))
                     {
-                        le.getWorld().createExplosion(e.getLocation().getX(), e.getLocation().getY(), e.getLocation().getZ(), 5f, false, false);
-                        le.getWorld().strikeLightningEffect(e.getLocation());
-                        le.setHealth(0d);
+                        player.sendMessage(ChatColor.RED + "HAHAHAHA! I hereby curse thee " + player.getName() + "!");
+                        player.setMaxHealth(1d);
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1000000, 255));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000000, 255));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 1000000, 255));
+                        return;
                     }
-                }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 2L);
+                    FOPMR_Bans.addBan(eplayer, "Hit by " + player.getName() + "'s BanHammer.", player.getName());
+                }
+                else if(e instanceof LivingEntity)
+                {
+                    final LivingEntity le = (LivingEntity) e;
+                    le.setVelocity(le.getVelocity().add(new Vector(0, 3, 0)));
+                    new BukkitRunnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            le.getWorld().createExplosion(e.getLocation().getX(), e.getLocation().getY(), e.getLocation().getZ(), 5f, false, false);
+                            le.getWorld().strikeLightningEffect(e.getLocation());
+                            le.setHealth(0d);
+                        }
+                    }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 2L);
 
+                }
+                event.setCancelled(true);
             }
-            event.setCancelled(true);
+        }
+        catch(Exception ex)
+        {
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onChatEvent(PlayerChatEvent event)
     {
-        Player player = event.getPlayer();
-        long time = System.currentTimeMillis();
-        if(!lastmsg.containsKey(player.getName()))
+        try
         {
-            lastmsg.put(player.getName(), 0l);
-        }
-        long lasttime = lastmsg.get(player.getName());
-        long change = time - lasttime;
-        if(change < 500 && !FOPMR_Rank.isAdmin(player))
-        {
-            event.setCancelled(true);
-            player.sendMessage(ChatColor.RED + "Please do not type messages so quickly.");
-            if(!warns.containsKey(player.getName()))
+            Player player = event.getPlayer();
+            long time = System.currentTimeMillis();
+            if(!lastmsg.containsKey(player.getName()))
             {
-                warns.put(player.getName(), 0);
+                lastmsg.put(player.getName(), 0l);
             }
-            warns.put(player.getName(), warns.get(player.getName()) + 1);
-            if(warns.get(player.getName()) == 5)
-            {
-                player.kickPlayer("Don't spam.");
-                FOPMR_Bans.addBan(player.getName(), "Spamming chat.", "FreedomOpMod: Remastered Automated Banner");
-            }
-        }
-        else
-        {
-            lastmsg.put(player.getName(), time);
-        }
-        if(FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".muted"))
-        {
-            player.sendMessage("You cannot talk whilst muted.");
-            event.setCancelled(true);
-            return;
-        }
-        String replaceAll = event.getMessage();
-        if(!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && replaceAll.contains("&-"))
-        {
-            player.sendMessage(ChatColor.RED + "You cannot use random chat colours, you must purchase it in the VoteShop (/vs).");
-            replaceAll = replaceAll.replaceAll("&-", "");
-        }
-        if(!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && net.camtech.camutils.CUtils_Methods.hasChatColours(replaceAll))
-        {
-            player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
-            replaceAll = ChatColor.stripColor(net.camtech.camutils.CUtils_Methods.colour(replaceAll));
-        }
-        if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
-        {
-            FOPMR_Bans.addBan(player, "Your message contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner");
-            event.setCancelled(true);
-            return;
-        }
-        event.setMessage(replaceAll);
-        if(FreedomOpModRemastered.configs.getAdmins().getConfig().contains(player.getUniqueId().toString() + ".chat"))
-        {
-            if(!"".equals(FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".chat")))
+            long lasttime = lastmsg.get(player.getName());
+            long change = time - lasttime;
+            if(change < 500 && !FOPMR_Rank.isAdmin(player))
             {
                 event.setCancelled(true);
-                if(!FOPMR_PrivateChats.canAccess(player, FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".chat")))
+                player.sendMessage(ChatColor.RED + "Please do not type messages so quickly.");
+                if(!warns.containsKey(player.getName()))
                 {
-                    player.sendMessage(ChatColor.RED + "You cannot access the private chat named \"" + FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".chat") + "\".");
+                    warns.put(player.getName(), 0);
                 }
-                else
+                warns.put(player.getName(), warns.get(player.getName()) + 1);
+                if(warns.get(player.getName()) == 5)
                 {
-                    FOPMR_PrivateChats.sendToChat(player, replaceAll, FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".chat"));
+                    player.kickPlayer("Don't spam.");
+                    FOPMR_Bans.addBan(player.getName(), "Spamming chat.", "FreedomOpMod: Remastered Automated Banner", false);
                 }
+            }
+            else
+            {
+                lastmsg.put(player.getName(), time);
+            }
+            if(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "MUTE", "PLAYERS"))
+            {
+                player.sendMessage("You cannot talk whilst muted.");
+                event.setCancelled(true);
                 return;
             }
-        }
-        int level = FreedomOpModRemastered.configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".chatLevel");
-        if(level > 0 && FOPMR_Rank.getRank(player).level >= level)
-        {
-
-            ChatColor colour = ChatColor.WHITE;
-            String levelString = "" + level;
-            switch(levelString)
+            String replaceAll = event.getMessage();
+            if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
             {
-                case "1":
-                    colour = ChatColor.YELLOW;
-                    break;
-                case "2":
-                    colour = ChatColor.AQUA;
-                    break;
-                case "3":
-                    colour = ChatColor.LIGHT_PURPLE;
-                    break;
-                case "4":
-                    colour = ChatColor.GOLD;
-                    break;
-                case "5":
-                    colour = ChatColor.GREEN;
-                    break;
-                case "6":
-                    colour = ChatColor.DARK_AQUA;
-                    break;
-                case "7":
-                    colour = ChatColor.BLUE;
-                    break;
-                default:
-                    break;
+                FOPMR_Bans.addBan(player, "Your message contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner", false);
+                event.setCancelled(true);
+                return;
             }
-            for(Player player2 : Bukkit.getOnlinePlayers())
+            event.setMessage(replaceAll);
+            if(FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CHAT", "PLAYERS") != null)
             {
-                if(FOPMR_Rank.getRank(player2).level >= level)
+                if(!"".equals((String) FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CHAT", "PLAYERS")) && !"0".equals((String) FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CHAT", "PLAYERS")))
                 {
                     event.setCancelled(true);
-                    if(level == 6 && FOPMR_Rank.getRank(player) == DARTH)
+                    if(!FOPMR_PrivateChats.canAccess(player, (String) FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CHAT", "PLAYERS")))
                     {
-                        player2.sendMessage(colour + "[Darth Chat] " + player.getName() + ": " + replaceAll);
+                        player.sendMessage(ChatColor.RED + "You cannot access the private chat named \"" + (String) FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CHAT", "PLAYERS") + "\".");
                     }
                     else
                     {
-                        player2.sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + player.getName() + ": " + replaceAll);
+                        FOPMR_PrivateChats.sendToChat(player, replaceAll, (String) FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CHAT", "PLAYERS"));
                     }
+                    return;
                 }
             }
-            if(level <= 3)
+            int level = (Integer) FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CHATLEVEL", "PLAYERS");
+            if(level > 0 && FOPMR_Rank.getRank(player).level >= level)
             {
-                Bukkit.getServer().getConsoleSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + player.getName() + ": " + replaceAll);
-            }
-            if(Bukkit.getPluginManager().getPlugin("BukkitTelnet").isEnabled())
-            {
-                for(ClientSession session : BukkitTelnet.getClientSessions())
+
+                ChatColor colour = ChatColor.WHITE;
+                String levelString = "" + level;
+                switch(levelString)
                 {
-                    String name = session.getCommandSender().getName().replaceAll(Pattern.quote("["), "").replaceAll("]", "");
-                    FOPMR_Rank.Rank rank = FOPMR_Rank.getFromUsername(name);
-                    if(rank.level >= level)
+                    case "1":
+                        colour = ChatColor.YELLOW;
+                        break;
+                    case "2":
+                        colour = ChatColor.AQUA;
+                        break;
+                    case "3":
+                        colour = ChatColor.LIGHT_PURPLE;
+                        break;
+                    case "4":
+                        colour = ChatColor.GOLD;
+                        break;
+                    case "5":
+                        colour = ChatColor.GREEN;
+                        break;
+                    case "6":
+                        colour = ChatColor.DARK_AQUA;
+                        break;
+                    case "7":
+                        colour = ChatColor.BLUE;
+                        break;
+                    default:
+                        break;
+                }
+                for(Player player2 : Bukkit.getOnlinePlayers())
+                {
+                    if(FOPMR_Rank.getRank(player2).level >= level)
                     {
-                        session.getCommandSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + player.getName() + ": " + replaceAll);
+                        event.setCancelled(true);
+                        if(level == 6 && FOPMR_Rank.getRank(player) == DARTH)
+                        {
+                            player2.sendMessage(colour + "[Darth Chat] " + player.getName() + ": " + replaceAll);
+                        }
+                        else
+                        {
+                            player2.sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + player.getName() + ": " + replaceAll);
+                        }
+                    }
+                }
+                if(level <= 3)
+                {
+                    Bukkit.getServer().getConsoleSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + player.getName() + ": " + replaceAll);
+                }
+                if(Bukkit.getPluginManager().getPlugin("BukkitTelnet") != null && Bukkit.getPluginManager().getPlugin("BukkitTelnet").isEnabled())
+                {
+                    for(ClientSession session : BukkitTelnet.getClientSessions())
+                    {
+                        String name = session.getCommandSender().getName().replaceAll(Pattern.quote("["), "").replaceAll("]", "");
+                        FOPMR_Rank.Rank rank = FOPMR_Rank.getFromUsername(name);
+                        if(rank.level >= level)
+                        {
+                            session.getCommandSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + player.getName() + ": " + replaceAll);
+                        }
                     }
                 }
             }
+            else
+            {
+                FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), 0, "CHAT", "PLAYERS");
+            }
+            player.setDisplayName(CUtils_Methods.colour(FOPMR_Rank.getTag(player) + " " + FOPMR_Rank.getNick(player)));
         }
-        else
+        catch(Exception ex)
         {
-            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".chatLevel", 0);
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
-        player.setDisplayName(CUtils_Methods.colour(FOPMR_Rank.getTag(player) + " " + FreedomOpModRemastered.configs.getAdmins().getConfig().getString(player.getUniqueId().toString() + ".displayName")));
     }
 
     @EventHandler
@@ -724,9 +839,9 @@ public class FOPMR_PlayerListener implements Listener
     {
         String ip = event.getAddress().getHostAddress();
 
-        if(FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") > 0)
+        if(FreedomOpModRemastered.plugin.getConfig().getInt("general.accessLevel") > 0)
         {
-            event.setMotd(ChatColor.RED + "Server is closed to clearance level " + ChatColor.BLUE + FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") + ChatColor.RED + ".");
+            event.setMotd(ChatColor.RED + "Server is closed to clearance level " + ChatColor.BLUE + FreedomOpModRemastered.plugin.getConfig().getInt("general.accessLevel") + ChatColor.RED + ".");
             return;
         }
         if(Bukkit.hasWhitelist())
@@ -741,7 +856,7 @@ public class FOPMR_PlayerListener implements Listener
         }
         if(FOPMR_Rank.getNameFromIp(ip) != null)
         {
-            event.setMotd(CUtils_Methods.colour("&-Welcome back to " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.name") + " &6" + FOPMR_Rank.getNameFromIp(ip) + "&-!"));
+            event.setMotd(CUtils_Methods.colour("&-Welcome back to " + FreedomOpModRemastered.plugin.getConfig().getString("general.name") + " &6" + FOPMR_Rank.getNameFromIp(ip) + "&-!"));
         }
         else
         {
