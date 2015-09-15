@@ -7,7 +7,6 @@ import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -47,6 +46,7 @@ public class Command_tag
             statement.setString(1, nick + "&r");
             statement.setString(2, player.getUniqueId().toString());
             statement.executeUpdate();
+            FOPMR_Rank.tags.put(sender.getName(), nick + "&r");
             c.commit();
         }
         catch(Exception ex)

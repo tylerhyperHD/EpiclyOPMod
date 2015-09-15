@@ -69,7 +69,6 @@ import org.bukkit.util.Vector;
 public class FOPMR_PlayerListener implements Listener
 {
 
-    private HashMap<String, Long> lastcmd = new HashMap<>();
     private HashMap<String, Long> lastmsg = new HashMap<>();
     private HashMap<String, Integer> warns = new HashMap<>();
 
@@ -278,36 +277,11 @@ public class FOPMR_PlayerListener implements Listener
         {
             Player player = event.getPlayer();
 
-            long time = System.currentTimeMillis();
-            if(!lastcmd.containsKey(player.getName()))
-            {
-                lastcmd.put(player.getName(), 0l);
-            }
-            long lasttime = lastcmd.get(player.getName());
-            long change = time - lasttime;
             if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
             {
                 FOPMR_Bans.addBan(player, "Your command contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner", false);
                 event.setCancelled(true);
                 return;
-            }
-            if(change < 500 && !FOPMR_Rank.isAdmin(player))
-            {
-                event.setCancelled(true);
-                player.sendMessage(ChatColor.RED + "Please do not type commands so quickly.");
-                if(!warns.containsKey(player.getName()))
-                {
-                    warns.put(player.getName(), 0);
-                }
-                warns.put(player.getName(), warns.get(player.getName()) + 1);
-                if(warns.get(player.getName()) == 5)
-                {
-                    FOPMR_Bans.addBan(player, "Spamming commands.", "FreedomOpMod: Remastered Automated Banner", false);
-                }
-            }
-            else
-            {
-                lastcmd.put(player.getName(), time);
             }
             if(FOPMR_Rank.isImposter(player))
             {
