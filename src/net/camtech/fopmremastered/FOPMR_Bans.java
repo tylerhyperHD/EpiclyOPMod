@@ -64,17 +64,23 @@ public class FOPMR_Bans
             statement.setString(2, reason);
             statement.setBoolean(3, false);
             statement.executeUpdate();
-            statement = c.prepareStatement("INSERT OR REPLACE INTO IP_BANS (IP, REASON, PERM) VALUES (?, ?, ?)");
-            statement.setString(1, FOPMR_DatabaseInterface.getIpFromName(name));
-            statement.setString(2, reason);
-            statement.setBoolean(3, false);
-            statement.executeUpdate();
-            statement = c.prepareStatement("INSERT OR REPLACE INTO UUID_BANS (UUID, REASON, PERM) VALUES (?, ?, ?)");
-            statement.setString(1, FOPMR_DatabaseInterface.getUuidFromName(name));
-            statement.setString(2, reason);
-            statement.setBoolean(3, false);
-            statement.executeUpdate();
-            c.commit();
+            if(FOPMR_DatabaseInterface.getIpFromName(name) != null)
+            {
+                statement = c.prepareStatement("INSERT OR REPLACE INTO IP_BANS (IP, REASON, PERM) VALUES (?, ?, ?)");
+                statement.setString(1, FOPMR_DatabaseInterface.getIpFromName(name));
+                statement.setString(2, reason);
+                statement.setBoolean(3, false);
+                statement.executeUpdate();
+            }
+            if(FOPMR_DatabaseInterface.getUuidFromName(name) != null)
+            {
+                statement = c.prepareStatement("INSERT OR REPLACE INTO UUID_BANS (UUID, REASON, PERM) VALUES (?, ?, ?)");
+                statement.setString(1, FOPMR_DatabaseInterface.getUuidFromName(name));
+                statement.setString(2, reason);
+                statement.setBoolean(3, false);
+                statement.executeUpdate();
+                c.commit();
+            }
         }
         catch(Exception ex)
         {

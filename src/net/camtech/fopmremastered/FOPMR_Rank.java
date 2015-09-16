@@ -17,14 +17,14 @@ public class FOPMR_Rank
 
     public static Rank getRank(CommandSender player)
     {
-        if(ranks.containsKey(player.getName()))
-        {
-            return ranks.get(player.getName());
-        }
         try
         {
             if(!(player instanceof Player))
             {
+                if(ranks.containsKey(player.getName()))
+                {
+                    return ranks.get(player.getName());
+                }
                 if("Console".equalsIgnoreCase(player.getName()))
                 {
                     ranks.put(player.getName(), Rank.CONSOLE);
@@ -53,6 +53,10 @@ public class FOPMR_Rank
             {
                 return Rank.IMPOSTER;
             }
+            if(ranks.containsKey(player.getName()))
+            {
+                return ranks.get(player.getName());
+            }
             try
             {
                 for(Rank rank : Rank.values())
@@ -64,14 +68,14 @@ public class FOPMR_Rank
                     }
                 }
             }
-            catch(Exception ignored)
+            catch(Exception ex)
             {
-
+                FreedomOpModRemastered.plugin.handleException(ex);
             }
         }
-        catch(Exception ignored)
+        catch(Exception ex)
         {
-
+            FreedomOpModRemastered.plugin.handleException(ex);
         }
         ranks.put(player.getName(), Rank.OP);
         return Rank.OP;

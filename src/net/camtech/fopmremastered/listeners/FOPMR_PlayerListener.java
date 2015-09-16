@@ -593,7 +593,7 @@ public class FOPMR_PlayerListener implements Listener
                     return;
                 }
             }
-            if(FOPMR_Rank.isAdmin(player) && FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "IMPOSTER", "PLAYERS") && (FOPMR_DatabaseInterface.getIpFromName(player.getName()).equals(event.getAddress().getHostAddress())))
+            if(FOPMR_Rank.isAdmin(player) && !FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "IMPOSTER", "PLAYERS") && (FOPMR_DatabaseInterface.getIpFromName(player.getName()).equals(event.getAddress().getHostAddress())))
             {
                 event.allow();
                 return;
