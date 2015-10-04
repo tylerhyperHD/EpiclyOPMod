@@ -33,12 +33,17 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class FOPMR_CamzieListener implements Listener
+public final class FOPMR_CamzieListener implements Listener
 {
 
     private boolean recovered = false;
-    
+
     public FOPMR_CamzieListener()
+    {
+        init();
+    }
+
+    public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }

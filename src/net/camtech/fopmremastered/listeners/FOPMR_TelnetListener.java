@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public class FOPMR_TelnetListener implements Listener
+public final class FOPMR_TelnetListener implements Listener
 {
 
     public FOPMR_TelnetListener()
@@ -22,6 +22,11 @@ public class FOPMR_TelnetListener implements Listener
             Bukkit.broadcastMessage(ChatColor.RED + "BukkitTelnet cannot be found, disabling integration.");
             return;
         }
+        init();
+    }
+
+    public void init()
+    {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }
 

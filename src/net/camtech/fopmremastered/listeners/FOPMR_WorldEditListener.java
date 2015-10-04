@@ -14,10 +14,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 //MASSIVE CREDIT TO TOTALFREEDOM FOR THIS!
-public class FOPMR_WorldEditListener implements Listener
+public final class FOPMR_WorldEditListener implements Listener
 {
 
     public FOPMR_WorldEditListener()
+    {
+        init();
+    }
+    
+    public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }

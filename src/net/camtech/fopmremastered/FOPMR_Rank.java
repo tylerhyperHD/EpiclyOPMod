@@ -1,6 +1,7 @@
 package net.camtech.fopmremastered;
 
 import java.util.HashMap;
+import java.util.function.Function;
 import net.camtech.camutils.CUtils_Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,6 +15,15 @@ public class FOPMR_Rank
     public static HashMap<String, Rank> ranks = new HashMap<>();
     public static HashMap<String, String> nicks = new HashMap<>();
     public static HashMap<String, String> tags = new HashMap<>();
+
+    public static final Function<Player, Boolean> ADMIN_SERVICE = new Function<Player, Boolean>()
+    {
+        @Override
+        public Boolean apply(Player f)
+        {
+            return isAdmin(f);
+        }
+    };
 
     public static Rank getRank(CommandSender player)
     {
@@ -219,6 +229,22 @@ public class FOPMR_Rank
     {
         try
         {
+            if(sender == null)
+            {
+                FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), rank.name, "RANK", "PLAYERS");
+                ranks.put(player.getName(), rank);
+                if(nicks.containsKey(player.getName()))
+                {
+                    nicks.remove(player.getName());
+                }
+                if(tags.containsKey(player.getName()))
+                {
+                    tags.remove(player.getName());
+                }
+                colourTabName(player);
+                FOPMR_BoardManager.updateStats(player);
+                return;
+            }
             if(getRank(player) == Rank.IMPOSTER && !rank.equals(Rank.OP))
             {
                 FOPMR_Commons.imposters.remove(player.getName());
@@ -234,22 +260,6 @@ public class FOPMR_Rank
                     tags.remove(player.getName());
                 }
                 Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - verifying " + player.getName() + " as an admin.");
-                colourTabName(player);
-                FOPMR_BoardManager.updateStats(player);
-                return;
-            }
-            if(sender == null)
-            {
-                FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), rank.name, "RANK", "PLAYERS");
-                ranks.put(player.getName(), rank);
-                if(nicks.containsKey(player.getName()))
-                {
-                    nicks.remove(player.getName());
-                }
-                if(tags.containsKey(player.getName()))
-                {
-                    tags.remove(player.getName());
-                }
                 colourTabName(player);
                 FOPMR_BoardManager.updateStats(player);
                 return;

@@ -31,10 +31,15 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class FOPMR_ToggleableEventsListener implements Listener
+public final class FOPMR_ToggleableEventsListener implements Listener
 {
 
     public FOPMR_ToggleableEventsListener()
+    {
+        init();
+    }
+    
+    public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
         checkTime();

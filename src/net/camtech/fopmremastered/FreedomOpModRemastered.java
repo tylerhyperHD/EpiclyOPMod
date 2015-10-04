@@ -2,11 +2,11 @@ package net.camtech.fopmremastered;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.camtech.fopmremastered.commands.FOPMR_CommandRegistry;
 import net.camtech.fopmremastered.listeners.FOPMR_BlockListener;
-import net.camtech.fopmremastered.listeners.FOPMR_CamVerifyListener;
 import net.camtech.fopmremastered.listeners.FOPMR_CamzieListener;
 import net.camtech.fopmremastered.listeners.FOPMR_JumpListener;
 import net.camtech.fopmremastered.listeners.FOPMR_PlayerListener;
@@ -20,6 +20,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FreedomOpModRemastered extends JavaPlugin
@@ -29,7 +30,6 @@ public class FreedomOpModRemastered extends JavaPlugin
     public static FOPMR_CommandRegistry commandregistry;
     public static FOPMR_PlayerListener playerlistener;
     public static FOPMR_TelnetListener telnetlistener;
-    public static FOPMR_CamVerifyListener camverifylistener;
     public static FOPMR_ToggleableEventsListener toggleableeventslistener;
     public static FOPMR_CamzieListener camzielistener;
     public static FOPMR_BlockListener blocklistener;
@@ -59,7 +59,6 @@ public class FreedomOpModRemastered extends JavaPlugin
         commandregistry = new FOPMR_CommandRegistry();
         playerlistener = new FOPMR_PlayerListener();
         telnetlistener = new FOPMR_TelnetListener();
-        camverifylistener = new FOPMR_CamVerifyListener();
         toggleableeventslistener = new FOPMR_ToggleableEventsListener();
         camzielistener = new FOPMR_CamzieListener();
         blocklistener = new FOPMR_BlockListener();
@@ -93,6 +92,7 @@ public class FreedomOpModRemastered extends JavaPlugin
             }
         }
         FOPMR_RestManager.sendMessage(config.getInt("rest.statusid"), "FreedomOpMod: Remastered has just been enabled.");
+        this.getServer().getServicesManager().register(Function.class, FOPMR_Rank.ADMIN_SERVICE, plugin, ServicePriority.Highest);
         socketServer = new SocketServer();
         thread = new Thread(socketServer);
         thread.start();

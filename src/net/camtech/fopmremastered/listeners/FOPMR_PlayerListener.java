@@ -66,7 +66,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-public class FOPMR_PlayerListener implements Listener
+public final class FOPMR_PlayerListener implements Listener
 {
 
     private HashMap<String, Long> lastmsg = new HashMap<>();
@@ -75,6 +75,11 @@ public class FOPMR_PlayerListener implements Listener
     private CommandMap cmap = getCommandMap();
 
     public FOPMR_PlayerListener()
+    {
+        init();
+    }
+    
+    public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }
@@ -276,14 +281,13 @@ public class FOPMR_PlayerListener implements Listener
         try
         {
             Player player = event.getPlayer();
-
             if(CUtils_Methods.containsSimilar(event.getMessage(), "faggot") || CUtils_Methods.containsSimilar(event.getMessage(), "nigger") || CUtils_Methods.containsSimilar(event.getMessage(), "nigga") || CUtils_Methods.containsSimilar(event.getMessage(), "allah akubar") || CUtils_Methods.containsSimilar(event.getMessage(), "allahu akbar"))
             {
                 FOPMR_Bans.addBan(player, "Your command contained a forbidden word or phrase, AKA, fuck off you asshole.", "FreedomOpMod: Remastered Automated Banner", false);
                 event.setCancelled(true);
                 return;
             }
-            if(FOPMR_Rank.isImposter(player))
+            if(FOPMR_Rank.isImposter(player) && !event.getMessage().replaceAll("/", "").equalsIgnoreCase("verify") && !event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase("verify"))
             {
                 player.sendMessage("You cannot send commands whilst impostered.");
                 event.setCancelled(true);

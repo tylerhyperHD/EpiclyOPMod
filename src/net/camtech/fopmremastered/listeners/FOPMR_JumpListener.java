@@ -10,9 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-public class FOPMR_JumpListener implements Listener
+public final class FOPMR_JumpListener implements Listener
 {
     public FOPMR_JumpListener()
+    {
+        init();
+    }
+    
+    public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }

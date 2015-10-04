@@ -16,10 +16,15 @@ import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-public class FOPMR_BlockListener implements Listener
+public final class FOPMR_BlockListener implements Listener
 {
 
     public FOPMR_BlockListener()
+    {
+        init();
+    }
+    
+    public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }

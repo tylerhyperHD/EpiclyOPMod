@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class FOPMR_DatabaseInterface
@@ -46,13 +48,16 @@ public class FOPMR_DatabaseInterface
         {
             try
             {
+                Class.forName("org.sqlite.JDBC");
                 connection = DriverManager.getConnection("jdbc:sqlite:" + FreedomOpModRemastered.plugin.getDataFolder().getAbsolutePath() + "/FOPMRData.db");
                 connection.setAutoCommit(false);
                 return connection;
             }
-            catch(SQLException ex)
+            catch(SQLException | ClassNotFoundException ex)
             {
                 FreedomOpModRemastered.plugin.handleException(ex);
+                Bukkit.broadcastMessage(ChatColor.RED + "The FreedomOpMod: Remastered could not establish a connection to the SQLite database, therefore it has shut down to protect the server from potential damage.");
+                Bukkit.getPluginManager().disablePlugin(FreedomOpModRemastered.plugin);
             }
         }
         return connection;
@@ -144,6 +149,13 @@ public class FOPMR_DatabaseInterface
                 + "GENERATOR TEXT,"
                 + "RANK TEXT,"
                 + "ONENABLE BOOLEAN)");
+        statement.executeUpdate();
+        statement = getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS VERIFICATION ("
+                + "ID INTEGER PRIMARY KEY,"
+                + "UUID TEXT UNIQUE,"
+                + "FORUMID INTEGER,"
+                + "CODE TEXT)"
+                );
         statement.executeUpdate();
         getConnection().commit();
     }

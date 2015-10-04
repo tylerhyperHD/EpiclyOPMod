@@ -13,10 +13,6 @@ import org.bukkit.util.Vector;
 public class FOPMR_Bans
 {
 
-    private static boolean nameBan = false;
-    private static boolean ipBan = false;
-    private static boolean uuidBan = false;
-
     public static void addBan(final Player player, final String reason, String banner)
     {
         addBan(player, reason, banner, false);
