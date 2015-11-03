@@ -1,5 +1,6 @@
 package net.camtech.fopmremastered.listeners;
 
+import java.util.Random;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
@@ -33,6 +34,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public final class FOPMR_ToggleableEventsListener implements Listener
 {
+    private Random random;
 
     public FOPMR_ToggleableEventsListener()
     {
@@ -115,6 +117,22 @@ public final class FOPMR_ToggleableEventsListener implements Listener
         {
             event.setCancelled(true);
         }
+    }
+    
+    @EventHandler
+    public void onSheepRegrowWool(SheepRegrowWoolEvent event)
+    {
+        random = new Random();
+    
+        if (FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.srgwool")) {
+            Collection<? extends Player> p = Bukkit.getServer().getOnlinePlayers();
+            Player t = (Player) p.toArray()[random.nextInt(p.toArray().length)];
+            Location l = t.getLocation();
+            Material m = Material.getValues()[random.nextInt(Material.getValues().length)];
+            ItemStack is = new ItemStack(m);
+            t.getWorld().dropItemNaturally(l, m);
+        }
+        else { /* do nothing */ }
     }
 
     @EventHandler
