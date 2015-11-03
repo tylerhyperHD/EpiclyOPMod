@@ -72,6 +72,8 @@ toggles:
     time: false
     #Are item drops enabled?
     drops: false
+    #Are random items dropped when a sheep regrows wool?
+    srgwool: false
     #Are slimes enabled?
     slime: false
     #Are giants enabled?
