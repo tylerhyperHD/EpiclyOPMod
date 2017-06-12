@@ -1,15 +1,23 @@
 package net.camtech.fopmremastered.commands;
 
+import java.util.Arrays;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-@CommandParameters(name = "clear", usage = "/clear <player>", description = "Clear inventories.", aliases = "ci")
-public class Command_clear
+public class Command_clear extends FOPMR_Command
 {
 
+    public Command_clear()
+    {
+        super("clear", "/clear <player>", "Clear your inventory.", Arrays.asList("ci"), FOPMR_Rank.Rank.OP);
+    }
+
+    @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!(sender instanceof Player))
@@ -33,6 +41,10 @@ public class Command_clear
                 return true;
             }
             player.getInventory().clear();
+            player.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
+            player.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
+            player.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
+            player.getInventory().setBoots(new ItemStack(Material.AIR, 1));
             sender.sendMessage(ChatColor.GOLD + "Inventory cleared.");
             player.sendMessage(ChatColor.GOLD + sender.getName() + " cleared your inventory.");
             return true;

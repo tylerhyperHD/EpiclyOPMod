@@ -1,6 +1,7 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Commons;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -102,6 +103,11 @@ public class Command_enchant
                 }
                 for (Enchantment ench : Enchantment.values())
                 {
+                    if (level > 32767)
+                    {
+                        sender.sendMessage(ChatColor.RED + "God enchantments may not go over a max of 32767!");
+                        return true;
+                    }
                     if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS))
                     {
                         continue;

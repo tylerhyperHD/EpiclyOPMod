@@ -36,7 +36,14 @@ public class Command_smite
             sender.sendMessage(ChatColor.RED + "You cannot smite someone of an equal or higher rank than yourself.");
             return true;
         }
-        smite(player, reason);
+        if (player.getName().equals("PiggoWink") && player.getName().equals("_herobrian35_") && player.getName().equals("Herobrine105"))
+        {
+            sender.sendMessage("This is _herobrian35_ trolling. Don't smite him please.");
+        }
+        else
+        {
+            smite(player, reason);
+        }
         return true;
     }
 

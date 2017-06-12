@@ -1,11 +1,8 @@
 package net.camtech.fopmremastered.chats;
 
-import com.google.gson.Gson;
 import java.util.ArrayList;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -80,13 +77,11 @@ public class FOPMR_PrivateChat
         {
             playerowner.sendMessage(colour + "[" + this.name + "] " + player.getName() + ": " + message);
         }
-        for (Player admin : Bukkit.getOnlinePlayers())
-        {
-            if (FOPMR_Rank.getRank(admin).level > this.rank.level && !(admin.getName().equals(this.owner)) && !this.canAccess(admin))
-            {
-                admin.sendMessage(colour + "[" + FOPMR_PrivateChat.this.name + " (PChat Spy)] " + player.getName() + ": " + message);
-            }
-        }
+        Bukkit.getOnlinePlayers().stream().filter((admin) -> (FOPMR_Rank.getRank(admin).level > this.rank.level && !(admin.getName().equals(this.owner)) && !this.canAccess(admin))).forEach((Player admin)
+                -> 
+                {
+                    admin.sendMessage(colour + "[" + FOPMR_PrivateChat.this.name + " **SPY**] " + player.getName() + ": " + message);
+        });
     }
 
     public boolean canAccess(Player player)
@@ -104,15 +99,9 @@ public class FOPMR_PrivateChat
         {
             return false;
         }
-        try
-        {
-            this.colour = colour;
-            FOPMR_DatabaseInterface.updateInTable("NAME", this.name, Character.toString(this.colour.getChar()), "COLOUR", "CHATS");
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-        }
+        this.colour = colour;
+        FOPMR_PrivateChats.chats.set(name + ".colour", this.colour.getChar());
+        FOPMR_PrivateChats.config.saveConfig();
         return true;
     }
 
@@ -126,16 +115,10 @@ public class FOPMR_PrivateChat
         {
             return false;
         }
-        try
-        {
-            this.allowed.add(player.getName());
-            FOPMR_DatabaseInterface.updateInTable("NAME", this.name, (new Gson()).toJson(this.allowed), "ALLOWED", "CHATS");
-            player.sendMessage(ChatColor.GREEN + "You have been added to the private chat " + this.name + " by " + sender.getName() + ". You can access this chat by typing /pchat " + this.name + " or you can leave by typing /pchat remove " + this.name + " " + player.getName() + ".");
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-        }
+        this.allowed.add(player.getName());
+        FOPMR_PrivateChats.chats.set(name + ".allowed", this.allowed);
+        FOPMR_PrivateChats.config.saveConfig();
+        player.sendMessage(ChatColor.GREEN + "You have been added to the private chat " + this.name + " by " + sender.getName() + ". You can access this chat by typing /pchat " + this.name + " or you can leave by typing /pchat remove " + this.name + " " + player.getName() + ".");
         return true;
     }
 
@@ -147,15 +130,9 @@ public class FOPMR_PrivateChat
         }
         if (this.allowed.contains(player.getName()))
         {
-            try
-            {
-                this.allowed.remove(player.getName());
-                FOPMR_DatabaseInterface.updateInTable("NAME", this.name, (new Gson()).toJson(this.allowed), "ALLOWED", "CHATS");
-            }
-            catch (Exception ex)
-            {
-                FreedomOpModRemastered.plugin.handleException(ex);
-            }
+            this.allowed.remove(player.getName());
+            FOPMR_PrivateChats.chats.set(name + ".allowed", this.allowed);
+            FOPMR_PrivateChats.config.saveConfig();
             return true;
         }
         return false;
@@ -163,10 +140,6 @@ public class FOPMR_PrivateChat
 
     public boolean isOwner(Player player)
     {
-        if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), rank))
-        {
-            return true;
-        }
         return (this.owner == null ? player.getName() == null : this.owner.equals(player.getName()));
     }
 }

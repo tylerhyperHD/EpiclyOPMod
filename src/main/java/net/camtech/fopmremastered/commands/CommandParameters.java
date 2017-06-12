@@ -1,8 +1,9 @@
 package net.camtech.fopmremastered.commands;
 
+import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandParameters

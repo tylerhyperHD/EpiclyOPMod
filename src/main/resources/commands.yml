@@ -1,6 +1,6 @@
 ## Welcome to FreedomOpMod: Remastered's blocked commands config file - By Camzie99 ##
 
-## Rank is an integer from 0 - 8 for the minimum rank allowed to use the command. ##
+## Rank is an integer from 0 - 6 for the minimum rank allowed to use the command. ##
 
     ######################
     ## 0 - Op           ##
@@ -11,7 +11,7 @@
     ## 5 - Specialist   ##
     ## 6 - System Admin ##
     ## 7 - Owner        ##
-    ## 8 - None         ##
+    ## 6 - None         ##
     ######################
     
 nuke:
@@ -21,12 +21,12 @@ nuke:
 
 pt:
     message: You are not allowed to use /powertool.
-    rank: 8
+    rank: 6
     kick: false
 
 powertool:
     message: You are not allowed to use /powertool.
-    rank: 8
+    rank: 6
     kick: false
     
 kittycannon:
@@ -71,47 +71,47 @@ deop:
 
 sudo:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
 
 tempban:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
     
 pardon:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
     
 strike:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
     
 lightning:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
     
 gamemode:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
 
 gm:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
     
 world:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false
     
 playsound:
-    message: "Unknown command. Type\"help\" for help."
-    rank: 8
+    message: "Unknown command. Type \"help\" for help."
+    rank: 6
     kick: false
     
 kill:
@@ -121,32 +121,32 @@ kill:
     
 mail:
     message: "Mail is blocked."
-    rank: 8
+    rank: 6
     kick: false
     
 break:
     message: "Why would you need to use that command?"
-    rank: 8
+    rank: 6
     kick: false
     
 summon:
     message: "Please use /mob for mob spawning."
-    rank: 8
+    rank: 6
     kick: false
   
 setblock:
     message: "Please use worldedit for block setting."
-    rank: 8
+    rank: 6
     kick: false
     
 fill:
     message: "Please use worldedit for block setting."
-    rank: 8
+    rank: 6
     kick: false
     
 ban-ip:
-    message: "Please use FOPM: R banning techniques to ban."
-    rank: 8
+    message: "Please use HeroFreedom banning techniques to ban."
+    rank: 6
     kick: false
     
 deop:
@@ -156,7 +156,7 @@ deop:
     
 tellraw:
     message: "Please use /rawsay"
-    rank: 8
+    rank: 6
     kick: false
     
 socialspy:
@@ -191,7 +191,7 @@ coreprotect:
     
 banip:
     message: "Please use FOPM: R's banning commands."
-    rank: 8
+    rank: 6
     kick: false
     
 time:
@@ -201,5 +201,5 @@ time:
     
 gamerule:
     message: "Unknown command. Type \"/help\" for help."
-    rank: 8
+    rank: 6
     kick: false

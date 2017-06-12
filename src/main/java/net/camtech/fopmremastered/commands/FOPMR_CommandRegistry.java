@@ -1,39 +1,30 @@
 package net.camtech.fopmremastered.commands;
 
+import net.camtech.fopmremastered.FreedomOpModRemastered;
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.PluginCommand;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.security.CodeSource;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandMap;
 
 public class FOPMR_CommandRegistry
 {
 
     private static CommandMap cmap = getCommandMap();
-    private static final ArrayList<String> commands = new ArrayList<>();
 
     public FOPMR_CommandRegistry()
     {
         registerCommands();
-    }
-
-    public static void unregisterCommands()
-    {
-        for (String name : commands)
-        {
-            Command cmd = cmap.getCommand(name);
-            cmd.unregister(cmap);
-        }
     }
 
     public static void registerCommands()
@@ -61,14 +52,12 @@ public class FOPMR_CommandRegistry
                                 CommandParameters params = (CommandParameters) annotation;
                                 FOPMR_Command command = new FOPMR_BlankCommand(params.name(), params.usage(), params.description(), Arrays.asList(params.aliases().split(", ")), params.rank(), commandClass);
                                 command.register();
-                                commands.add(params.name());
                             }
                             else
                             {
                                 Constructor construct = commandClass.getConstructor();
                                 FOPMR_Command command = (FOPMR_Command) construct.newInstance();
                                 command.register();
-                                commands.add(command.command);
                             }
                         }
                         catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
@@ -85,9 +74,15 @@ public class FOPMR_CommandRegistry
         }
     }
 
-    public static boolean isFOPMRCommand(String name)
+    public static boolean isLCLMCommand(String name)
     {
-        return FOPMR_CommandRegistry.commands.contains(name.toLowerCase());
+        Command cmd = cmap.getCommand(name);
+        if (!(cmd instanceof PluginCommand))
+        {
+            return true;
+        }
+        PluginCommand command = (PluginCommand) cmd;
+        return command.getPlugin() == FreedomOpModRemastered.plugin;
     }
 
     private static CommandMap getCommandMap()

@@ -1,11 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,105 +21,115 @@ public class Command_fopmbanlist
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> ips = new ArrayList<>();
         ArrayList<String> uuids = new ArrayList<>();
-        try
+
+        for (String name : FOPMR_Configs.getBans().getConfig().getConfigurationSection("names").getKeys(false))
         {
-            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "NAME", "NAME_BANS"))
+            if (FOPMR_Configs.getBans().getConfig().getBoolean("names." + name + ".perm"))
             {
-                String name = (String) obj;
-                if (FOPMR_DatabaseInterface.getBooleanFromTable("NAME", name, "PERM", "NAME_BANS"))
-                {
-                    names.add(ChatColor.RED + name);
-                }
-                else
-                {
-                    names.add(ChatColor.AQUA + name);
-                }
-            }
-            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "IP", "IP_BANS"))
-            {
-                String ip = (String) obj;
-                if (FOPMR_DatabaseInterface.getBooleanFromTable("IP", ip, "PERM", "IP_BANS"))
-                {
-                    ips.add(ChatColor.RED + ip);
-                }
-                else
-                {
-                    ips.add(ChatColor.AQUA + ip);
-                }
-            }
-            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "UUID", "UUID_BANS"))
-            {
-                String uuid = (String) obj;
-                if (FOPMR_DatabaseInterface.getBooleanFromTable("UUID", uuid, "PERM", "UUID_BANS"))
-                {
-                    uuids.add(ChatColor.RED + uuid);
-                }
-                else
-                {
-                    uuids.add(ChatColor.AQUA + uuid);
-                }
-            }
-            if (args.length == 0)
-            {
-                String concatname = "No name bans...";
-                if (!names.isEmpty())
-                {
-                    concatname = StringUtils.join(names, ", ");
-                }
-                String concatip = "No IP bans...";
-                if (!ips.isEmpty())
-                {
-                    concatip = StringUtils.join(ips, ", ");
-                }
-                String concatuuid = "No UUID bans...";
-                if (!uuids.isEmpty())
-                {
-                    concatuuid = StringUtils.join(uuids, ", ");
-                }
-                sender.sendMessage(ChatColor.RED + "FreedomOp Banlists:");
-                sender.sendMessage(ChatColor.GREEN + "    Name Bans:");
-                sender.sendMessage(ChatColor.AQUA + "        " + concatname);
-                sender.sendMessage(ChatColor.GREEN + "    IP Bans:");
-                sender.sendMessage(ChatColor.AQUA + "        " + concatip);
-                sender.sendMessage(ChatColor.GREEN + "    UUID Bans:");
-                sender.sendMessage(ChatColor.AQUA + "        " + concatuuid);
+                names.add(ChatColor.RED + name);
             }
             else
             {
-                if ("clear".equalsIgnoreCase(args[0]))
-                {
-                    String message;
-                    Connection c = FOPMR_DatabaseInterface.getConnection();
-                    String table;
-                    switch (args[1].toLowerCase())
-                    {
-                        case "names":
-                            message = "Name";
-                            table = "NAME_BANS";
-                            break;
-                        case "ips":
-                            message = "IP";
-                            table = "IP_BANS";
-                            break;
-                        case "uuids":
-                            message = "UUID";
-                            table = "UUID_BANS";
-                            break;
-                        default:
-                            return false;
-                    }
-                    PreparedStatement statement = c.prepareStatement("DELETE FROM " + table + " WHERE PERM = 0");
-                    statement.executeUpdate();
-                    c.commit();
-                    sender.sendMessage(ChatColor.AQUA + message + ChatColor.GREEN + " banlist has been cleared successfully.");
-                    return true;
-                }
-                return false;
+                names.add(ChatColor.AQUA + name);
             }
         }
-        catch (Exception ex)
+        for (String ip : FOPMR_Configs.getBans().getConfig().getConfigurationSection("ips").getKeys(false))
         {
-            FreedomOpModRemastered.plugin.handleException(ex);
+            if (FOPMR_Configs.getBans().getConfig().getBoolean("ips." + ip + ".perm"))
+            {
+                ips.add(ChatColor.RED + ip.replaceAll("-", "\\."));
+            }
+            else
+            {
+                ips.add(ChatColor.AQUA + ip.replaceAll("-", "\\."));
+            }
+        }
+        for (String uuid : FOPMR_Configs.getBans().getConfig().getConfigurationSection("uuids").getKeys(false))
+        {
+            if (FOPMR_Configs.getBans().getConfig().getBoolean("uuids." + uuid + ".perm"))
+            {
+                uuids.add(ChatColor.RED + uuid);
+            }
+            else
+            {
+                uuids.add(ChatColor.AQUA + uuid);
+            }
+        }
+        if (args.length == 0)
+        {
+            String concatname = "No name bans...";
+            if (!names.isEmpty())
+            {
+                concatname = StringUtils.join(names, ", ");
+            }
+            String concatip = "No IP bans...";
+            if (!ips.isEmpty())
+            {
+                concatip = StringUtils.join(ips, ", ");
+            }
+            String concatuuid = "No UUID bans...";
+            if (!uuids.isEmpty())
+            {
+                concatuuid = StringUtils.join(uuids, ", ");
+            }
+            sender.sendMessage(ChatColor.RED + "FreedomOp Banlists:");
+            sender.sendMessage(ChatColor.GREEN + "    Name Bans:");
+            sender.sendMessage(ChatColor.AQUA + "        " + concatname);
+            sender.sendMessage(ChatColor.GREEN + "    IP Bans:");
+            sender.sendMessage(ChatColor.AQUA + "        " + concatip);
+            sender.sendMessage(ChatColor.GREEN + "    UUID Bans:");
+            sender.sendMessage(ChatColor.AQUA + "        " + concatuuid);
+        }
+        else
+        {
+            if ("clear".equalsIgnoreCase(args[0]))
+            {
+                String message;
+                switch (args[1].toLowerCase())
+                {
+                    case "names":
+                        message = "Name";
+                        for (String name : FOPMR_Configs.getBans().getConfig().getConfigurationSection("names").getKeys(false))
+                        {
+                            if (FOPMR_Configs.getBans().getConfig().getBoolean("names." + name + ".perm"))
+                            {
+                                continue;
+                            }
+                            FOPMR_Configs.getBans().getConfig().set("names." + name, null);
+                            FOPMR_Configs.getBans().saveConfig();
+                        }
+                        break;
+                    case "ips":
+                        message = "IP";
+                        for (String ip : FOPMR_Configs.getBans().getConfig().getConfigurationSection("ips").getKeys(false))
+                        {
+                            if (FOPMR_Configs.getBans().getConfig().getBoolean("ips." + ip.replaceAll("\\.", "-") + ".perm"))
+                            {
+                                continue;
+                            }
+                            FOPMR_Configs.getBans().getConfig().set("ips." + ip.replaceAll("\\.", "-"), null);
+                            FOPMR_Configs.getBans().saveConfig();
+                        }
+                        break;
+                    case "uuids":
+                        message = "UUID";
+                        for (String uuid : FOPMR_Configs.getBans().getConfig().getConfigurationSection("uuids").getKeys(false))
+                        {
+                            if (FOPMR_Configs.getBans().getConfig().getBoolean("uuids." + uuid + ".perm"))
+                            {
+                                continue;
+                            }
+                            FOPMR_Configs.getBans().getConfig().set("uuids." + uuid, null);
+                            FOPMR_Configs.getBans().saveConfig();
+                        }
+                        break;
+                    default:
+                        return false;
+                }
+                sender.sendMessage(ChatColor.AQUA + message + ChatColor.GREEN + " banlist has been cleared successfully.");
+                return true;
+            }
+            return false;
         }
         return true;
     }

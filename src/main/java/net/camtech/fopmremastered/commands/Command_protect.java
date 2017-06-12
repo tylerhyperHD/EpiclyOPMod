@@ -2,7 +2,6 @@ package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.protectedareas.FOPMR_ProtectedArea;
 import net.camtech.fopmremastered.protectedareas.FOPMR_ProtectedAreas;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -30,15 +29,16 @@ public class Command_protect
             if (args[0].equalsIgnoreCase("list"))
             {
                 sender.sendMessage(ChatColor.GOLD + "List of currently active protected areas: ");
-                for (FOPMR_ProtectedArea area : FOPMR_ProtectedAreas.getFromDatabase())
-                {
-                    ChatColor colour = ChatColor.RED;
-                    if (area.canAccess(player))
-                    {
-                        colour = ChatColor.GREEN;
-                    }
-                    sender.sendMessage(colour + " - " + area.getName());
-                }
+                FOPMR_ProtectedAreas.getFromConfig().stream().forEach((area)
+                        -> 
+                        {
+                            ChatColor colour = ChatColor.RED;
+                            if (area.canAccess(player))
+                            {
+                                colour = ChatColor.GREEN;
+                            }
+                            sender.sendMessage(colour + " - " + area.getName());
+                });
                 return true;
             }
         }
@@ -48,21 +48,10 @@ public class Command_protect
             {
                 if (!FOPMR_ProtectedAreas.removeArea(player, args[1]))
                 {
-                    sender.sendMessage(ChatColor.RED + "You do not have permission to manage the area, or the area does not exist.");
+                    sender.sendMessage(ChatColor.RED + "You do not own the area, or the area does not exist.");
                     return true;
                 }
                 sender.sendMessage(ChatColor.GREEN + "Area successfully deleted!");
-                return true;
-            }
-            if (args[0].equalsIgnoreCase("tp"))
-            {
-                if (!FOPMR_ProtectedAreas.isValidArea(args[1]))
-                {
-                    sender.sendMessage(ChatColor.RED + "The area does not exist.");
-                    return false;
-                }
-                sender.sendMessage(ChatColor.RED + "Teleporting to area.");
-                player.teleport(FOPMR_ProtectedAreas.getFromName(args[1]).getLocation());
                 return true;
             }
         }
@@ -78,7 +67,7 @@ public class Command_protect
                 }
                 if (!FOPMR_ProtectedAreas.addPlayer(player, player2, args[1]))
                 {
-                    sender.sendMessage(ChatColor.RED + "Area does not exist, you do not have permission to manage the area or the player is already allowed to edit the area.");
+                    sender.sendMessage(ChatColor.RED + "Area does not exist, you are not the owner of the area or the player is already allowed to edit the area.");
                     return true;
                 }
                 sender.sendMessage(ChatColor.GREEN + "Player added to area.");
@@ -93,7 +82,7 @@ public class Command_protect
                 }
                 if (!FOPMR_ProtectedAreas.removePlayer(player, player2, args[1]))
                 {
-                    sender.sendMessage(ChatColor.RED + "Area does not exist, you do not have permission to manage the area or the player is already allowed to edit the area.");
+                    sender.sendMessage(ChatColor.RED + "Area does not exist, you are not the owner of the area or the player is already allowed to edit the area.");
                     return true;
                 }
                 sender.sendMessage(ChatColor.GREEN + "Player removed from area.");
@@ -112,11 +101,6 @@ public class Command_protect
                 catch (Exception ex)
                 {
                     return false;
-                }
-                if (range > 50 && !FOPMR_Rank.isAdmin(sender))
-                {
-                    sender.sendMessage(ChatColor.RED + "You can only create an area which is 50 or less blocks in radius.");
-                    return true;
                 }
                 Rank rank = FOPMR_Rank.getFromName(args[3]);
                 if (rank.level > FOPMR_Rank.getRank(sender).level)

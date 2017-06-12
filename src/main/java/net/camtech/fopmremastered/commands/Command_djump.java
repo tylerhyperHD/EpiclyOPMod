@@ -1,14 +1,12 @@
 package net.camtech.fopmremastered.commands;
 
-import java.util.Arrays;
-import net.camtech.fopmremastered.FOPMR_BoardManager;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
-import org.apache.commons.lang.StringEscapeUtils;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 
 public class Command_djump extends FOPMR_Command
 {
@@ -28,15 +26,8 @@ public class Command_djump extends FOPMR_Command
         }
         Player player = (Player) sender;
         sender.sendMessage(ChatColor.GREEN + "Toggled double jump mode.");
-        try
-        {
-            FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), !(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "DOUBLEJUMP", "PLAYERS")), "DOUBLEJUMP", "PLAYERS");
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-        }
-        FOPMR_BoardManager.updateStats(player);
+        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".djump", !FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".djump"));
+        FOPMR_Configs.getAdmins().saveConfig();
         return true;
     }
 

@@ -2,17 +2,18 @@ package net.camtech.fopmremastered.listeners;
 
 import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
 import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
-public final class FOPMR_TelnetListener implements Listener
+public class FOPMR_TelnetListener implements Listener
 {
 
     public FOPMR_TelnetListener()
@@ -22,11 +23,6 @@ public final class FOPMR_TelnetListener implements Listener
             Bukkit.broadcastMessage(ChatColor.RED + "BukkitTelnet cannot be found, disabling integration.");
             return;
         }
-        init();
-    }
-
-    public void init()
-    {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }
 
@@ -41,7 +37,7 @@ public final class FOPMR_TelnetListener implements Listener
             Bukkit.broadcastMessage(ChatColor.DARK_GREEN + FOPMR_Rank.getNameFromIp(ip) + " logged in via telnet.");
             for (Player player : Bukkit.getOnlinePlayers())
             {
-                if (FOPMR_Rank.isExecutive(player))
+                if (FOPMR_Rank.isSpecialExecutive(player))
                 {
                     player.sendMessage(ChatColor.DARK_GREEN + FOPMR_Rank.getNameFromIp(ip) + " is on the IP of " + ip + ".");
                 }
@@ -56,32 +52,25 @@ public final class FOPMR_TelnetListener implements Listener
     @EventHandler
     public void onTelnetCommand(TelnetCommandEvent event)
     {
-        try
+        CommandSender player = event.getSender();
+        FileConfiguration commands = FOPMR_Configs.getCommands().getConfig();
+        for (String blocked : commands.getConfigurationSection("").getKeys(false))
         {
-            CommandSender player = event.getSender();
-            for (Object result : FOPMR_DatabaseInterface.getAsArrayList(null, null, "COMMAND", "COMMANDS"))
+            if (blocked.equalsIgnoreCase(event.getCommand().replaceAll("/", "")))
             {
-                String blocked = (String) result;
-                if (blocked.equalsIgnoreCase(event.getCommand().replaceAll("/", "")))
+                if (!FOPMR_Rank.isRank(player, commands.getInt(blocked + ".rank")))
                 {
-                    if (!FOPMR_Rank.isRank(player, (int) FOPMR_DatabaseInterface.getFromTable("COMMAND", blocked, "RANK", "COMMANDS")))
-                    {
-                        player.sendMessage(ChatColor.RED + "You are not authorised to use this command.");
-                        event.setCancelled(true);
-                    }
-                }
-            }
-            for (Player player2 : Bukkit.getOnlinePlayers())
-            {
-                if (FOPMR_Rank.isSpecialist(player2))
-                {
-                    player2.sendMessage(ChatColor.GRAY + ChatColor.ITALIC.toString() + player.getName() + ": " + event.getCommand().toLowerCase());
+                    player.sendMessage(ChatColor.RED + "You are not authorized to use this command.");
+                    event.setCancelled(true);
                 }
             }
         }
-        catch (Exception ex)
+        for (Player player2 : Bukkit.getOnlinePlayers())
         {
-            FreedomOpModRemastered.plugin.handleException(ex);
+            if (FOPMR_Rank.isSpecialExecutive(player2))
+            {
+                player2.sendMessage(ChatColor.GRAY + ChatColor.ITALIC.toString() + player.getName() + ": " + event.getCommand().toLowerCase());
+            }
         }
     }
 }

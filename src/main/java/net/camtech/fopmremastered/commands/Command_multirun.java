@@ -2,17 +2,17 @@ package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class Command_multirun extends FOPMR_Command
 {
 
     public Command_multirun()
     {
-        super("multirun", "/multirun [amount] [command]", "Run a command an allotted number of times.", Rank.SUPER);
+        super("multirun", "/multirun [amount] [command]", "Run a command an allotted number of times.", Rank.SYSTEM);
     }
 
     @Override
@@ -21,10 +21,6 @@ public class Command_multirun extends FOPMR_Command
         if (args.length < 2)
         {
             return false;
-        }
-        if (!(sender instanceof Player))
-        {
-            sender.sendMessage(ChatColor.RED + "This command must be executed in-game.");
         }
         if (Integer.parseInt(args[0]) == 1 || Integer.parseInt(args[0]) == 0)
         {
@@ -36,7 +32,7 @@ public class Command_multirun extends FOPMR_Command
         int i = 0;
         do
         {
-            ((Player) sender).chat("/" + baseCommand);
+            Bukkit.dispatchCommand(sender, baseCommand);
             i++;
         } while (i < Integer.parseInt(args[0]));
         return true;

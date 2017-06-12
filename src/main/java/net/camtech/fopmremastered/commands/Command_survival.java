@@ -1,12 +1,14 @@
 package net.camtech.fopmremastered.commands;
 
-import java.util.Arrays;
 import net.camtech.fopmremastered.FOPMR_Rank;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
 
 public class Command_survival extends FOPMR_Command
 {

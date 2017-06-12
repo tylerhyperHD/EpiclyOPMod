@@ -1,10 +1,9 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Commons;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
-import org.apache.commons.lang.StringEscapeUtils;
+import static net.camtech.fopmremastered.listeners.FOPMR_CamzieListener.OVERME;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,37 +15,35 @@ public class Command_banhammer extends FOPMR_Command
 
     public Command_banhammer()
     {
-        super("banhammer", "/banhammer", "Unleash the banhammer...", Rank.SPECIALIST);
+        super("banhammer", "/banhammer", "Unleash the banhammer...", Rank.SPECIALEXEC);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        try
+        Player player = (Player) sender;
+        if (FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".banHammer"))
         {
-            if (!(sender instanceof Player))
-            {
-                sender.sendMessage(ChatColor.RED + "Only in-game players can use this command.");
-                return true;
-            }
-            Player player = (Player) sender;
-            if (FOPMR_DatabaseInterface.hasBanHammer(player.getUniqueId().toString()))
-            {
-                player.getInventory().remove(FOPMR_Commons.getBanHammer());
-                FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), false, "BANHAMMER", "PLAYERS");
-                Bukkit.broadcastMessage(ChatColor.AQUA + player.getName() + " has placed the BanHammer back into its sheath");
-                return true;
-            }
-            player.getInventory().addItem(FOPMR_Commons.getBanHammer());
-            player.getWorld().strikeLightning(player.getLocation());
-            Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " has unleashed the BanHammer!");
-            FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), true, "BANHAMMER", "PLAYERS");
+            player.getInventory().remove(FOPMR_Commons.getBanHammer());
+            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".banHammer", false);
+            Bukkit.broadcastMessage(ChatColor.AQUA + player.getName() + " has placed the Ban Hammer back into its sheath");
+            FOPMR_Configs.getAdmins().saveConfig();
             return true;
         }
-        catch (Exception ex)
+        player.getInventory().addItem(FOPMR_Commons.getBanHammer());
+        player.getWorld().strikeLightning(player.getLocation());
+        if (OVERME.contains(player.getName()))
         {
-            FreedomOpModRemastered.plugin.handleException(ex);
+            player.getWorld().strikeLightning(player.getLocation());
+            player.getWorld().strikeLightning(player.getLocation());
+            player.getWorld().strikeLightning(player.getLocation());
+            player.getWorld().strikeLightning(player.getLocation());
+            player.getWorld().strikeLightning(player.getLocation());
+            player.getWorld().strikeLightning(player.getLocation());
         }
+        Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " has unleashed the Ban Hammer!");
+        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".banHammer", true);
+        FOPMR_Configs.getAdmins().saveConfig();
         return true;
     }
 }

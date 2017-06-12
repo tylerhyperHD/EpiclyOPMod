@@ -1,13 +1,8 @@
 package net.camtech.fopmremastered.protectedareas;
 
-import com.google.gson.Gson;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -72,12 +67,12 @@ public class FOPMR_ProtectedArea
         {
             return true;
         }
-        return FOPMR_Rank.getRank(player).level > rank.level;
+        return FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), rank);
     }
 
     public boolean addPlayer(Player sender, Player player)
     {
-        if (!isOwner(sender) && getRank().level > FOPMR_Rank.getRank(sender).level)
+        if (!isOwner(sender))
         {
             return false;
         }
@@ -85,48 +80,25 @@ public class FOPMR_ProtectedArea
         {
             return false;
         }
-        try
-        {
-            this.allowed.add(player.getName());
-            Connection c = FOPMR_DatabaseInterface.getConnection();
-            PreparedStatement statement = c.prepareStatement("UPDATE OR IGNORE AREAS SET ALLOWED = ? WHERE NAME = ?");
-            statement.setString(1, (new Gson()).toJson(this.allowed));
-            statement.setString(2, this.name);
-            statement.executeUpdate();
-            c.commit();
-            player.sendMessage(ChatColor.GREEN + "You have been added to the protected area " + this.name + " by " + sender.getName() + ".");
-            return true;
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-        }
-        return false;
+        this.allowed.add(player.getName());
+        FOPMR_ProtectedAreas.areas.set(name + ".allowed", this.allowed);
+        FOPMR_ProtectedAreas.config.saveConfig();
+        player.sendMessage(ChatColor.GREEN + "You have been added to the protected area " + this.name + " by " + sender.getName() + ".");
+        return true;
     }
 
     public boolean removePlayer(Player sender, Player player)
     {
-        try
+        if (!isOwner(sender) || !this.allowed.contains(player.getName()))
         {
-            if ((!isOwner(sender) || !this.allowed.contains(player.getName())) && getRank().level > FOPMR_Rank.getRank(sender).level)
-            {
-                return false;
-            }
-            if (this.allowed.contains(player.getName()))
-            {
-                this.allowed.remove(player.getName());
-                Connection c = FOPMR_DatabaseInterface.getConnection();
-                PreparedStatement statement = c.prepareStatement("UPDATE OR IGNORE AREAS SET ALLOWED = ? WHERE NAME = ?");
-                statement.setString(1, (new Gson()).toJson(this.allowed));
-                statement.setString(2, this.name);
-                statement.executeUpdate();
-                c.commit();
-                return true;
-            }
+            return false;
         }
-        catch (Exception ex)
+        if (this.allowed.contains(player.getName()))
         {
-            FreedomOpModRemastered.plugin.handleException(ex);
+            this.allowed.remove(player.getName());
+            FOPMR_ProtectedAreas.areas.set(name + ".allowed", this.allowed);
+            FOPMR_ProtectedAreas.config.saveConfig();
+            return true;
         }
         return false;
     }

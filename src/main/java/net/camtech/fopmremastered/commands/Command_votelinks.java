@@ -15,10 +15,7 @@ public class Command_votelinks
         sender.sendMessage(sameRandom + "####################");
         sender.sendMessage(sameRandom + "#### Vote Links ####");
         sender.sendMessage(sameRandom + "####################");
-        sender.sendMessage(CUtils_Methods.randomChatColour() + "Planet Minecraft: http://www.planetminecraft.com/server/freedomop-remastered/");
-        sender.sendMessage(CUtils_Methods.randomChatColour() + "MinecraftServers.org: http://minecraftservers.org/vote/193818");
-        sender.sendMessage(CUtils_Methods.randomChatColour() + "Minecraft-MP: http://minecraft-mp.com/server/76391/vote/");
-        sender.sendMessage(CUtils_Methods.randomChatColour() + "Minecraft-Server-List.com: http://minecraft-server-list.com/server/288060/vote/");
+        sender.sendMessage(CUtils_Methods.randomChatColour() + "http://minecraft-server-list.com/server/301738/");
         return true;
     }
 }

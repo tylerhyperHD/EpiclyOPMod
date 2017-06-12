@@ -1,6 +1,5 @@
 package net.camtech.fopmremastered.commands;
 
-import java.util.Arrays;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -8,8 +7,9 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
+
+import java.util.Arrays;
 
 public class Command_rd extends FOPMR_Command
 {
@@ -31,7 +31,7 @@ public class Command_rd extends FOPMR_Command
             for (Entity e : world.getEntities())
             {
                 entities++;
-                if (!(e instanceof LivingEntity) && !(e instanceof ItemFrame))
+                if (!(e instanceof LivingEntity))
                 {
                     e.remove();
                     cleared++;

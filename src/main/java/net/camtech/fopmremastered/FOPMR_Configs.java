@@ -1,95 +1,98 @@
 package net.camtech.fopmremastered;
 
+import net.camtech.camutils.CUtils_Config;
+
 public class FOPMR_Configs
 {
 
-    private final FOPMR_Config admins;
-    private final FOPMR_Config commands;
-    private final FOPMR_Config bans;
-    private final FOPMR_Config mainconfig;
-    private final FOPMR_Config reports;
-    private final FOPMR_Config announcements;
-    private final FOPMR_Config chats;
-    private final FOPMR_Config areas;
-    private final FOPMR_Config worlds;
+    private static CUtils_Config admins;
+    private static CUtils_Config commands;
+    private static CUtils_Config bans;
+    private static CUtils_Config mainconfig;
+    private static CUtils_Config reports;
+    private static CUtils_Config announcements;
+    private static CUtils_Config chats;
+    private static CUtils_Config areas;
+    public static boolean isBlowingShitUp = false;
+    public static boolean isKillingShit = false;
 
     public FOPMR_Configs()
     {
-        admins = new FOPMR_Config(FreedomOpModRemastered.plugin, "players.yml");
+        admins = new CUtils_Config(FreedomOpModRemastered.plugin, "players.yml");
         admins.saveDefaultConfig();
-        commands = new FOPMR_Config(FreedomOpModRemastered.plugin, "commands.yml");
+        commands = new CUtils_Config(FreedomOpModRemastered.plugin, "commands.yml");
         commands.saveDefaultConfig();
-        bans = new FOPMR_Config(FreedomOpModRemastered.plugin, "bans.yml");
+        bans = new CUtils_Config(FreedomOpModRemastered.plugin, "bans.yml");
         bans.saveDefaultConfig();
-        mainconfig = new FOPMR_Config(FreedomOpModRemastered.plugin, "config.yml");
+        mainconfig = new CUtils_Config(FreedomOpModRemastered.plugin, "config.yml");
         mainconfig.saveDefaultConfig();
-        reports = new FOPMR_Config(FreedomOpModRemastered.plugin, "reports.yml");
+        reports = new CUtils_Config(FreedomOpModRemastered.plugin, "reports.yml");
         reports.saveDefaultConfig();
-        announcements = new FOPMR_Config(FreedomOpModRemastered.plugin, "announcements.yml");
+        announcements = new CUtils_Config(FreedomOpModRemastered.plugin, "announcements.yml");
         announcements.saveDefaultConfig();
-        chats = new FOPMR_Config(FreedomOpModRemastered.plugin, "chats.yml");
+        chats = new CUtils_Config(FreedomOpModRemastered.plugin, "chats.yml");
         chats.saveDefaultConfig();
-        areas = new FOPMR_Config(FreedomOpModRemastered.plugin, "areas.yml");
+        areas = new CUtils_Config(FreedomOpModRemastered.plugin, "areas.yml");
         areas.saveDefaultConfig();
-        worlds = new FOPMR_Config(FreedomOpModRemastered.plugin, "worlds.yml");
-        worlds.saveDefaultConfig();
     }
 
-    public void reloadConfigs()
-    {
-        admins.reloadConfig();
-        commands.reloadConfig();
-        bans.reloadConfig();
-        mainconfig.reloadConfig();
-        reports.reloadConfig();
-        announcements.reloadConfig();
-        chats.reloadConfig();
-        areas.reloadConfig();
-        worlds.reloadConfig();
-    }
-
-    public FOPMR_Config getAdmins()
+    public static CUtils_Config getAdmins()
     {
         return admins;
     }
 
-    public FOPMR_Config getCommands()
+    public static CUtils_Config getCommands()
     {
         return commands;
     }
 
-    public FOPMR_Config getBans()
+    public static CUtils_Config getBans()
     {
         return bans;
     }
 
-    public FOPMR_Config getMainConfig()
+    public static CUtils_Config getMainConfig()
     {
         return mainconfig;
     }
 
-    public FOPMR_Config getReports()
+    public boolean isBlowingShitUp()
+    {
+        return this.isBlowingShitUp;
+    }
+
+    public void setBlowingShitUp(boolean state)
+    {
+        this.isBlowingShitUp = state;
+    }
+
+    public boolean isKillingShit()
+    {
+        return this.isKillingShit;
+    }
+
+    public void setKillingShit(boolean state)
+    {
+        this.isKillingShit = state;
+    }
+
+    public static CUtils_Config getReports()
     {
         return reports;
     }
 
-    public FOPMR_Config getAnnouncements()
+    public static CUtils_Config getAnnouncements()
     {
         return announcements;
     }
 
-    public FOPMR_Config getChats()
+    public static CUtils_Config getChats()
     {
         return chats;
     }
 
-    public FOPMR_Config getAreas()
+    public static CUtils_Config getAreas()
     {
         return areas;
-    }
-
-    public FOPMR_Config getWorlds()
-    {
-        return worlds;
     }
 }

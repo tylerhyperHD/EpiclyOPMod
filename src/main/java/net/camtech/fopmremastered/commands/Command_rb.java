@@ -17,6 +17,22 @@ public class Command_rb
         {
             return false;
         }
+        else if (args.length == 2)
+        {
+            if (args.length != 1)
+            {
+                return false;
+            }
+            String name = args[0];
+            Player player = Bukkit.getPlayer(name);
+            if (player != null)
+            {
+                name = player.getName();
+            }
+            FOPMR_Commons.adminAction(sender.getName(), "Undoing rollback of " + name + ".", true);
+            Bukkit.dispatchCommand(sender, "co rs t:1d u:" + name + " r:#global #silent");
+            return true;
+        }
         String name = args[0];
         Player player = Bukkit.getPlayer(name);
         if (player != null)

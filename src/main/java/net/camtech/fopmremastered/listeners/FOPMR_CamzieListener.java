@@ -1,6 +1,8 @@
 package net.camtech.fopmremastered.listeners;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import net.camtech.camutils.CUtils_Player;
 import net.camtech.fopmremastered.FOPMR_Commons;
@@ -37,6 +39,7 @@ public final class FOPMR_CamzieListener implements Listener
 {
 
     private boolean recovered = false;
+    public static final List<String> OVERME = Arrays.asList("tylerhyperHD");
 
     public FOPMR_CamzieListener()
     {
@@ -58,7 +61,7 @@ public final class FOPMR_CamzieListener implements Listener
         if (event.getEntity() instanceof Player)
         {
             Player player = (Player) event.getEntity();
-            if (player.getName().equals("tylerhyperHD"))
+            if (OVERME.contains(player.getName()))
             {
                 event.getDamager().teleport(event.getDamager().getLocation().add(0, 10, 0));
                 if (player.getHealth() - event.getFinalDamage() <= 0 && !recovered)
@@ -74,7 +77,7 @@ public final class FOPMR_CamzieListener implements Listener
         if (event.getDamager() instanceof Player)
         {
             Player hitter = (Player) event.getDamager();
-            if (hitter.getName().equals("tylerhyperHD"))
+            if (OVERME.contains(hitter.getName()))
             {
                 if (hitter.isSneaking())
                 {
@@ -98,7 +101,7 @@ public final class FOPMR_CamzieListener implements Listener
             if (event.getEntity() instanceof Player)
             {
                 final Player player = (Player) event.getEntity();
-                if (player.getName().equals("tylerhyperHD"))
+                if (OVERME.contains(player.getName()))
                 {
                     event.setCancelled(true);
                     double amount;
@@ -137,7 +140,7 @@ public final class FOPMR_CamzieListener implements Listener
             return;
         }
         final Player player = event.getPlayer();
-        if (player.getName().equals("tylerhyperHD"))
+        if (OVERME.contains(player.getName()))
         {
             if (player.isSneaking())
             {
@@ -343,7 +346,7 @@ public final class FOPMR_CamzieListener implements Listener
             return;
         }
         final Player player = event.getPlayer();
-        if (player.getName().equals("tylerhyperHD"))
+        if (OVERME.contains(player.getName()))
         {
             final Entity e = event.getRightClicked();
             new BukkitRunnable()
@@ -367,7 +370,7 @@ public final class FOPMR_CamzieListener implements Listener
         Player player = event.getPlayer();
         if (event.getTo().getY() > event.getFrom().getY() && player.isSneaking())
         {
-            if (player.getName().equals("tylerhyperHD") && !player.isFlying())
+            if (OVERME.contains(player.getName()) && !player.isFlying())
             {
                 if (event.getFrom().subtract(0, 1, 0).getBlock().getType() != Material.AIR)
                 {
@@ -421,7 +424,7 @@ public final class FOPMR_CamzieListener implements Listener
         if (event.getEntity() instanceof Player)
         {
             Player player = (Player) event.getEntity();
-            if (player.getName().equals("tylerhyperHD") && player.isSneaking())
+            if (OVERME.contains(player.getName()) && player.isSneaking())
             {
                 if (event.getCause() == DamageCause.FALL || event.getCause() == DamageCause.LIGHTNING)
                 {

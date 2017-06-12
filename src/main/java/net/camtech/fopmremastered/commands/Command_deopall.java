@@ -13,7 +13,7 @@ public class Command_deopall extends FOPMR_Command
 
     public Command_deopall()
     {
-        super("deopall", "/deopall", "Deop all players on the server.", Rank.SUPER);
+        super("deopall", "/deopall", "Deop all players on the server.", Rank.SYSTEM);
     }
 
     @Override

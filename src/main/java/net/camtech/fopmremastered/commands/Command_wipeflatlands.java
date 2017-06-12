@@ -15,7 +15,7 @@ public class Command_wipeflatlands extends FOPMR_Command
 
     public Command_wipeflatlands()
     {
-        super("wipeflatlands", "/wipeflatlands", "Wipe the flatlands.", Rank.EXECUTIVE);
+        super("wipeflatlands", "/wipeflatlands", "Wipe the flatlands.", Rank.SPECIALEXEC);
     }
 
     @Override

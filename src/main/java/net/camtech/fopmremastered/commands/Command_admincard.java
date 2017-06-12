@@ -1,7 +1,5 @@
 package net.camtech.fopmremastered.commands;
 
-import java.util.Arrays;
-import java.util.List;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.StringUtils;
@@ -10,6 +8,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
 
 @CommandParameters(name = "admincard", usage = "/admincard [command]", description = "Run a command once for every admin on the server (? gets replaced with their name).", rank = Rank.SENIOR)
 public class Command_admincard
@@ -28,7 +29,7 @@ public class Command_admincard
 
         for (String block : blocked)
         {
-            if (baseCommand.toLowerCase().contains(block) && !FOPMR_Rank.isSpecialist(sender))
+            if (baseCommand.toLowerCase().contains(block) && !FOPMR_Rank.isSpecialExecutive(sender))
             {
                 sender.sendMessage(ChatColor.RED + String.format("You cannot use %s in a WildCard!", block));
                 return true;

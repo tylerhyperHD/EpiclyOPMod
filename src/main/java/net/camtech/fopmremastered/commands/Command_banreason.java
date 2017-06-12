@@ -16,7 +16,7 @@ public class Command_banreason
         {
             return false;
         }
-        sender.sendMessage(ChatColor.RED + args[0] + " was banned for: " + FOPMR_Bans.getReason(args[0]));
+        sender.sendMessage("" + ChatColor.RED + args[0] + " was banned for: " + FOPMR_Bans.getReason(args[0]));
         return true;
     }
 }

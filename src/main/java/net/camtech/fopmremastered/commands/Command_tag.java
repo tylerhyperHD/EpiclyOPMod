@@ -1,12 +1,9 @@
 package net.camtech.fopmremastered.commands;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -38,21 +35,34 @@ public class Command_tag
             }
         }
         Player player = (Player) sender;
-        player.sendMessage(ChatColor.GREEN + "Setting tag to " + CUtils_Methods.colour(nick) + ChatColor.GREEN + ".");
-        try
+        if (nick.contains("&k"))
         {
-            Connection c = FOPMR_DatabaseInterface.getConnection();
-            PreparedStatement statement = c.prepareStatement("UPDATE PLAYERS SET TAG = ? WHERE UUID = ?");
-            statement.setString(1, nick + "&r");
-            statement.setString(2, player.getUniqueId().toString());
-            statement.executeUpdate();
-            FOPMR_Rank.tags.put(sender.getName(), nick + "&r");
-            c.commit();
+            sender.sendMessage(ChatColor.RED + "&k is a prohibited symbol in tags.");
+            return true;
         }
-        catch (Exception ex)
+        if (nick.contains("&m"))
         {
-            FreedomOpModRemastered.plugin.handleException(ex);
+            sender.sendMessage(ChatColor.RED + "&m is a prohibited symbol in tags.");
+            return true;
         }
+        if (nick.contains("&n"))
+        {
+            sender.sendMessage(ChatColor.RED + "&m is a prohibited symbol in tags.");
+            return true;
+        }
+        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && nick.contains("&-"))
+        {
+            player.sendMessage(ChatColor.RED + "You cannot use random chat colours, you must purchase it in the VoteShop (/vs).");
+            nick = nick.replaceAll("&-", "");
+        }
+        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(nick))
+        {
+            player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
+            nick = nick.replaceAll("&.", "");
+        }
+        player.sendMessage(ChatColor.GREEN + "Tag set to " + CUtils_Methods.colour(nick));
+        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".tag", nick + "&r");
+        FOPMR_Configs.getAdmins().saveConfig();
         return true;
     }
 

@@ -30,17 +30,21 @@ public class Command_ban extends FOPMR_Command
         String reason = "No reason given... - " + sender.getName();
         if (args.length > 1)
         {
-            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ") + " — " + sender.getName();
+            reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ") + " - " + sender.getName();
         }
         if (player == null)
         {
             Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - Attempting ban of offline player: " + args[0]);
-            FOPMR_Bans.addBan(args[0], reason, sender.getName());
+            FOPMR_Bans.addBan(args[0], reason);
         }
         else
         {
+            if (FOPMR_Rank.getRank(player).level < FOPMR_Rank.getRank(sender).level)
+            {
+                Bukkit.dispatchCommand(sender, "co rb t:1d u:" + player.getName() + " r:#global");
+            }
             Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - Attempting to ban player: " + player.getName());
-            FOPMR_Bans.addBan(player, reason, sender.getName());
+            FOPMR_Bans.addBan(player, reason);
         }
         return true;
     }

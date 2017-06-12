@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-@CommandParameters(name = "plc", description = "Manage plugins.", usage = "/plc [enable | disable | reload] [plugin name]", aliases = "plugincontrol", rank = Rank.EXECUTIVE)
+@CommandParameters(name = "plc", description = "Manage plugins.", usage = "/plc [enable | disable | reload] [plugin name]", aliases = "plugincontrol", rank = Rank.SPECIALEXEC)
 public class Command_plc
 {
 

@@ -4,7 +4,7 @@
 
     <groupId>net.camtech</groupId>
     <artifactId>fopmremastered</artifactId>
-    <version>2.5</version>
+    <version>1.95</version>
     <packaging>jar</packaging>
 
     <name>EpiclyOPMod</name>
@@ -80,7 +80,16 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/CamUtils.jar</systemPath>
         </dependency>
+        
+        <dependency>
+            <groupId>com.vexsoftware</groupId>
+            <artifactId>votifier</artifactId>
+            <version>latest</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/votifier.jar</systemPath>
+        </dependency>
     </dependencies>
+    
 
     <build>
         <!-- Filter resources for build.properties -->

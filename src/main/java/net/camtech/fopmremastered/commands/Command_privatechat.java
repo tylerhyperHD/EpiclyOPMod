@@ -1,9 +1,7 @@
 package net.camtech.fopmremastered.commands;
 
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
-import net.camtech.fopmremastered.chats.FOPMR_PrivateChat;
 import net.camtech.fopmremastered.chats.FOPMR_PrivateChats;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -31,33 +29,27 @@ public class Command_privatechat
             if (args[0].equalsIgnoreCase("list"))
             {
                 sender.sendMessage(ChatColor.GOLD + "List of currently active private chats: ");
-                for (FOPMR_PrivateChat chat : FOPMR_PrivateChats.getFromConfig())
-                {
-                    ChatColor colour = ChatColor.RED;
-                    if (FOPMR_PrivateChats.canAccess(player, chat.getName()))
-                    {
-                        colour = ChatColor.GREEN;
-                    }
-                    sender.sendMessage(colour + " - " + chat.getName());
-                }
+                FOPMR_PrivateChats.getFromConfig().stream().forEach((chat)
+                        -> 
+                        {
+                            ChatColor colour = ChatColor.RED;
+                            if (FOPMR_PrivateChats.canAccess(player, chat.getName()))
+                            {
+                                colour = ChatColor.GREEN;
+                            }
+                            sender.sendMessage(colour + " - " + chat.getName());
+                });
                 return true;
             }
-            try
+            if (args[0].equalsIgnoreCase("off"))
             {
-                if (args[0].equalsIgnoreCase("off"))
-                {
-                    sender.sendMessage(ChatColor.GREEN + "You are now talking in the public chat.");
-                    FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), "", "CHAT", "PLAYERS");
-                    return true;
-                }
-                sender.sendMessage(ChatColor.GREEN + "Set current private chat to " + args[0]);
-                FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), args[0], "CHAT", "PLAYERS");
+                sender.sendMessage(ChatColor.GREEN + "You are now talking in the public chat.");
+                FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".chat", "");
                 return true;
             }
-            catch (Exception ex)
-            {
-                FreedomOpModRemastered.plugin.handleException(ex);
-            }
+            sender.sendMessage(ChatColor.GREEN + "Set current private chat to " + args[0]);
+            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".chat", args[0]);
+            return true;
         }
         if (args.length == 2)
         {

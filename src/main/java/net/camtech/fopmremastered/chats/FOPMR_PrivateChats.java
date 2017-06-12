@@ -1,20 +1,19 @@
 package net.camtech.fopmremastered.chats;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
+import net.camtech.camutils.CUtils_Config;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class FOPMR_PrivateChats
 {
+
+    public static CUtils_Config config = FOPMR_Configs.getChats();
+    public static FileConfiguration chats = FOPMR_Configs.getChats().getConfig();
 
     public static boolean canAccess(Player player, String chat)
     {
@@ -86,17 +85,11 @@ public class FOPMR_PrivateChats
     public static ArrayList<FOPMR_PrivateChat> getFromConfig()
     {
         ArrayList<FOPMR_PrivateChat> temp = new ArrayList<>();
-        try
-        {
-            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList("NAME", null, "NAME", "CHATS"))
-            {
-                temp.add(getFromName((String) obj));
-            }
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-        }
+        chats.getKeys(false).stream().forEach((chat)
+                -> 
+                {
+                    temp.add(getFromName(chat));
+        });
         return temp;
     }
 
@@ -116,15 +109,7 @@ public class FOPMR_PrivateChats
 
     public static boolean isValidChat(String chat)
     {
-        try
-        {
-            return (FOPMR_DatabaseInterface.getFromTable("NAME", chat, "NAME", "CHATS") != null);
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-            return false;
-        }
+        return chats.getKeys(false).stream().anyMatch((_item) -> (chat.equalsIgnoreCase(_item)));
     }
 
     public static FOPMR_PrivateChat getFromName(String name)
@@ -133,47 +118,27 @@ public class FOPMR_PrivateChats
         {
             return null;
         }
-        try
+        for (String check : chats.getKeys(false))
         {
-            String owner = (String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "OWNER", "CHATS");
-            Rank rank = FOPMR_Rank.getFromName((String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "RANK", "CHATS"));
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<String>>()
+            if (check.equalsIgnoreCase(name))
             {
-            }.getType();
-            ArrayList<String> allowed = gson.fromJson((String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "ALLOWED", "CHATS"), type);
-            ChatColor colour = ChatColor.getByChar((String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "COLOUR", "CHATS"));
-            return new FOPMR_PrivateChat(owner, name, colour, allowed, rank);
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
+                String owner = chats.getString(name + ".owner");
+                Rank rank = FOPMR_Rank.getFromName(chats.getString(name + ".rank"));
+                ArrayList<String> allowed = new ArrayList<>(chats.getStringList(name + ".allowed"));
+                ChatColor colour = ChatColor.getByChar(chats.getString(name + ".colour"));
+                return new FOPMR_PrivateChat(owner, name, colour, allowed, rank);
+            }
         }
         return null;
     }
 
     public static void addChat(FOPMR_PrivateChat chat)
     {
-        try
-        {
-            Connection c = FOPMR_DatabaseInterface.getConnection();
-            PreparedStatement statement = c.prepareStatement("INSERT INTO CHATS (NAME, OWNER, RANK, ALLOWED, COLOUR) VALUES (?, ?, ?, ?, ?)");
-            statement.setString(1, chat.getName());
-            statement.setString(2, chat.getOwner());
-            statement.setString(3, chat.getRank().name);
-            Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<String>>()
-            {
-            }.getType();
-            statement.setString(4, gson.toJson(chat.getAllowed(), type));
-            statement.setString(5, Character.toString(chat.getColour().getChar()));
-            statement.executeUpdate();
-            c.commit();
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-        }
+        chats.set(chat.getName() + ".owner", chat.getOwner());
+        chats.set(chat.getName() + ".rank", chat.getRank().name);
+        chats.set(chat.getName() + ".allowed", chat.getAllowed());
+        chats.set(chat.getName() + ".colour", chat.getColour().getChar());
+        config.saveConfig();
     }
 
     public static void removeChat(FOPMR_PrivateChat chat)
@@ -182,17 +147,7 @@ public class FOPMR_PrivateChats
         {
             return;
         }
-        try
-        {
-            Connection c = FOPMR_DatabaseInterface.getConnection();
-            PreparedStatement statement = c.prepareStatement("DELETE FROM CHATS WHERE NAME = ?");
-            statement.setString(1, chat.getName());
-            statement.executeUpdate();
-            c.commit();
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
-        }
+        chats.set(chat.getName(), null);
+        config.saveConfig();
     }
 }

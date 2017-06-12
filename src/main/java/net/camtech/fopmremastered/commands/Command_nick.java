@@ -1,12 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.Arrays;
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
-import net.camtech.fopmremastered.FOPMR_Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -64,21 +60,34 @@ public class Command_nick extends FOPMR_Command
             sender.sendMessage(ChatColor.RED + "Your nick must have at least 3 alphanumeric characters consecutively.");
             return true;
         }
-        player.sendMessage(ChatColor.GREEN + "Setting nick to " + CUtils_Methods.colour(StringUtils.join(args, " ")) + ChatColor.GREEN + ".");
-        try
+        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && nick.contains("&-"))
         {
-            Connection c = FOPMR_DatabaseInterface.getConnection();
-            PreparedStatement statement = c.prepareStatement("UPDATE PLAYERS SET NICK = ? WHERE UUID = ?");
-            statement.setString(1, nick + "&r");
-            statement.setString(2, player.getUniqueId().toString());
-            statement.executeUpdate();
-            FOPMR_Rank.nicks.put(player.getName(), nick + "&r");
-            c.commit();
+            player.sendMessage(ChatColor.RED + "You cannot use random chat colours, you must purchase it in the VoteShop (/vs).");
+            nick = nick.replaceAll("&-", "");
         }
-        catch (Exception ex)
+        if (nick.contains("&k"))
         {
-            FreedomOpModRemastered.plugin.handleException(ex);
+            sender.sendMessage(ChatColor.RED + "&k is a prohibited symbol in nicknames.");
+            return true;
         }
+        if (nick.contains("&m"))
+        {
+            sender.sendMessage(ChatColor.RED + "&m is a prohibited symbol in nicknames.");
+            return true;
+        }
+        if (nick.contains("&n"))
+        {
+            sender.sendMessage(ChatColor.RED + "&m is a prohibited symbol in nicknames.");
+            return true;
+        }
+        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(nick))
+        {
+            player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
+            nick = nick.replaceAll("&.", "");
+        }
+        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".displayName", nick + "&r");
+        FOPMR_Configs.getAdmins().saveConfig();
+        player.sendMessage(ChatColor.GREEN + "Nick set to " + CUtils_Methods.colour(StringUtils.join(args, " ")));
         return true;
     }
 

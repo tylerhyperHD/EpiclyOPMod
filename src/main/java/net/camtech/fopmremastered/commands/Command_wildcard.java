@@ -1,15 +1,15 @@
 package net.camtech.fopmremastered.commands;
 
-import java.util.Arrays;
-import java.util.List;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import java.util.Arrays;
+import java.util.List;
+import org.bukkit.Bukkit;
 
 public class Command_wildcard extends FOPMR_Command
 {
@@ -33,7 +33,7 @@ public class Command_wildcard extends FOPMR_Command
 
         for (String block : blocked)
         {
-            if (baseCommand.toLowerCase().contains(block) && !FOPMR_Rank.isSpecialist(sender))
+            if (baseCommand.toLowerCase().contains(block) && !FOPMR_Rank.isSpecialExecutive(sender))
             {
                 sender.sendMessage(ChatColor.RED + String.format("You cannot use %s in a WildCard!", block));
                 return true;

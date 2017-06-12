@@ -62,15 +62,22 @@ public class Command_csay
                             colour = ChatColor.GREEN;
                             break;
                         case "6":
-                            colour = ChatColor.DARK_AQUA;
+                            colour = ChatColor.DARK_PURPLE;
                             break;
                         case "7":
-                            colour = ChatColor.BLUE;
+                            colour = ChatColor.DARK_RED;
                             break;
                         default:
                             break;
                     }
-                    player2.sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + sender.getName() + ": " + replaceAll);
+                    if (FOPMR_Rank.getRank(player2).level >= 0)
+                    {
+                        player2.sendMessage(ChatColor.GRAY + "[CONSOLE]" + ChatColor.WHITE + sender.getName() + ": " + replaceAll);
+                    }
+                    else
+                    {
+                        player2.sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + sender.getName() + ": " + replaceAll);
+                    }
                 }
             }
             ChatColor colour = ChatColor.WHITE;

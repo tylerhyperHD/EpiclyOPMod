@@ -1,8 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.fopmremastered.FOPMR_Commons;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,15 +21,15 @@ public class Command_jumppads
         {
             if (args[0].equalsIgnoreCase("on"))
             {
-                FreedomOpModRemastered.plugin.getConfig().set("jumppads.enabled", true);
-                FreedomOpModRemastered.plugin.saveConfig();
+                FOPMR_Configs.getMainConfig().getConfig().set("jumppads.enabled", true);
+                FOPMR_Configs.getMainConfig().saveConfig();
                 FOPMR_Commons.adminAction(sender.getName(), "Enabling jumppads!", false);
                 return true;
             }
             if (args[0].equalsIgnoreCase("off"))
             {
-                FreedomOpModRemastered.plugin.getConfig().set("jumppads.enabled", false);
-                FreedomOpModRemastered.plugin.saveConfig();
+                FOPMR_Configs.getMainConfig().getConfig().set("jumppads.enabled", false);
+                FOPMR_Configs.getMainConfig().saveConfig();
                 FOPMR_Commons.adminAction(sender.getName(), "Disabling jumppads!", true);
                 return true;
             }
@@ -52,8 +52,8 @@ public class Command_jumppads
                     sender.sendMessage(ChatColor.RED + "The value must be a double below or equal to 10.");
                     return true;
                 }
-                FreedomOpModRemastered.plugin.getConfig().set("jumppads.strength", strength);
-                FreedomOpModRemastered.plugin.saveConfig();
+                FOPMR_Configs.getMainConfig().getConfig().set("jumppads.strength", strength);
+                FOPMR_Configs.getMainConfig().saveConfig();
                 FOPMR_Commons.adminAction(sender.getName(), "Seting jumppad strength to " + strength + "!", false);
                 return true;
             }

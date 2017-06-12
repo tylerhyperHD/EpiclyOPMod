@@ -1,8 +1,7 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
-import net.camtech.fopmremastered.FreedomOpModRemastered;
+import net.camtech.fopmremastered.FOPMR_Configs;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,23 +17,15 @@ public class Command_realname
         {
             return false;
         }
-        try
+        for (String uuid : FOPMR_Configs.getAdmins().getConfig().getKeys(false))
         {
-            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList("UUID", null, "UUID", "PLAYERS"))
+            String nick = FOPMR_Configs.getAdmins().getConfig().getString(uuid + ".displayName");
+            String name = FOPMR_Configs.getAdmins().getConfig().getString(uuid + ".lastName");
+            String onoroff = ((Bukkit.getPlayer(name) != null) ? (ChatColor.GREEN + "online") : (ChatColor.RED + "offline"));
+            if (nick.toLowerCase().contains(args[0].toLowerCase()))
             {
-                String uuid = (String) obj;
-                String nick = (String) FOPMR_DatabaseInterface.getFromTable("UUID", uuid, "NICK", "PLAYERS");
-                String name = (String) FOPMR_DatabaseInterface.getFromTable("UUID", uuid, "NAME", "PLAYERS");
-                String onoroff = ((Bukkit.getPlayer(name) != null) ? (ChatColor.GREEN + "online") : (ChatColor.RED + "offline"));
-                if (nick.toLowerCase().contains(args[0].toLowerCase()))
-                {
-                    sender.sendMessage(CUtils_Methods.colour(nick + ChatColor.WHITE + " is " + name + " and is " + onoroff + ChatColor.WHITE + "."));
-                }
+                sender.sendMessage(CUtils_Methods.colour(nick + ChatColor.WHITE + " is " + name + " and is " + onoroff + ChatColor.WHITE + "."));
             }
-        }
-        catch (Exception ex)
-        {
-            FreedomOpModRemastered.plugin.handleException(ex);
         }
         return true;
     }
