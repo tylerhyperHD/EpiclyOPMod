@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.camtech.camutils.CUtils_Listeners;
 import net.camtech.fopmremastered.commands.FOPMR_CommandRegistry;
 import net.camtech.fopmremastered.listeners.FOPMR_BlockListener;
 import net.camtech.fopmremastered.listeners.FOPMR_CamzieListener;
@@ -38,12 +39,18 @@ public class FreedomOpModRemastered extends JavaPlugin
     public static SocketServer socketServer;
     public static FileConfiguration config;
     public static Thread thread;
+    public static FOPMR_Configs configs;
 
     @Override
     public void onEnable()
     {
         plugin = this;
         PluginDescriptionFile pdf = this.getDescription();
+        
+        new CUtils_Listeners();
+        
+        configs = new FOPMR_Configs();
+        
         getLogger().log(Level.INFO, "{0}{1} v. {2} by {3} has been enabled!", new Object[]
         {
             ChatColor.BLUE, pdf.getName(), pdf.getVersion(), pdf.getAuthors()

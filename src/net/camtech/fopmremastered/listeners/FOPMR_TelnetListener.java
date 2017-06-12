@@ -1,7 +1,7 @@
 package net.camtech.fopmremastered.listeners;
 
-import me.StevenLawson.BukkitTelnet.api.TelnetCommandEvent;
-import me.StevenLawson.BukkitTelnet.api.TelnetPreLoginEvent;
+import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
+import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import net.camtech.fopmremastered.FOPMR_DatabaseInterface;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;

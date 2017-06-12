@@ -1,8 +1,8 @@
 package net.camtech.fopmremastered.listeners;
 
 import java.util.ArrayList;
-import me.StevenLawson.worldedit.LimitChangedEvent;
-import me.StevenLawson.worldedit.SelectionChangedEvent;
+import me.totalfreedom.worldedit.LimitChangedEvent;
+import me.totalfreedom.worldedit.SelectionChangedEvent;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import net.camtech.fopmremastered.protectedareas.FOPMR_ProtectedArea;
