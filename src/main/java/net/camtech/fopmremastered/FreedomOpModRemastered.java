@@ -2,6 +2,8 @@ package net.camtech.fopmremastered;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,6 +42,7 @@ public class FreedomOpModRemastered extends JavaPlugin
     public static FileConfiguration config;
     public static Thread thread;
     public static FOPMR_Configs configs;
+    public static List<String> exploded = new ArrayList<String>();
 
     @Override
     public void onLoad()

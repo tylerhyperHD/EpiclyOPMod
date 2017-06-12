@@ -72,6 +72,14 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/LibsDisguises.jar</systemPath>
         </dependency>
+        
+        <dependency>
+            <groupId>net.camtech</groupId>
+            <artifactId>camutils</artifactId>
+            <version>latest</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CamUtils.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>
