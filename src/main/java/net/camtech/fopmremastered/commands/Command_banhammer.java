@@ -24,13 +24,13 @@ public class Command_banhammer extends FOPMR_Command
     {
         try
         {
-            if(!(sender instanceof Player))
+            if (!(sender instanceof Player))
             {
                 sender.sendMessage(ChatColor.RED + "Only in-game players can use this command.");
                 return true;
             }
             Player player = (Player) sender;
-            if(FOPMR_DatabaseInterface.hasBanHammer(player.getUniqueId().toString()))
+            if (FOPMR_DatabaseInterface.hasBanHammer(player.getUniqueId().toString()))
             {
                 player.getInventory().remove(FOPMR_Commons.getBanHammer());
                 FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), false, "BANHAMMER", "PLAYERS");
@@ -43,7 +43,7 @@ public class Command_banhammer extends FOPMR_Command
             FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), true, "BANHAMMER", "PLAYERS");
             return true;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

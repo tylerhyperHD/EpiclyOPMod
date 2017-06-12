@@ -17,7 +17,7 @@ public final class FOPMR_TelnetListener implements Listener
 
     public FOPMR_TelnetListener()
     {
-        if(!Bukkit.getPluginManager().isPluginEnabled("BukkitTelnet"))
+        if (!Bukkit.getPluginManager().isPluginEnabled("BukkitTelnet"))
         {
             Bukkit.broadcastMessage(ChatColor.RED + "BukkitTelnet cannot be found, disabling integration.");
             return;
@@ -34,14 +34,14 @@ public final class FOPMR_TelnetListener implements Listener
     public void onTelnetPreLoginEvent(TelnetPreLoginEvent event)
     {
         String ip = event.getIp();
-        if(FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRankFromIp(ip), FOPMR_Rank.Rank.SUPER))
+        if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRankFromIp(ip), FOPMR_Rank.Rank.SUPER))
         {
             event.setBypassPassword(true);
             event.setName("[" + FOPMR_Rank.getNameFromIp(ip) + "]");
             Bukkit.broadcastMessage(ChatColor.DARK_GREEN + FOPMR_Rank.getNameFromIp(ip) + " logged in via telnet.");
-            for(Player player : Bukkit.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers())
             {
-                if(FOPMR_Rank.isExecutive(player))
+                if (FOPMR_Rank.isExecutive(player))
                 {
                     player.sendMessage(ChatColor.DARK_GREEN + FOPMR_Rank.getNameFromIp(ip) + " is on the IP of " + ip + ".");
                 }
@@ -59,27 +59,27 @@ public final class FOPMR_TelnetListener implements Listener
         try
         {
             CommandSender player = event.getSender();
-            for(Object result : FOPMR_DatabaseInterface.getAsArrayList(null, null, "COMMAND", "COMMANDS"))
+            for (Object result : FOPMR_DatabaseInterface.getAsArrayList(null, null, "COMMAND", "COMMANDS"))
             {
                 String blocked = (String) result;
-                if(blocked.equalsIgnoreCase(event.getCommand().replaceAll("/", "")))
+                if (blocked.equalsIgnoreCase(event.getCommand().replaceAll("/", "")))
                 {
-                    if(!FOPMR_Rank.isRank(player, (int) FOPMR_DatabaseInterface.getFromTable("COMMAND", blocked, "RANK", "COMMANDS")))
+                    if (!FOPMR_Rank.isRank(player, (int) FOPMR_DatabaseInterface.getFromTable("COMMAND", blocked, "RANK", "COMMANDS")))
                     {
                         player.sendMessage(ChatColor.RED + "You are not authorised to use this command.");
                         event.setCancelled(true);
                     }
                 }
             }
-            for(Player player2 : Bukkit.getOnlinePlayers())
+            for (Player player2 : Bukkit.getOnlinePlayers())
             {
-                if(FOPMR_Rank.isSpecialist(player2))
+                if (FOPMR_Rank.isSpecialist(player2))
                 {
                     player2.sendMessage(ChatColor.GRAY + ChatColor.ITALIC.toString() + player.getName() + ": " + event.getCommand().toLowerCase());
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

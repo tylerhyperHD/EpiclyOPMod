@@ -1,6 +1,5 @@
 package net.camtech.fopmremastered;
 
-
 public class FOPMR_Configs
 {
 
@@ -35,7 +34,7 @@ public class FOPMR_Configs
         worlds = new FOPMR_Config(FreedomOpModRemastered.plugin, "worlds.yml");
         worlds.saveDefaultConfig();
     }
-    
+
     public void reloadConfigs()
     {
         admins.reloadConfig();
@@ -68,27 +67,27 @@ public class FOPMR_Configs
     {
         return mainconfig;
     }
-    
+
     public FOPMR_Config getReports()
     {
         return reports;
     }
-    
+
     public FOPMR_Config getAnnouncements()
     {
         return announcements;
     }
-    
+
     public FOPMR_Config getChats()
     {
         return chats;
     }
-    
+
     public FOPMR_Config getAreas()
     {
         return areas;
     }
-    
+
     public FOPMR_Config getWorlds()
     {
         return worlds;

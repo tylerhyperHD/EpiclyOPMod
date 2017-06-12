@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Command_cake extends FOPMR_Command
 {
+
     public Command_cake()
     {
         super("cake", "/cake", "Give everyone a cake.", Rank.OP);
@@ -21,7 +22,7 @@ public class Command_cake extends FOPMR_Command
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        Bukkit.broadcastMessage(CUtils_Methods.randomChatColour() + sender.getName() + " - Happy Birthday to " + CUtils_Methods.randomChatColour() + "Camzie99!");   
+        Bukkit.broadcastMessage(CUtils_Methods.randomChatColour() + "But there's no sense in crying over every mistake. You just keep on trying until you run out of cake.");
         for (Player player : Bukkit.getOnlinePlayers())
         {
             ItemStack cookie = new ItemStack(Material.CAKE, 1);

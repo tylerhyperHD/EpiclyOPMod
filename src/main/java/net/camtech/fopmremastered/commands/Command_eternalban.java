@@ -14,11 +14,11 @@ public class Command_eternalban
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 1)
+        if (args.length != 1)
         {
             return false;
         }
-        if(!FOPMR_Bans.isBanned(args[0]))
+        if (!FOPMR_Bans.isBanned(args[0]))
         {
             sender.sendMessage(ChatColor.RED + "The player: " + args[0] + " is not banned.");
             return true;
@@ -31,7 +31,7 @@ public class Command_eternalban
             String message = (FOPMR_DatabaseInterface.getBooleanFromTable("NAME", args[0], "PERM", "NAME_BANS") ? ChatColor.GREEN + "Toggled eternal ban on." : ChatColor.RED + "Toggled eternal ban off.");
             sender.sendMessage(message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

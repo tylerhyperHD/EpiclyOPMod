@@ -7,9 +7,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="spectator", description="Set a player's gamemode to spectator mode.", usage="/spectator <player>", aliases="gmsp")
+@CommandParameters(name = "spectator", description = "Set a player's gamemode to spectator mode.", usage = "/spectator <player>", aliases = "gmsp")
 public class Command_spectator
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!(sender instanceof Player))

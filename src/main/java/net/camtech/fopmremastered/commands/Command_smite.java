@@ -14,9 +14,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="smite", description="Smite a player.", usage="/smite [player] [reason]", rank=Rank.ADMIN)
+@CommandParameters(name = "smite", description = "Smite a player.", usage = "/smite [player] [reason]", rank = Rank.ADMIN)
 public class Command_smite
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length < 2)

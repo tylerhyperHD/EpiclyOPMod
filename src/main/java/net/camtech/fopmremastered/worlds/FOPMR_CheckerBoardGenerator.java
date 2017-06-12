@@ -23,21 +23,21 @@ public class FOPMR_CheckerBoardGenerator extends ChunkGenerator
     public byte[] generate(World world, Random rand, int chunkx, int chunkz)
     {
         int even = 0;
-        if(chunkx % 2 == 0)
+        if (chunkx % 2 == 0)
         {
             even++;
         }
-        if(chunkz % 2 == 0)
+        if (chunkz % 2 == 0)
         {
             even++;
         }
         byte[] result = new byte[32768];
         int y = 0;
-        for(int x = 0; x < 16; x++)
+        for (int x = 0; x < 16; x++)
         {
-            for(int z = 0; z < 16; z++)
+            for (int z = 0; z < 16; z++)
             {
-                if(even == 1)
+                if (even == 1)
                 {
                     result[xyzToByte(x, y, z)] = (byte) Material.BEDROCK.getId();
                 }
@@ -47,13 +47,13 @@ public class FOPMR_CheckerBoardGenerator extends ChunkGenerator
                 }
             }
         }
-        for(y = 1; y < 50; y++)
+        for (y = 1; y < 50; y++)
         {
-            for(int x = 0; x < 16; x++)
+            for (int x = 0; x < 16; x++)
             {
-                for(int z = 0; z < 16; z++)
+                for (int z = 0; z < 16; z++)
                 {
-                    if(even == 1)
+                    if (even == 1)
                     {
                         result[xyzToByte(x, y, z)] = (byte) Material.DIRT.getId();
                     }
@@ -65,11 +65,11 @@ public class FOPMR_CheckerBoardGenerator extends ChunkGenerator
             }
         }
         y = 50;
-        for(int x = 0; x < 16; x++)
+        for (int x = 0; x < 16; x++)
         {
-            for(int z = 0; z < 16; z++)
+            for (int z = 0; z < 16; z++)
             {
-                if(even == 1)
+                if (even == 1)
                 {
                     result[xyzToByte(x, y, z)] = (byte) Material.GRASS.getId();
                 }

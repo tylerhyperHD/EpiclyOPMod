@@ -5,7 +5,6 @@ import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import net.camtech.fopmremastered.chats.FOPMR_PrivateChat;
 import net.camtech.fopmremastered.chats.FOPMR_PrivateChats;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,25 +16,25 @@ public class Command_privatechat
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage("Only in-game players may use this command.");
             return true;
         }
         Player player = (Player) sender;
-        if(args.length == 0)
+        if (args.length == 0)
         {
             return false;
         }
-        if(args.length == 1)
+        if (args.length == 1)
         {
-            if(args[0].equalsIgnoreCase("list"))
+            if (args[0].equalsIgnoreCase("list"))
             {
                 sender.sendMessage(ChatColor.GOLD + "List of currently active private chats: ");
-                for(FOPMR_PrivateChat chat : FOPMR_PrivateChats.getFromConfig())
+                for (FOPMR_PrivateChat chat : FOPMR_PrivateChats.getFromConfig())
                 {
                     ChatColor colour = ChatColor.RED;
-                    if(FOPMR_PrivateChats.canAccess(player, chat.getName()))
+                    if (FOPMR_PrivateChats.canAccess(player, chat.getName()))
                     {
                         colour = ChatColor.GREEN;
                     }
@@ -45,7 +44,7 @@ public class Command_privatechat
             }
             try
             {
-                if(args[0].equalsIgnoreCase("off"))
+                if (args[0].equalsIgnoreCase("off"))
                 {
                     sender.sendMessage(ChatColor.GREEN + "You are now talking in the public chat.");
                     FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), "", "CHAT", "PLAYERS");
@@ -55,21 +54,21 @@ public class Command_privatechat
                 FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), args[0], "CHAT", "PLAYERS");
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 FreedomOpModRemastered.plugin.handleException(ex);
             }
         }
-        if(args.length == 2)
+        if (args.length == 2)
         {
-            if(args[0].equalsIgnoreCase("create"))
+            if (args[0].equalsIgnoreCase("create"))
             {
-                if(args[1].equalsIgnoreCase("list") || args[1].equalsIgnoreCase("off"))
+                if (args[1].equalsIgnoreCase("list") || args[1].equalsIgnoreCase("off"))
                 {
                     sender.sendMessage(ChatColor.RED + "Forbidden name.");
                     return true;
                 }
-                if(!FOPMR_PrivateChats.addChat(player, args[1]))
+                if (!FOPMR_PrivateChats.addChat(player, args[1]))
                 {
                     sender.sendMessage(ChatColor.RED + "Chat already exists with that name...");
                     return true;
@@ -77,9 +76,9 @@ public class Command_privatechat
                 sender.sendMessage(ChatColor.GREEN + "Created chat named " + args[1]);
                 return true;
             }
-            if(args[0].equalsIgnoreCase("delete"))
+            if (args[0].equalsIgnoreCase("delete"))
             {
-                if(!FOPMR_PrivateChats.removeChat(player, args[1]))
+                if (!FOPMR_PrivateChats.removeChat(player, args[1]))
                 {
                     sender.sendMessage(ChatColor.RED + "Could not remove chat, you are not the owner or the chat does not exist.");
                     return true;
@@ -89,21 +88,21 @@ public class Command_privatechat
             }
             return false;
         }
-        if(args.length == 3)
+        if (args.length == 3)
         {
-            if(!FOPMR_PrivateChats.isValidChat(args[1]))
+            if (!FOPMR_PrivateChats.isValidChat(args[1]))
             {
                 sender.sendMessage(ChatColor.RED + "No chat could be found with that name.");
             }
-            if(args[0].equalsIgnoreCase("colour") || args[0].equalsIgnoreCase("color"))
+            if (args[0].equalsIgnoreCase("colour") || args[0].equalsIgnoreCase("color"))
             {
                 ChatColor colour = ChatColor.getByChar(args[2]);
-                if(colour == null)
+                if (colour == null)
                 {
                     sender.sendMessage("Invalid colour code...");
                     return true;
                 }
-                if(!FOPMR_PrivateChats.changeColour(player, args[1], colour))
+                if (!FOPMR_PrivateChats.changeColour(player, args[1], colour))
                 {
                     sender.sendMessage(ChatColor.RED + "You are not the owner of this chat or the chat does not exist.");
                     return true;
@@ -112,14 +111,14 @@ public class Command_privatechat
                 return true;
             }
             Player player2 = FOPMR_Rank.getPlayer(args[2]);
-            if(player2 == null)
+            if (player2 == null)
             {
                 sender.sendMessage(ChatColor.RED + "Could not find a player with that name.");
                 return true;
             }
-            if(args[0].equalsIgnoreCase("add"))
+            if (args[0].equalsIgnoreCase("add"))
             {
-                if(!FOPMR_PrivateChats.addPlayer(player, player2, args[1]))
+                if (!FOPMR_PrivateChats.addPlayer(player, player2, args[1]))
                 {
                     sender.sendMessage(ChatColor.RED + "You are not the owner of the chat, the chat does not exist or the player is already in the chat.");
                     return true;
@@ -127,9 +126,9 @@ public class Command_privatechat
                 sender.sendMessage(ChatColor.GREEN + "Player successfully added to the chat.");
                 return true;
             }
-            if(args[0].equalsIgnoreCase("remove"))
+            if (args[0].equalsIgnoreCase("remove"))
             {
-                if(!FOPMR_PrivateChats.removePlayer(player, player2, args[1]))
+                if (!FOPMR_PrivateChats.removePlayer(player, player2, args[1]))
                 {
                     sender.sendMessage(ChatColor.RED + "You are not the owner of the chat (and the selected player is not you), the chat does not exist or the player is not in the chat.");
                     return true;

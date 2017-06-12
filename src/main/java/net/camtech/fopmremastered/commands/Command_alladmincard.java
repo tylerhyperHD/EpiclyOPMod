@@ -17,18 +17,18 @@ public class Command_alladmincard
     {
         try
         {
-            if(args.length == 0)
+            if (args.length == 0)
             {
                 return false;
             }
             String baseCommand = StringUtils.join(args, " ");
 
-            for(Player player : Bukkit.getOnlinePlayers())
+            for (Player player : Bukkit.getOnlinePlayers())
             {
-                for(Object result : FOPMR_DatabaseInterface.getAsArrayList("UUID", null, "UUID", "PLAYERS"))
+                for (Object result : FOPMR_DatabaseInterface.getAsArrayList("UUID", null, "UUID", "PLAYERS"))
                 {
                     String uuid = (String) result;
-                    if(!((String) FOPMR_DatabaseInterface.getFromTable("UUID", uuid, "RANK", "PLAYERS")).equalsIgnoreCase("Op"))
+                    if (!((String) FOPMR_DatabaseInterface.getFromTable("UUID", uuid, "RANK", "PLAYERS")).equalsIgnoreCase("Op"))
                     {
                         String out_command = baseCommand.replaceAll("\\x3f", (String) FOPMR_DatabaseInterface.getFromTable("UUID", uuid, "NAME", "PLAYERS"));
                         sender.sendMessage("Running Command: " + out_command);
@@ -37,7 +37,7 @@ public class Command_alladmincard
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

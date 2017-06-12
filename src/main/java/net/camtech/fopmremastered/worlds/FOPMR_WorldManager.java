@@ -26,30 +26,30 @@ public class FOPMR_WorldManager
         try
         {
             ArrayList<Object> results = FOPMR_DatabaseInterface.getAsArrayList(null, null, "NAME", "WORLDS");
-            for(Object result : results)
+            for (Object result : results)
             {
                 String worldName = (String) result;
-                if(!FOPMR_DatabaseInterface.getBooleanFromTable("NAME", worldName, "ONENABLE", "WORLDS"))
+                if (!FOPMR_DatabaseInterface.getBooleanFromTable("NAME", worldName, "ONENABLE", "WORLDS"))
                 {
                     continue;
                 }
-                if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("flat"))
+                if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("flat"))
                 {
                     createNewWorld(worldName, new FOPMR_FlatGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("default"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("default"))
                 {
                     createNewWorld(worldName, FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("checker"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("checker"))
                 {
                     createNewWorld(worldName, new FOPMR_CheckerBoardGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("empty"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("empty"))
                 {
                     createNewWorld(worldName, new FOPMR_EmptyGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("rollinghills"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("rollinghills"))
                 {
                     createNewWorld(worldName, new FOPMR_RollinghillsGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
@@ -59,7 +59,7 @@ public class FOPMR_WorldManager
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -69,26 +69,26 @@ public class FOPMR_WorldManager
     {
         try
         {
-            for(Object result : FOPMR_DatabaseInterface.getAsArrayList(null, null, "NAME", "WORLDS"))
+            for (Object result : FOPMR_DatabaseInterface.getAsArrayList(null, null, "NAME", "WORLDS"))
             {
                 String worldName = (String) result;
-                if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("flat"))
+                if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("flat"))
                 {
                     createNewWorld(worldName, new FOPMR_FlatGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("default"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("default"))
                 {
                     createNewWorld(worldName, FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("checker"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("checker"))
                 {
                     createNewWorld(worldName, new FOPMR_CheckerBoardGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("empty"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("empty"))
                 {
                     createNewWorld(worldName, new FOPMR_EmptyGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
-                else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("rollinghills"))
+                else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("rollinghills"))
                 {
                     createNewWorld(worldName, new FOPMR_RollinghillsGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
                 }
@@ -98,7 +98,7 @@ public class FOPMR_WorldManager
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -108,23 +108,23 @@ public class FOPMR_WorldManager
     {
         try
         {
-            if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("flat"))
+            if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("flat"))
             {
                 createNewWorld(worldName, new FOPMR_FlatGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
             }
-            else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("default"))
+            else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("default"))
             {
                 createNewWorld(worldName, FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
             }
-            else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("checker"))
+            else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("checker"))
             {
                 createNewWorld(worldName, new FOPMR_CheckerBoardGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
             }
-            else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("empty"))
+            else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("empty"))
             {
                 createNewWorld(worldName, new FOPMR_EmptyGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
             }
-            else if(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("rollinghills"))
+            else if (((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "GENERATOR", "WORLDS")).equalsIgnoreCase("rollinghills"))
             {
                 createNewWorld(worldName, new FOPMR_RollinghillsGenerator(), FOPMR_Rank.getFromName(((String) FOPMR_DatabaseInterface.getFromTable("NAME", worldName, "RANK", "WORLDS"))));
             }
@@ -133,7 +133,7 @@ public class FOPMR_WorldManager
                 Bukkit.broadcastMessage(ChatColor.RED + "The world: " + worldName + " could not be loaded because its generator was invalid!");
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -141,7 +141,7 @@ public class FOPMR_WorldManager
 
     public static void unloadWorlds()
     {
-        for(World world : worlds.keySet())
+        for (World world : worlds.keySet())
         {
             CUtils_Methods.unloadWorld(world);
         }
@@ -150,7 +150,7 @@ public class FOPMR_WorldManager
     public static void createNewWorld(String name, ChunkGenerator generator, Rank rank)
     {
         World world = Bukkit.getWorld(name);
-        if(world == null)
+        if (world == null)
         {
             WorldCreator creator = new WorldCreator(name);
             creator.generator(generator);
@@ -163,7 +163,7 @@ public class FOPMR_WorldManager
     public static void createNewWorld(String name, Rank rank)
     {
         World world = Bukkit.getWorld(name);
-        if(world == null)
+        if (world == null)
         {
             WorldCreator creator = new WorldCreator(name);
             world = creator.createWorld();
@@ -175,18 +175,18 @@ public class FOPMR_WorldManager
     public static void addGuest(String worldname, Player guest, Player moderator)
     {
         World world = Bukkit.getWorld(worldname);
-        if(!worlds.containsKey(world))
+        if (!worlds.containsKey(world))
         {
             moderator.sendMessage(ChatColor.RED + "This world cannot have guests.");
             return;
         }
         FOPMR_GuestList list = guestlists.get(world);
-        if(canAccess(world.getName(), guest))
+        if (canAccess(world.getName(), guest))
         {
             moderator.sendMessage(ChatColor.RED + "The player can already access the world.");
             return;
         }
-        if(FOPMR_Rank.getRank(moderator).level < worlds.get(world).level)
+        if (FOPMR_Rank.getRank(moderator).level < worlds.get(world).level)
         {
             moderator.sendMessage(ChatColor.RED + "You cannot add guests to this world.");
             return;
@@ -199,18 +199,18 @@ public class FOPMR_WorldManager
     public static void removeGuest(String worldname, Player guest, Player moderator)
     {
         World world = Bukkit.getWorld(worldname);
-        if(!worlds.containsKey(world))
+        if (!worlds.containsKey(world))
         {
             moderator.sendMessage(ChatColor.RED + "This world cannot have guests.");
             return;
         }
         FOPMR_GuestList list = guestlists.get(world);
-        if(!list.isGuest(guest.getName()))
+        if (!list.isGuest(guest.getName()))
         {
             moderator.sendMessage(ChatColor.RED + "This player is not a guest of this world.");
             return;
         }
-        if(FOPMR_Rank.getRank(moderator).level < worlds.get(world).level)
+        if (FOPMR_Rank.getRank(moderator).level < worlds.get(world).level)
         {
             moderator.sendMessage(ChatColor.RED + "You do not have permission to remove guests from this world.");
             return;
@@ -221,7 +221,7 @@ public class FOPMR_WorldManager
 
     public static void removeGuestsFromModerator(Player moderator)
     {
-        for(FOPMR_GuestList list : guestlists.values())
+        for (FOPMR_GuestList list : guestlists.values())
         {
             list.removeGuestsFromModerator(moderator.getName());
         }
@@ -230,19 +230,19 @@ public class FOPMR_WorldManager
     public static boolean canAccess(String name, Player player)
     {
         World world = Bukkit.getWorld(name);
-        if(world == null)
+        if (world == null)
         {
             return false;
         }
-        if(!worlds.containsKey(world))
+        if (!worlds.containsKey(world))
         {
             return true;
         }
-        if(("builderworld".equals(name) || "buildernormal".equals(name)) && FOPMR_Rank.isMasterBuilder(player))
+        if (("builderworld".equals(name) || "buildernormal".equals(name)) && FOPMR_Rank.isMasterBuilder(player))
         {
             return true;
         }
-        if(guestlists.get(world).isGuest(player.getName()))
+        if (guestlists.get(world).isGuest(player.getName()))
         {
             return true;
         }
@@ -252,16 +252,16 @@ public class FOPMR_WorldManager
     public static void sendToWorld(String name, Player player)
     {
         World world = Bukkit.getWorld(name);
-        if(world == null)
+        if (world == null)
         {
             player.sendMessage(ChatColor.RED + "The world \"" + name + "\" does not exist.");
         }
-        else if(!worlds.containsKey(world))
+        else if (!worlds.containsKey(world))
         {
             player.sendMessage(ChatColor.GREEN + "Teleporting you to \"" + name + "\".");
             player.teleport(world.getSpawnLocation());
         }
-        else if(canAccess(name, player))
+        else if (canAccess(name, player))
         {
             player.sendMessage(ChatColor.GREEN + "Teleporting you to \"" + name + "\".");
             player.teleport(world.getSpawnLocation());
@@ -275,7 +275,7 @@ public class FOPMR_WorldManager
     public static void wipeFlatlands()
     {
         final World flatlands = Bukkit.getWorld("flatlands");
-        for(Player player : flatlands.getPlayers())
+        for (Player player : flatlands.getPlayers())
         {
             player.setOp(false);
             player.setWhitelisted(false);

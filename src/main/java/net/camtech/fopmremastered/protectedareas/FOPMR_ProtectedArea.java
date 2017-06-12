@@ -64,11 +64,11 @@ public class FOPMR_ProtectedArea
 
     public boolean canAccess(Player player)
     {
-        if(isOwner(player))
+        if (isOwner(player))
         {
             return true;
         }
-        if(allowed.contains(player.getName()))
+        if (allowed.contains(player.getName()))
         {
             return true;
         }
@@ -77,11 +77,11 @@ public class FOPMR_ProtectedArea
 
     public boolean addPlayer(Player sender, Player player)
     {
-        if(!isOwner(sender) && getRank().level > FOPMR_Rank.getRank(sender).level)
+        if (!isOwner(sender) && getRank().level > FOPMR_Rank.getRank(sender).level)
         {
             return false;
         }
-        if(this.allowed.contains(player.getName()) || this.isOwner(player))
+        if (this.allowed.contains(player.getName()) || this.isOwner(player))
         {
             return false;
         }
@@ -97,7 +97,7 @@ public class FOPMR_ProtectedArea
             player.sendMessage(ChatColor.GREEN + "You have been added to the protected area " + this.name + " by " + sender.getName() + ".");
             return true;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -108,11 +108,11 @@ public class FOPMR_ProtectedArea
     {
         try
         {
-            if((!isOwner(sender) || !this.allowed.contains(player.getName())) && getRank().level > FOPMR_Rank.getRank(sender).level)
+            if ((!isOwner(sender) || !this.allowed.contains(player.getName())) && getRank().level > FOPMR_Rank.getRank(sender).level)
             {
                 return false;
             }
-            if(this.allowed.contains(player.getName()))
+            if (this.allowed.contains(player.getName()))
             {
                 this.allowed.remove(player.getName());
                 Connection c = FOPMR_DatabaseInterface.getConnection();
@@ -124,7 +124,7 @@ public class FOPMR_ProtectedArea
                 return true;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -138,7 +138,7 @@ public class FOPMR_ProtectedArea
 
     public boolean isInRange(Location location)
     {
-        if(this.loc.getWorld() == location.getWorld())
+        if (this.loc.getWorld() == location.getWorld())
         {
             return this.loc.distance(location) < range;
         }

@@ -13,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Command_cookie extends FOPMR_Command
 {
+
     public Command_cookie()
     {
         super("cookie", "/cookie", "Give everyone a cookie.", Rank.SUPER);
@@ -21,7 +22,7 @@ public class Command_cookie extends FOPMR_Command
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        Bukkit.broadcastMessage(CUtils_Methods.randomChatColour() + sender.getName() + " - giving all players a " + CUtils_Methods.randomChatColour() + "COOKIE!");   
+        Bukkit.broadcastMessage(CUtils_Methods.randomChatColour() + sender.getName() + " - giving all players a " + CUtils_Methods.randomChatColour() + "COOKIE!");
         for (Player player : Bukkit.getOnlinePlayers())
         {
             ItemStack cookie = new ItemStack(Material.COOKIE, 1);

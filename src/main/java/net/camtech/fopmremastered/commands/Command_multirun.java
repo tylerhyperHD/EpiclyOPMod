@@ -22,7 +22,7 @@ public class Command_multirun extends FOPMR_Command
         {
             return false;
         }
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage(ChatColor.RED + "This command must be executed in-game.");
         }
@@ -38,8 +38,7 @@ public class Command_multirun extends FOPMR_Command
         {
             ((Player) sender).chat("/" + baseCommand);
             i++;
-        }
-        while (i < Integer.parseInt(args[0]));
+        } while (i < Integer.parseInt(args[0]));
         return true;
     }
 

@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 @CommandParameters(name = "votelinks", usage = "/votelinks", description = "View the links to vote.")
 public class Command_votelinks
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         ChatColor sameRandom = CUtils_Methods.randomChatColour();

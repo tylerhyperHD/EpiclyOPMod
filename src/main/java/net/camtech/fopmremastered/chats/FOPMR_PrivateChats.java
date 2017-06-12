@@ -18,7 +18,7 @@ public class FOPMR_PrivateChats
 
     public static boolean canAccess(Player player, String chat)
     {
-        if(!isValidChat(chat))
+        if (!isValidChat(chat))
         {
             return false;
         }
@@ -28,7 +28,7 @@ public class FOPMR_PrivateChats
 
     public static boolean addPlayer(Player sender, Player player, String chat)
     {
-        if(!isValidChat(chat))
+        if (!isValidChat(chat))
         {
             return false;
         }
@@ -38,7 +38,7 @@ public class FOPMR_PrivateChats
 
     public static boolean addChat(Player player, String chat)
     {
-        if(isValidChat(chat))
+        if (isValidChat(chat))
         {
             return false;
         }
@@ -49,7 +49,7 @@ public class FOPMR_PrivateChats
 
     public static boolean changeColour(Player player, String chat, ChatColor colour)
     {
-        if(!isValidChat(chat))
+        if (!isValidChat(chat))
         {
             return false;
         }
@@ -59,7 +59,7 @@ public class FOPMR_PrivateChats
 
     public static boolean removePlayer(Player sender, Player player, String chat)
     {
-        if(!isValidChat(chat))
+        if (!isValidChat(chat))
         {
             return false;
         }
@@ -69,12 +69,12 @@ public class FOPMR_PrivateChats
 
     public static boolean removeChat(Player player, String chat)
     {
-        if(!isValidChat(chat))
+        if (!isValidChat(chat))
         {
             return false;
         }
         FOPMR_PrivateChat pchat = getFromName(chat);
-        if(pchat.isOwner(player))
+        if (pchat.isOwner(player))
         {
             pchat.sendToChat(player, "::WARNING:: CHAT IS BEING REMOVED ::WARNING::");
             removeChat(pchat);
@@ -88,12 +88,12 @@ public class FOPMR_PrivateChats
         ArrayList<FOPMR_PrivateChat> temp = new ArrayList<>();
         try
         {
-            for(Object obj : FOPMR_DatabaseInterface.getAsArrayList("NAME", null, "NAME", "CHATS"))
+            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList("NAME", null, "NAME", "CHATS"))
             {
                 temp.add(getFromName((String) obj));
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -102,11 +102,11 @@ public class FOPMR_PrivateChats
 
     public static void sendToChat(Player player, String message, String chat)
     {
-        if(!isValidChat(chat))
+        if (!isValidChat(chat))
         {
             return;
         }
-        if(!canAccess(player, chat))
+        if (!canAccess(player, chat))
         {
             return;
         }
@@ -120,7 +120,7 @@ public class FOPMR_PrivateChats
         {
             return (FOPMR_DatabaseInterface.getFromTable("NAME", chat, "NAME", "CHATS") != null);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
             return false;
@@ -129,7 +129,7 @@ public class FOPMR_PrivateChats
 
     public static FOPMR_PrivateChat getFromName(String name)
     {
-        if(!isValidChat(name))
+        if (!isValidChat(name))
         {
             return null;
         }
@@ -138,12 +138,14 @@ public class FOPMR_PrivateChats
             String owner = (String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "OWNER", "CHATS");
             Rank rank = FOPMR_Rank.getFromName((String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "RANK", "CHATS"));
             Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<String>>(){}.getType();
+            Type type = new TypeToken<ArrayList<String>>()
+            {
+            }.getType();
             ArrayList<String> allowed = gson.fromJson((String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "ALLOWED", "CHATS"), type);
             ChatColor colour = ChatColor.getByChar((String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "COLOUR", "CHATS"));
             return new FOPMR_PrivateChat(owner, name, colour, allowed, rank);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -160,13 +162,15 @@ public class FOPMR_PrivateChats
             statement.setString(2, chat.getOwner());
             statement.setString(3, chat.getRank().name);
             Gson gson = new Gson();
-            Type type = new TypeToken<ArrayList<String>>() {}.getType();
+            Type type = new TypeToken<ArrayList<String>>()
+            {
+            }.getType();
             statement.setString(4, gson.toJson(chat.getAllowed(), type));
             statement.setString(5, Character.toString(chat.getColour().getChar()));
             statement.executeUpdate();
             c.commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -174,7 +178,7 @@ public class FOPMR_PrivateChats
 
     public static void removeChat(FOPMR_PrivateChat chat)
     {
-        if(!isValidChat(chat.getName()))
+        if (!isValidChat(chat.getName()))
         {
             return;
         }
@@ -186,7 +190,7 @@ public class FOPMR_PrivateChats
             statement.executeUpdate();
             c.commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

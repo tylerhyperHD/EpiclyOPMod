@@ -21,7 +21,7 @@ public class FOPMR_BoardManager
             Scoreboard board = manager.getNewScoreboard();
             String name = player.getName();
             Objective o = board.getObjective("stats");
-            if(o == null)
+            if (o == null)
             {
                 o = board.registerNewObjective("stats", "dummy");
                 o.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -29,11 +29,11 @@ public class FOPMR_BoardManager
             }
             String builderstring = "No";
             String djumpstring = "No";
-            if(FOPMR_Rank.isMasterBuilder(player))
+            if (FOPMR_Rank.isMasterBuilder(player))
             {
                 builderstring = "Yes";
             }
-            if(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "DOUBLEJUMP", "PLAYERS"))
+            if (FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "DOUBLEJUMP", "PLAYERS"))
             {
                 djumpstring = "Yes";
             }
@@ -53,7 +53,7 @@ public class FOPMR_BoardManager
 
             player.setScoreboard(board);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

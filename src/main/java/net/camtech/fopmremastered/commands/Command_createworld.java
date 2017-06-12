@@ -19,12 +19,12 @@ public class Command_createworld
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 4)
+        if (args.length != 4)
         {
             return false;
         }
         boolean pass;
-        switch(args[1])
+        switch (args[1])
         {
             case "flat":
                 pass = true;
@@ -44,12 +44,12 @@ public class Command_createworld
             default:
                 pass = false;
         }
-        if(!pass)
+        if (!pass)
         {
             sender.sendMessage(ChatColor.RED + "The available generators are: \"flat\", \"empty\", \"rollinghills\", \"checker\" and \"default\"");
             return true;
         }
-        if(Bukkit.getWorld(args[0]) != null)
+        if (Bukkit.getWorld(args[0]) != null)
         {
             sender.sendMessage(ChatColor.RED + "A world already exists with that name.");
             return true;
@@ -58,30 +58,30 @@ public class Command_createworld
         {
             int i = Integer.parseInt(args[2]);
         }
-        catch(NumberFormatException ex)
+        catch (NumberFormatException ex)
         {
             sender.sendMessage(ChatColor.RED + "The rank must be an integer value.");
             return false;
         }
         boolean onEnable = false;
-        if(args[3].equalsIgnoreCase("true"))
+        if (args[3].equalsIgnoreCase("true"))
         {
             onEnable = true;
         }
         try
         {
-        Connection c = FOPMR_DatabaseInterface.getConnection();
-        PreparedStatement statement = c.prepareStatement("INSERT INTO WORLDS (NAME, GENERATOR, RANK, ONENABLE) VALUES (?, ?, ?, ?)");
-        statement.setString(1, args[0]);
-        statement.setString(2, args[1]);
-        statement.setString(3, FOPMR_Rank.getFromLevel(Integer.parseInt(args[2])).name);
-        statement.setBoolean(4, onEnable);
-        statement.executeUpdate();
-        c.commit();
-        FOPMR_WorldManager.reloadWorldsFromConfig();
-        FOPMR_Commons.adminAction(sender.getName(), "creating new world named: " + args[0] + " with the generator of: " + args[1] + " accessible to anyone with the clearance level of " + Integer.parseInt(args[2]) + " or above.", true);
+            Connection c = FOPMR_DatabaseInterface.getConnection();
+            PreparedStatement statement = c.prepareStatement("INSERT INTO WORLDS (NAME, GENERATOR, RANK, ONENABLE) VALUES (?, ?, ?, ?)");
+            statement.setString(1, args[0]);
+            statement.setString(2, args[1]);
+            statement.setString(3, FOPMR_Rank.getFromLevel(Integer.parseInt(args[2])).name);
+            statement.setBoolean(4, onEnable);
+            statement.executeUpdate();
+            c.commit();
+            FOPMR_WorldManager.reloadWorldsFromConfig();
+            FOPMR_Commons.adminAction(sender.getName(), "creating new world named: " + args[0] + " with the generator of: " + args[1] + " accessible to anyone with the clearance level of " + Integer.parseInt(args[2]) + " or above.", true);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

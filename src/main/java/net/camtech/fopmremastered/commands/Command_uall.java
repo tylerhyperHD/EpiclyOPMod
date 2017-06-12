@@ -9,19 +9,20 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="uall",description="Undisguise all players.",usage="/uall",rank=ADMIN)
+@CommandParameters(name = "uall", description = "Undisguise all players.", usage = "/uall", rank = ADMIN)
 public class Command_uall
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(Bukkit.getPluginManager().getPlugin("LibsDisguises") == null)
+        if (Bukkit.getPluginManager().getPlugin("LibsDisguises") == null)
         {
             sender.sendMessage(ChatColor.RED + "LibsDigsuises could not be found.");
             return true;
         }
-        for(Player player : Bukkit.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
-            if(FOPMR_Rank.getRank(sender).level > FOPMR_Rank.getRank(player).level)
+            if (FOPMR_Rank.getRank(sender).level > FOPMR_Rank.getRank(player).level)
             {
                 DisguiseAPI.undisguiseToAll(player);
             }

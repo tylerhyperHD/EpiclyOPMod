@@ -10,9 +10,10 @@ import org.bukkit.entity.Player;
 @CommandParameters(name = "setspawnworld", description = "Set the spawn of the world you are in.", usage = "/setspawnworld", aliases = "ssw", rank = FOPMR_Rank.Rank.ADMIN)
 public class Command_setspawnworld
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(!(sender instanceof Player)) 
+        if (!(sender instanceof Player))
         {
             sender.sendMessage(ChatColor.RED + "You must be in-game to use this command.");
             return true;

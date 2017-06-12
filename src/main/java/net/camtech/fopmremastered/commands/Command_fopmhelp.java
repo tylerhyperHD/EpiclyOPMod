@@ -26,7 +26,7 @@ public class Command_fopmhelp
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 1)
+        if (args.length != 1)
         {
             return false;
         }
@@ -37,21 +37,21 @@ public class Command_fopmhelp
         {
             Pattern PATTERN = Pattern.compile("net/camtech/fopmremastered/commands/(Command_[^\\$]+)\\.class");
             CodeSource codeSource = FreedomOpModRemastered.class.getProtectionDomain().getCodeSource();
-            if(codeSource != null)
+            if (codeSource != null)
             {
                 ZipInputStream zip = new ZipInputStream(codeSource.getLocation().openStream());
                 ZipEntry zipEntry;
-                while((zipEntry = zip.getNextEntry()) != null)
+                while ((zipEntry = zip.getNextEntry()) != null)
                 {
                     String entryName = zipEntry.getName();
                     Matcher matcher = PATTERN.matcher(entryName);
-                    if(matcher.find())
+                    if (matcher.find())
                     {
                         try
                         {
                             Class<?> commandClass = Class.forName("net.camtech.fopmremastered.commands." + matcher.group(1));
                             FOPMR_Command cmdconstructed;
-                            if(commandClass.isAnnotationPresent(CommandParameters.class))
+                            if (commandClass.isAnnotationPresent(CommandParameters.class))
                             {
                                 Annotation annotation = commandClass.getAnnotation(CommandParameters.class);
                                 CommandParameters params = (CommandParameters) annotation;
@@ -63,17 +63,17 @@ public class Command_fopmhelp
                                 cmdconstructed = (FOPMR_Command) construct.newInstance();
                             }
                             String message = ChatColor.GOLD + cmdconstructed.command + ChatColor.GREEN + " :|: " + ChatColor.BLUE + cmdconstructed.description + ChatColor.GREEN + " :|: " + ChatColor.AQUA + cmdconstructed.usage;
-                            if(!(cmdconstructed.alias == null) && !cmdconstructed.alias.isEmpty())
+                            if (!(cmdconstructed.alias == null) && !cmdconstructed.alias.isEmpty())
                             {
                                 message = message + ChatColor.GREEN + " :|: " + ChatColor.RED + "[" + StringUtils.join(cmdconstructed.alias, ", ") + "]";
                             }
-                            if(FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(sender), cmdconstructed.rank))
+                            if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(sender), cmdconstructed.rank))
                             {
                                 messages.add(message);
                             }
                             pages = FOPMR_Commons.chopped(messages, 10);
                         }
-                        catch(ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+                        catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                         {
                             Bukkit.broadcastMessage("" + ex);
                         }
@@ -81,20 +81,20 @@ public class Command_fopmhelp
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.getLogger().severe(ex.getLocalizedMessage());
         }
         try
         {
             int i = Integer.parseInt(args[0]);
-            for(String command : pages.get(i - 1))
+            for (String command : pages.get(i - 1))
             {
                 sender.sendMessage(command);
             }
             sender.sendMessage(ChatColor.GOLD + "Help page " + i + " / " + pages.size());
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             sender.sendMessage(ChatColor.RED + "The argument must be a page number!");
         }

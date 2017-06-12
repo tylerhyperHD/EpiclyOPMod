@@ -46,7 +46,7 @@ public class FOPMR_Bans
 
     public static void addBan(String name, String reason, String banner, boolean post)
     {
-        if(post)
+        if (post)
         {
             String message = name + " has been banned by " + banner + " with the reason: " + reason.split(" — ")[0] + ".";
             FOPMR_RestManager.sendMessage(config.getInt("rest.banid"), message);
@@ -60,7 +60,7 @@ public class FOPMR_Bans
             statement.setString(2, reason);
             statement.setBoolean(3, false);
             statement.executeUpdate();
-            if(FOPMR_DatabaseInterface.getIpFromName(name) != null)
+            if (FOPMR_DatabaseInterface.getIpFromName(name) != null)
             {
                 statement = c.prepareStatement("INSERT OR REPLACE INTO IP_BANS (IP, REASON, PERM) VALUES (?, ?, ?)");
                 statement.setString(1, FOPMR_DatabaseInterface.getIpFromName(name));
@@ -68,7 +68,7 @@ public class FOPMR_Bans
                 statement.setBoolean(3, false);
                 statement.executeUpdate();
             }
-            if(FOPMR_DatabaseInterface.getUuidFromName(name) != null)
+            if (FOPMR_DatabaseInterface.getUuidFromName(name) != null)
             {
                 statement = c.prepareStatement("INSERT OR REPLACE INTO UUID_BANS (UUID, REASON, PERM) VALUES (?, ?, ?)");
                 statement.setString(1, FOPMR_DatabaseInterface.getUuidFromName(name));
@@ -78,7 +78,7 @@ public class FOPMR_Bans
                 c.commit();
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -107,7 +107,7 @@ public class FOPMR_Bans
             statement.executeUpdate();
             c.commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -124,7 +124,7 @@ public class FOPMR_Bans
         {
             return isBanned(name, FOPMR_DatabaseInterface.getIpFromName(name));
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -135,22 +135,22 @@ public class FOPMR_Bans
     {
         try
         {
-            if(FOPMR_DatabaseInterface.getFromTable("NAME", name, "NAME", "NAME_BANS") != null)
+            if (FOPMR_DatabaseInterface.getFromTable("NAME", name, "NAME", "NAME_BANS") != null)
             {
                 return true;
             }
 
-            if(FOPMR_DatabaseInterface.getFromTable("IP", ip, "IP", "IP_BANS") != null)
+            if (FOPMR_DatabaseInterface.getFromTable("IP", ip, "IP", "IP_BANS") != null)
             {
                 return true;
             }
 
-            if(FOPMR_DatabaseInterface.getFromTable("UUID", FOPMR_DatabaseInterface.getUuidFromName(name), "UUID", "UUID_BANS") != null)
+            if (FOPMR_DatabaseInterface.getFromTable("UUID", FOPMR_DatabaseInterface.getUuidFromName(name), "UUID", "UUID_BANS") != null)
             {
                 return true;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -160,35 +160,35 @@ public class FOPMR_Bans
     public static String getReason(String name, String ip)
     {
 
-        if(!isBanned(name, ip))
+        if (!isBanned(name, ip))
         {
             return "Player is not banned.";
         }
-        if("70.189.160.159".equals(ip))
+        if ("70.189.160.159".equals(ip))
         {
             return "Massive imposter, fuck off, you're hardcoded to permban you twat.";
         }
         try
         {
-            if(FOPMR_DatabaseInterface.getFromTable("NAME", name, "NAME", "NAME_BANS") != null)
+            if (FOPMR_DatabaseInterface.getFromTable("NAME", name, "NAME", "NAME_BANS") != null)
             {
                 return (String) FOPMR_DatabaseInterface.getFromTable("NAME", name, "REASON", "NAME_BANS");
             }
-            if(FOPMR_DatabaseInterface.getFromTable("IP", ip, "IP", "IP_BANS") != null)
+            if (FOPMR_DatabaseInterface.getFromTable("IP", ip, "IP", "IP_BANS") != null)
             {
                 return (String) FOPMR_DatabaseInterface.getFromTable("IP", ip, "REASON", "IP_BANS");
             }
-            if(FOPMR_DatabaseInterface.getFromTable("UUID", Bukkit.getOfflinePlayer(name).getUniqueId().toString(), "UUID", "UUID_BANS") != null)
+            if (FOPMR_DatabaseInterface.getFromTable("UUID", Bukkit.getOfflinePlayer(name).getUniqueId().toString(), "UUID", "UUID_BANS") != null)
             {
                 return (String) FOPMR_DatabaseInterface.getFromTable("UUID", Bukkit.getOfflinePlayer(name).getUniqueId().toString(), "REASON", "UUID_BANS");
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
             return "An exception occurred...";
         }
-        if(CUtils_Methods.containsSimilar(name, "PvP"))
+        if (CUtils_Methods.containsSimilar(name, "PvP"))
         {
             return "Stupid idiot who serial greifs always using the same kind of name, welcome to hardcoded permban.";
         }
@@ -201,7 +201,7 @@ public class FOPMR_Bans
         {
             return getReason(name, FOPMR_DatabaseInterface.getIpFromName(name));
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
             return "An exception occurred";

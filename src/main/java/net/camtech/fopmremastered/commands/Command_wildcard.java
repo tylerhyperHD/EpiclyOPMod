@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 public class Command_wildcard extends FOPMR_Command
 {
+
     public Command_wildcard()
     {
         super("wildcard", "/wildcard [command]", "Run a command once for every player on the server (? gets replaced with their name).", Rank.SUPER);

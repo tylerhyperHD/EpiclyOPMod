@@ -9,9 +9,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="forcechat", description="Force a player to send a chat message.", usage="/forchat [player] [message]", rank=Rank.SENIOR, aliases="fc, fchat, forcec")
+@CommandParameters(name = "forcechat", description = "Force a player to send a chat message.", usage = "/forchat [player] [message]", rank = Rank.SENIOR, aliases = "fc, fchat, forcec")
 public class Command_forcechat
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length < 2)

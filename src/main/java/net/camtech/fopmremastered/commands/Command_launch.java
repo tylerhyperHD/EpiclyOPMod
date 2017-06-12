@@ -11,6 +11,7 @@ import org.bukkit.util.Vector;
 @CommandParameters(name = "launch", description = "Launch a player.", usage = "/launch <player> [strength]")
 public class Command_launch
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         Player player;
@@ -22,7 +23,7 @@ public class Command_launch
                 return false;
             }
             player = FOPMR_Rank.getPlayer(args[0]);
-            if(!FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(sender), FOPMR_Rank.getRank(player)))
+            if (!FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(sender), FOPMR_Rank.getRank(player)))
             {
                 sender.sendMessage(ChatColor.RED + "You can only launch people of a lower rank than yourself.");
                 return true;
@@ -31,7 +32,7 @@ public class Command_launch
         }
         else
         {
-            if(!(sender instanceof Player))
+            if (!(sender instanceof Player))
             {
                 return false;
             }

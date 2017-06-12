@@ -8,9 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-@CommandParameters(name="plc", description="Manage plugins.", usage="/plc [enable | disable | reload] [plugin name]", aliases="plugincontrol", rank=Rank.EXECUTIVE)
+@CommandParameters(name = "plc", description = "Manage plugins.", usage = "/plc [enable | disable | reload] [plugin name]", aliases = "plugincontrol", rank = Rank.EXECUTIVE)
 public class Command_plc
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length != 2)

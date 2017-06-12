@@ -10,26 +10,27 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class FOPMR_Config
 {
+
     private final String fileName;
     private final JavaPlugin plugin;
 
     private File configFile;
     private FileConfiguration fileConfiguration;
-    
+
     public FOPMR_Config(JavaPlugin plugin, String fileName)
     {
-        if(plugin == null)
+        if (plugin == null)
         {
             throw new IllegalArgumentException("plugin cannot be null");
         }
-        if(!plugin.isEnabled())
+        if (!plugin.isEnabled())
         {
             throw new IllegalArgumentException("plugin must be initialized");
         }
         this.plugin = plugin;
         this.fileName = fileName;
         File dataFolder = plugin.getDataFolder();
-        if(dataFolder == null)
+        if (dataFolder == null)
         {
             throw new IllegalStateException();
         }
@@ -42,7 +43,7 @@ public class FOPMR_Config
 
         // Look for defaults in the jar
         InputStream defConfigStream = plugin.getResource(fileName);
-        if(defConfigStream != null)
+        if (defConfigStream != null)
         {
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
             fileConfiguration.setDefaults(defConfig);
@@ -51,7 +52,7 @@ public class FOPMR_Config
 
     public FileConfiguration getConfig()
     {
-        if(fileConfiguration == null)
+        if (fileConfiguration == null)
         {
             this.reloadConfig();
         }
@@ -60,15 +61,17 @@ public class FOPMR_Config
 
     public void saveConfig()
     {
-        if(fileConfiguration == null || configFile == null)
+        if (fileConfiguration == null || configFile == null)
         {
             return;
-        } else
+        }
+        else
         {
             try
             {
                 getConfig().save(configFile);
-            } catch(IOException ex)
+            }
+            catch (IOException ex)
             {
                 plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
             }
@@ -77,7 +80,7 @@ public class FOPMR_Config
 
     public void saveDefaultConfig()
     {
-        if(!configFile.exists())
+        if (!configFile.exists())
         {
             this.plugin.saveResource(fileName, false);
         }

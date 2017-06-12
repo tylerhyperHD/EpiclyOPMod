@@ -17,26 +17,26 @@ public class Command_unloadworld
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 1)
+        if (args.length != 1)
         {
             return false;
         }
         boolean loaded = false;
-        for(World world : Bukkit.getWorlds())
+        for (World world : Bukkit.getWorlds())
         {
-            if(world.getName().equals(args[0]))
+            if (world.getName().equals(args[0]))
             {
                 loaded = true;
             }
         }
-        if(!loaded)
+        if (!loaded)
         {
             sender.sendMessage(ChatColor.RED + "The world you are trying to unload, is not loaded.");
             return true;
         }
         try
         {
-            if(FOPMR_DatabaseInterface.getFromTable("NAME", args[0], "NAME", "WORLDS") != null)
+            if (FOPMR_DatabaseInterface.getFromTable("NAME", args[0], "NAME", "WORLDS") != null)
             {
                 sender.sendMessage(ChatColor.RED + "The world you are trying to load, does not exist or is not a custom FOPM: R world.");
                 return true;
@@ -44,7 +44,7 @@ public class Command_unloadworld
             CUtils_Methods.unloadWorld(Bukkit.getWorld(args[0]));
             FOPMR_Commons.adminAction(sender.getName(), "unloading the world: \"" + args[0] + "\" from memory.", true);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

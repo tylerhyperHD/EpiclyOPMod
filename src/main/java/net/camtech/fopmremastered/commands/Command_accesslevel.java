@@ -15,10 +15,10 @@ import org.bukkit.entity.Player;
 @CommandParameters(name = "accesslevel", usage = "/accesslevel [level]", description = "Change server access level.", aliases = "al, alevel, accessl, ld, ldown, lockdown, lockd", rank = FOPMR_Rank.Rank.ADMIN)
 public class Command_accesslevel
 {
-    
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length < 1)
+        if (args.length < 1)
         {
             return false;
         }
@@ -27,26 +27,26 @@ public class Command_accesslevel
         {
             level = Integer.parseInt(args[0]);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             level = FOPMR_Rank.getFromName(StringUtils.join(ArrayUtils.subarray(args, 0, args.length), " ")).level;
         }
-        if(FOPMR_Rank.getRank(sender).level < level)
+        if (FOPMR_Rank.getRank(sender).level < level)
         {
             sender.sendMessage(ChatColor.RED + "You can only set the access level to your rank or lower.");
             return true;
         }
         FreedomOpModRemastered.plugin.getConfig().set("general.accessLevel", level);
         FreedomOpModRemastered.plugin.saveConfig();
-        for(Player player : Bukkit.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
-            if(FOPMR_Rank.getRank(player).level < level)
+            if (FOPMR_Rank.getRank(player).level < level)
             {
                 player.kickPlayer("Server has been put into lockdown mode.");
             }
         }
         String message = sender.getName() + " has locked the server down to level " + level + ".";
-        if(level == 0)
+        if (level == 0)
         {
             message = sender.getName() + " has reopened the server to all players.";
         }
@@ -54,5 +54,5 @@ public class Command_accesslevel
         Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - Locking server down to clearance level " + level + " (" + FOPMR_Rank.getFromLevel(level).name + ").");
         return true;
     }
-    
+
 }

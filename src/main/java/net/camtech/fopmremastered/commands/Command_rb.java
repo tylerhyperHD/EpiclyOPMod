@@ -7,18 +7,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="rb", description="Rollback a player.", usage="/rb <player>", aliases="rollback,rollb,rback", rank=FOPMR_Rank.Rank.ADMIN)
+@CommandParameters(name = "rb", description = "Rollback a player.", usage = "/rb <player>", aliases = "rollback,rollb,rback", rank = FOPMR_Rank.Rank.ADMIN)
 public class Command_rb
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 1)
+        if (args.length != 1)
         {
             return false;
         }
         String name = args[0];
         Player player = Bukkit.getPlayer(name);
-        if(player != null)
+        if (player != null)
         {
             name = player.getName();
         }

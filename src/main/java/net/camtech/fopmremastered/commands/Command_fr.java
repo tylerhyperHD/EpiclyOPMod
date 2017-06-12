@@ -27,14 +27,14 @@ public class Command_fr extends FOPMR_Command
     {
         try
         {
-            if(args.length == 0)
+            if (args.length == 0)
             {
                 FOPMR_Commons.adminAction(sender.getName(), "Toggling freeze over all players on the server.", true);
                 FOPMR_Commons.globalFreeze = !FOPMR_Commons.globalFreeze;
                 Connection c = FOPMR_DatabaseInterface.getConnection();
-                for(Player player : Bukkit.getOnlinePlayers())
+                for (Player player : Bukkit.getOnlinePlayers())
                 {
-                    if(FOPMR_Rank.isAdmin(player))
+                    if (FOPMR_Rank.isAdmin(player))
                     {
                         continue;
                     }
@@ -47,15 +47,15 @@ public class Command_fr extends FOPMR_Command
                 c.commit();
                 return true;
             }
-            if(args.length == 1)
+            if (args.length == 1)
             {
                 Player player = FOPMR_Rank.getPlayer(args[0]);
-                if(player == null)
+                if (player == null)
                 {
                     sender.sendMessage("Player is not online.");
                     return true;
                 }
-                if(FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), FOPMR_Rank.getRank(sender)))
+                if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), FOPMR_Rank.getRank(sender)))
                 {
                     sender.sendMessage(ChatColor.RED + "You can only freeze someone who is a lower clearance level than yourself.");
                     return true;
@@ -66,7 +66,7 @@ public class Command_fr extends FOPMR_Command
                 return true;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

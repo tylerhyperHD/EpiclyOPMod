@@ -8,26 +8,27 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="owner", usage="/owner <code>", description="Verify yourself as the owner, check the console for more details. (Disables after first usage!)")
+@CommandParameters(name = "owner", usage = "/owner <code>", description = "Verify yourself as the owner, check the console for more details. (Disables after first usage!)")
 public class Command_owner
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 1)
+        if (args.length != 1)
         {
             return false;
         }
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage(ChatColor.RED + "This command must be sent from in-game.");
             return true;
         }
-        if(FOPMR_Commons.verifyCode == null)
+        if (FOPMR_Commons.verifyCode == null)
         {
             sender.sendMessage(ChatColor.RED + "An owner has already been set.");
             return true;
         }
-        if(args[0].equals(FOPMR_Commons.verifyCode))
+        if (args[0].equals(FOPMR_Commons.verifyCode))
         {
             FOPMR_Commons.adminAction(sender.getName(), "Verifying myself as the Owner!", false);
             FOPMR_Rank.setRank((Player) sender, FOPMR_Rank.Rank.OWNER, null);

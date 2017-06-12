@@ -14,17 +14,17 @@ public class FOPMR_Announcements
         try
         {
             ResultSet set = FOPMR_DatabaseInterface.getAllResults("", null, "ANNOUNCEMENTS");
-            while(set.next())
+            while (set.next())
             {
                 Object message = set.getObject("MESSAGE");
                 Object interval = set.getObject("INTERVAL");
-                if(message instanceof String && interval instanceof Integer)
+                if (message instanceof String && interval instanceof Integer)
                 {
                     announce((String) message, (Integer) interval);
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -40,6 +40,6 @@ public class FOPMR_Announcements
                 Bukkit.broadcastMessage(CUtils_Methods.colour(message));
             }
         }.runTaskTimerAsynchronously(FreedomOpModRemastered.plugin, 0, interval * 20);
-        
+
     }
 }

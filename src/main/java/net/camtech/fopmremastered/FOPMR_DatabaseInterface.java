@@ -20,9 +20,9 @@ public class FOPMR_DatabaseInterface
     public static Connection getConnection()
     {
         queries++;
-        if(connection != null)
+        if (connection != null)
         {
-            if(queries >= 2000)
+            if (queries >= 2000)
             {
                 closeConnection(connection);
                 queries = 0;
@@ -31,7 +31,7 @@ public class FOPMR_DatabaseInterface
             }
             try
             {
-                if(connection.isClosed())
+                if (connection.isClosed())
                 {
                     connection = null;
                     return getConnection();
@@ -39,7 +39,7 @@ public class FOPMR_DatabaseInterface
                 connection.setAutoCommit(false);
                 return connection;
             }
-            catch(SQLException ex)
+            catch (SQLException ex)
             {
                 FreedomOpModRemastered.plugin.handleException(ex);
             }
@@ -53,7 +53,7 @@ public class FOPMR_DatabaseInterface
                 connection.setAutoCommit(false);
                 return connection;
             }
-            catch(SQLException | ClassNotFoundException ex)
+            catch (SQLException | ClassNotFoundException ex)
             {
                 FreedomOpModRemastered.plugin.handleException(ex);
                 Bukkit.broadcastMessage(ChatColor.RED + "The FreedomOpMod: Remastered could not establish a connection to the SQLite database, therefore it has shut down to protect the server from potential damage.");
@@ -155,7 +155,7 @@ public class FOPMR_DatabaseInterface
                 + "UUID TEXT UNIQUE,"
                 + "FORUMID INTEGER,"
                 + "CODE TEXT)"
-                );
+        );
         statement.executeUpdate();
         getConnection().commit();
     }
@@ -187,7 +187,7 @@ public class FOPMR_DatabaseInterface
     {
         Connection c = getConnection();
         PreparedStatement statement = null;
-        if(uniqueColumn != null && uniqueValue != null)
+        if (uniqueColumn != null && uniqueValue != null)
         {
             statement = c.prepareStatement("SELECT * FROM " + inTable + " WHERE " + uniqueColumn + " = ?");
             statement.setString(1, uniqueValue);
@@ -204,7 +204,7 @@ public class FOPMR_DatabaseInterface
         ArrayList<Object> array = new ArrayList<>();
         Connection c = getConnection();
         PreparedStatement statement;
-        if(uniqueColumn != null && uniqueValue != null)
+        if (uniqueColumn != null && uniqueValue != null)
         {
             statement = c.prepareStatement("SELECT * FROM " + inTable + " WHERE " + uniqueColumn + " = ?");
             statement.setString(1, uniqueValue);
@@ -214,7 +214,7 @@ public class FOPMR_DatabaseInterface
             statement = c.prepareStatement("SELECT * FROM " + inTable);
         }
         ResultSet set = statement.executeQuery();
-        while(set.next())
+        while (set.next())
         {
             array.add(set.getObject(lookingFor));
         }
@@ -227,7 +227,7 @@ public class FOPMR_DatabaseInterface
         PreparedStatement statement = c.prepareStatement("SELECT * FROM " + inTable + " WHERE " + uniqueColumn + " = ?");
         statement.setString(1, uniqueValue);
         ResultSet res = statement.executeQuery();
-        if(res.next())
+        if (res.next())
         {
             return res.getObject(lookingFor);
         }
@@ -246,9 +246,9 @@ public class FOPMR_DatabaseInterface
         PreparedStatement statement = c.prepareStatement("SELECT * FROM PLAYERS WHERE NAME = ?");
         statement.setString(1, name);
         ResultSet res = statement.executeQuery();
-        if(res.next())
+        if (res.next())
         {
-            if(res.getObject("UUID") != null && res.getObject("UUID") instanceof String)
+            if (res.getObject("UUID") != null && res.getObject("UUID") instanceof String)
             {
                 return (String) res.getObject("UUID");
             }
@@ -262,9 +262,9 @@ public class FOPMR_DatabaseInterface
         PreparedStatement statement = c.prepareStatement("SELECT * FROM PLAYERS WHERE NAME = ?");
         statement.setString(1, name);
         ResultSet res = statement.executeQuery();
-        if(res.next())
+        if (res.next())
         {
-            if(res.getObject("IP") != null && res.getObject("IP") instanceof String)
+            if (res.getObject("IP") != null && res.getObject("IP") instanceof String)
             {
                 return (String) res.getObject("IP");
             }
@@ -288,12 +288,12 @@ public class FOPMR_DatabaseInterface
 
     public static String getLoginMessage(String uuid) throws SQLException
     {
-        if(!playerExists(uuid))
+        if (!playerExists(uuid))
         {
             return null;
         }
         Object obj = getFromTable("UUID", uuid, "LOGIN", "PLAYERS");
-        if(obj instanceof String)
+        if (obj instanceof String)
         {
             return (String) obj;
         }
@@ -302,12 +302,12 @@ public class FOPMR_DatabaseInterface
 
     public static String getRank(String uuid) throws SQLException
     {
-        if(!playerExists(uuid))
+        if (!playerExists(uuid))
         {
             return "Op";
         }
         Object obj = getFromTable("UUID", uuid, "RANK", "PLAYERS");
-        if(obj instanceof String)
+        if (obj instanceof String)
         {
             return (String) obj;
         }
@@ -316,12 +316,12 @@ public class FOPMR_DatabaseInterface
 
     public static String getTag(String uuid) throws SQLException
     {
-        if(!playerExists(uuid))
+        if (!playerExists(uuid))
         {
             return "&7[&c" + getRank(uuid) + "&7]";
         }
         Object obj = getFromTable("UUID", uuid, "TAG", "PLAYERS");
-        if(obj instanceof String)
+        if (obj instanceof String)
         {
             return (String) obj;
         }
@@ -330,12 +330,12 @@ public class FOPMR_DatabaseInterface
 
     public static String getNick(String uuid) throws SQLException
     {
-        if(!playerExists(uuid))
+        if (!playerExists(uuid))
         {
             return uuid;
         }
         Object obj = getFromTable("UUID", uuid, "NICK", "PLAYERS");
-        if(obj instanceof String)
+        if (obj instanceof String)
         {
             return (String) obj;
         }
@@ -344,12 +344,12 @@ public class FOPMR_DatabaseInterface
 
     public static boolean hasBanHammer(String uuid) throws SQLException
     {
-        if(!playerExists(uuid))
+        if (!playerExists(uuid))
         {
             return false;
         }
         Object obj = getFromTable("UUID", uuid, "BANHAMMER", "PLAYERS");
-        if(obj instanceof Boolean)
+        if (obj instanceof Boolean)
         {
             return (Boolean) obj;
         }
@@ -358,12 +358,12 @@ public class FOPMR_DatabaseInterface
 
     public static boolean isGod(String uuid) throws SQLException
     {
-        if(!playerExists(uuid))
+        if (!playerExists(uuid))
         {
             return false;
         }
         Object obj = getFromTable("UUID", uuid, "GODMODE", "PLAYERS");
-        if(obj instanceof Boolean)
+        if (obj instanceof Boolean)
         {
             return (Boolean) obj;
         }
@@ -374,12 +374,12 @@ public class FOPMR_DatabaseInterface
     {
         try
         {
-            if(connection != null)
+            if (connection != null)
             {
                 connection.close();
             }
         }
-        catch(SQLException e)
+        catch (SQLException e)
         {
             System.err.println(e);
         }

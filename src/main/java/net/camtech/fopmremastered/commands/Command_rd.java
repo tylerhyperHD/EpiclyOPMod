@@ -13,6 +13,7 @@ import org.bukkit.entity.LivingEntity;
 
 public class Command_rd extends FOPMR_Command
 {
+
     public Command_rd()
     {
         super("rd", "/rd", "Remove all server entities.", Arrays.asList("re"), Rank.ADMIN);

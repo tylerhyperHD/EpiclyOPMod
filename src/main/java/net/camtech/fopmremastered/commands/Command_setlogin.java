@@ -19,12 +19,12 @@ public class Command_setlogin
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length < 2)
+        if (args.length < 2)
         {
             return false;
         }
         Player player = FOPMR_Rank.getPlayer(args[0]);
-        if(player == null)
+        if (player == null)
         {
             sender.sendMessage(ChatColor.RED + "The player you listed: " + args[0] + " is not online...");
             return true;
@@ -35,7 +35,7 @@ public class Command_setlogin
             FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), message, "LOGIN", "PLAYERS");
             sender.sendMessage(ChatColor.GREEN + "Set " + player.getName() + "'s login message to \"" + CUtils_Methods.colour(message) + "\".");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

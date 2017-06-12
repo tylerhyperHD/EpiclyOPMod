@@ -23,30 +23,30 @@ public final class FOPMR_BlockListener implements Listener
     {
         init();
     }
-    
+
     public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
     }
-    
+
     @EventHandler
     public void onPistonPush(BlockPistonExtendEvent event)
     {
-        for(Block block : event.getBlocks())
+        for (Block block : event.getBlocks())
         {
-            if(block.getType() == Material.SLIME_BLOCK)
+            if (block.getType() == Material.SLIME_BLOCK)
             {
                 event.setCancelled(true);
             }
         }
     }
-    
+
     @EventHandler
     public void onPistonPull(BlockPistonRetractEvent event)
     {
-        for(Block block : event.getBlocks())
+        for (Block block : event.getBlocks())
         {
-            if(block.getType() == Material.SLIME_BLOCK)
+            if (block.getType() == Material.SLIME_BLOCK)
             {
                 event.setCancelled(true);
             }
@@ -57,13 +57,13 @@ public final class FOPMR_BlockListener implements Listener
     public void onBlockBreak(BlockBreakEvent event)
     {
         Player player = event.getPlayer();
-        for(FOPMR_ProtectedArea area : FOPMR_ProtectedAreas.getFromDatabase())
+        for (FOPMR_ProtectedArea area : FOPMR_ProtectedAreas.getFromDatabase())
         {
-            if(area.isInRange(event.getBlock().getLocation()))
+            if (area.isInRange(event.getBlock().getLocation()))
             {
-                if(!area.canAccess(player))
+                if (!area.canAccess(player))
                 {
-                    player.sendMessage(ChatColor.RED + "You do not have permission to break blocks in this area! Please see " + area.getOwner() + " if you wish to gain access.");  
+                    player.sendMessage(ChatColor.RED + "You do not have permission to break blocks in this area! Please see " + area.getOwner() + " if you wish to gain access.");
                     event.setCancelled(true);
                 }
             }
@@ -74,18 +74,18 @@ public final class FOPMR_BlockListener implements Listener
     public void onBlockPlace(BlockPlaceEvent event)
     {
         Player player = event.getPlayer();
-        if(event.getBlock().getType() == Material.COMMAND && !FOPMR_Rank.isAdmin(player))
+        if (event.getBlock().getType() == Material.COMMAND && !FOPMR_Rank.isAdmin(player))
         {
             player.sendMessage(ChatColor.RED + "Only admins can use command blocks.");
             event.setCancelled(true);
         }
-        for(FOPMR_ProtectedArea area : FOPMR_ProtectedAreas.getFromDatabase())
+        for (FOPMR_ProtectedArea area : FOPMR_ProtectedAreas.getFromDatabase())
         {
-            if(area.isInRange(event.getBlock().getLocation()))
+            if (area.isInRange(event.getBlock().getLocation()))
             {
-                if(!area.canAccess(player))
+                if (!area.canAccess(player))
                 {
-                    player.sendMessage(ChatColor.RED + "You do not have permission to place blocks in this area! Please see " + area.getOwner() + " if you wish to gain access.");  
+                    player.sendMessage(ChatColor.RED + "You do not have permission to place blocks in this area! Please see " + area.getOwner() + " if you wish to gain access.");
                     event.setCancelled(true);
                 }
             }

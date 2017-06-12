@@ -12,31 +12,23 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class SocketServer implements Runnable
-{
+public class SocketServer implements Runnable {
 
     public ServerSocket sock;
     private Socket client;
 
-    public SocketServer()
-    {
-        try
-        {
+    public SocketServer() {
+        try {
             sock = new ServerSocket(2606);
-        }
-        catch(IOException ex)
-        {
+        } catch (IOException ex) {
             Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public void run()
-    {
-        while(true)
-        {
-            try
-            {
+    public void run() {
+        while (true) {
+            try {
                 Socket clientSocket = sock.accept();
                 System.out.println(clientSocket.getInetAddress() + " connected!");
                 PrintWriter out
@@ -45,65 +37,47 @@ public class SocketServer implements Runnable
                         new InputStreamReader(clientSocket.getInputStream()));
                 String ip = clientSocket.getInetAddress().getHostAddress();
                 String name;
-                try
-                {
-                    if(!"5.135.233.93".equalsIgnoreCase(ip))
-                    {
+                try {
+                    if (!"5.135.233.93".equalsIgnoreCase(ip)) {
                         out.println("You are the wrong host, you are " + ip + " not 5.135.233.93");
                         close(out, in);
                         return;
                     }
                     name = in.readLine();
-                    if(name.equalsIgnoreCase("###LISTALLNAMES###"))
-                    {
+                    if (name.equalsIgnoreCase("###LISTALLNAMES###")) {
                         String bans = "Banned names: ";
                         ResultSet set = FOPMR_DatabaseInterface.getAllResults("UUID", null, "NAMEBANS");
-                        while(set.next())
-                        {
+                        while (set.next()) {
                             bans += ", " + set.getString("NAME");
                         }
                         bans += ".";
                         out.println(bans);
                         System.out.println(clientSocket.getInetAddress() + " listed all name bans.");
-                    }
-                    else
-                    {
+                    } else {
                         out.println(FOPMR_Bans.getReason(name).replaceAll("—", "by"));
                         System.out.println(clientSocket.getInetAddress() + " checked ban reason for " + name + ".");
                     }
                     close(out, in);
-                }
-                catch(IOException ex)
-                {
+                } catch (IOException ex) {
 
-                }
-                catch(SQLException ex)
-                {
+                } catch (SQLException ex) {
                     Logger.getLogger(SocketServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-            catch(IOException e)
-            {
+            } catch (IOException e) {
 
             }
         }
     }
 
-    public static void close(final PrintWriter out, final BufferedReader in)
-    {
-        new BukkitRunnable()
-        {
+    public static void close(final PrintWriter out, final BufferedReader in) {
+        new BukkitRunnable() {
             @Override
-            public void run()
-            {
-                try
-                {
+            public void run() {
+                try {
                     out.flush();
                     out.close();
                     in.close();
-                }
-                catch(IOException ex)
-                {
+                } catch (IOException ex) {
                     FreedomOpModRemastered.plugin.handleException(ex);
                 }
             }

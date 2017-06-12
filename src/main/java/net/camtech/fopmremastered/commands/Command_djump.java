@@ -21,7 +21,7 @@ public class Command_djump extends FOPMR_Command
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage("This can only be used in game.");
             return true;
@@ -32,7 +32,7 @@ public class Command_djump extends FOPMR_Command
         {
             FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), !(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "DOUBLEJUMP", "PLAYERS")), "DOUBLEJUMP", "PLAYERS");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

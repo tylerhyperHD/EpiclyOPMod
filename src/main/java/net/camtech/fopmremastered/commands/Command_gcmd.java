@@ -8,9 +8,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="gcmd", description="Run a command as another player", usage="/gcmd [player] [command]", rank=Rank.ADMIN, aliases="sudo")
+@CommandParameters(name = "gcmd", description = "Run a command as another player", usage = "/gcmd [player] [command]", rank = Rank.ADMIN, aliases = "sudo")
 public class Command_gcmd
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length < 2)
@@ -37,7 +38,8 @@ public class Command_gcmd
         {
             sender.sendMessage("Sending command as " + player.getName() + ": " + outCommand);
             player.chat("/" + outCommand);
-        } catch (Throwable ex)
+        }
+        catch (Throwable ex)
         {
             sender.sendMessage("Error sending command: " + ex.getMessage());
         }

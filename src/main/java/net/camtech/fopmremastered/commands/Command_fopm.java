@@ -15,11 +15,11 @@ public class Command_fopm
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
 
-        if(args.length > 0)
+        if (args.length > 0)
         {
-            if(args[0].equalsIgnoreCase("reload"))
+            if (args[0].equalsIgnoreCase("reload"))
             {
-                if(!FOPMR_Rank.isAdmin(sender))
+                if (!FOPMR_Rank.isAdmin(sender))
                 {
                     sender.sendMessage(ChatColor.RED + "Only admins can reload the FOPM: R config.");
                     return true;

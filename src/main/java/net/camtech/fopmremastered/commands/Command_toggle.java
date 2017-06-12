@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 
 public class Command_toggle extends FOPMR_Command
 {
+
     public Command_toggle()
     {
         super("toggle", "/toggle [value]", "Toggle a server setting.", Rank.ADMIN);

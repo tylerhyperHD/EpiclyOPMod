@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 @CommandParameters(name = "clear", usage = "/clear <player>", description = "Clear inventories.", aliases = "ci")
 public class Command_clear
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (!(sender instanceof Player))

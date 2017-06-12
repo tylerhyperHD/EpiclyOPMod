@@ -21,51 +21,51 @@ public class Command_builder
     {
         try
         {
-            if(!(sender instanceof Player))
+            if (!(sender instanceof Player))
             {
                 sender.sendMessage(ChatColor.RED + "You must be ingame to use this command.");
                 return true;
             }
-            if(args.length == 0 || args.length > 2)
+            if (args.length == 0 || args.length > 2)
             {
                 return false;
             }
-            if(args.length == 1)
+            if (args.length == 1)
             {
-                if(args[0].equalsIgnoreCase("list"))
+                if (args[0].equalsIgnoreCase("list"))
                 {
                     sender.sendMessage(ChatColor.GREEN + "The following users are Master Builders.");
                     Connection c = FOPMR_DatabaseInterface.getConnection();
                     PreparedStatement statement = c.prepareStatement("SELECT * FROM PLAYERS WHERE BUILDER = 1");
                     ResultSet set = statement.executeQuery();
-                    while(set.next())
+                    while (set.next())
                     {
                         sender.sendMessage(ChatColor.GREEN + " - " + set.getString("NAME"));
                     }
                     return true;
                 }
             }
-            if(args.length == 2)
+            if (args.length == 2)
             {
-                if(!FOPMR_Rank.isSpecialist(sender))
+                if (!FOPMR_Rank.isSpecialist(sender))
                 {
                     sender.sendMessage("You do not have permission to use this command.");
                     return true;
                 }
                 Player player = FOPMR_Rank.getPlayer(args[1]);
-                if(player == null)
+                if (player == null)
                 {
                     sender.sendMessage(ChatColor.RED + "The player could not be found.");
                     return true;
                 }
-                if(args[0].equalsIgnoreCase("add"))
+                if (args[0].equalsIgnoreCase("add"))
                 {
                     FOPMR_Commons.adminAction(sender.getName(), "Adding " + player.getName() + " to Master Builder.", false);
                     FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), true, "BUILDER", "PLAYERS");
                     FOPMR_BoardManager.updateStats(player);
                     return true;
                 }
-                if(args[0].equalsIgnoreCase("remove"))
+                if (args[0].equalsIgnoreCase("remove"))
                 {
                     FOPMR_Commons.adminAction(sender.getName(), "Removing " + player.getName() + " from Master Builder.", true);
                     FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), false, "BUILDER", "PLAYERS");
@@ -74,7 +74,7 @@ public class Command_builder
                 }
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

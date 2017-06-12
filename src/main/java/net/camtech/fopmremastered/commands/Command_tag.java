@@ -19,19 +19,19 @@ public class Command_tag
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length == 0)
+        if (args.length == 0)
         {
             return false;
         }
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage("This can only be used in-game");
             return true;
         }
         String nick = StringUtils.join(args, " ");
-        for(Rank rank : Rank.values())
+        for (Rank rank : Rank.values())
         {
-            if(nick.toLowerCase().contains(rank.name.toLowerCase()) && FOPMR_Rank.getRank(sender).level < rank.level)
+            if (nick.toLowerCase().contains(rank.name.toLowerCase()) && FOPMR_Rank.getRank(sender).level < rank.level)
             {
                 sender.sendMessage(ChatColor.RED + nick + " contains the name of a rank higher than yourself.");
                 return true;
@@ -49,7 +49,7 @@ public class Command_tag
             FOPMR_Rank.tags.put(sender.getName(), nick + "&r");
             c.commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

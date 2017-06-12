@@ -18,11 +18,11 @@ public class Command_deleteworld
     {
         try
         {
-            if(args.length != 1)
+            if (args.length != 1)
             {
                 return false;
             }
-            if(Bukkit.getWorld(args[0]) != null)
+            if (Bukkit.getWorld(args[0]) != null)
             {
                 CUtils_Methods.unloadWorld(Bukkit.getWorld(args[0]));
             }
@@ -32,7 +32,7 @@ public class Command_deleteworld
             statement.executeUpdate();
             c.commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

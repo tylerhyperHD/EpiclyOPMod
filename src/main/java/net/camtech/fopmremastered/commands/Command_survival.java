@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 public class Command_survival extends FOPMR_Command
 {
+
     public Command_survival()
     {
         super("survival", "/survival <player>", "Set yourself to survival mode.", Arrays.asList("gms"));

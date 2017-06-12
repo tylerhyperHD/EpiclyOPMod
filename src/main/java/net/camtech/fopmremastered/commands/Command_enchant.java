@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 @CommandParameters(description = "Enchant items.", usage = "/enchant <list | addall | reset | add <name> | remove <name> | god <level>>", name = "enchant")
 public class Command_enchant
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
         if (!(sender instanceof Player))
@@ -64,7 +65,8 @@ public class Command_enchant
                     {
                         itemInHand.addEnchantment(ench, ench.getMaxLevel());
                     }
-                } catch (Exception ignored)
+                }
+                catch (Exception ignored)
                 {
 
                 }
@@ -93,13 +95,14 @@ public class Command_enchant
                 try
                 {
                     level = Integer.parseInt(args[1]);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     return false;
                 }
                 for (Enchantment ench : Enchantment.values())
                 {
-                    if(ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS))
+                    if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS))
                     {
                         continue;
                     }
@@ -113,7 +116,8 @@ public class Command_enchant
             try
             {
                 ench = Enchantment.getByName(args[1]);
-            } catch (Exception ignored)
+            }
+            catch (Exception ignored)
             {
             }
 

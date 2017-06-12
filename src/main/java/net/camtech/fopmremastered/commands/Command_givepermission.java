@@ -14,17 +14,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
-@CommandParameters(name="givepermission", description="Give a user a custom permission flag!", usage="/givepermission [player] [permission]",rank=Rank.OWNER)
+@CommandParameters(name = "givepermission", description = "Give a user a custom permission flag!", usage = "/givepermission [player] [permission]", rank = Rank.OWNER)
 public class Command_givepermission
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 2)
+        if (args.length != 2)
         {
             return false;
         }
         Player player = FOPMR_Rank.getPlayer(args[0]);
-        if(player == null)
+        if (player == null)
         {
             sender.sendMessage(ChatColor.RED + "The player could not be found.");
             return true;

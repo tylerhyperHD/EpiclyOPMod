@@ -17,13 +17,13 @@ public class Command_loadworld
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 1)
+        if (args.length != 1)
         {
             return false;
         }
-        for(World world : Bukkit.getWorlds())
+        for (World world : Bukkit.getWorlds())
         {
-            if(world.getName().equals(args[0]))
+            if (world.getName().equals(args[0]))
             {
                 sender.sendMessage(ChatColor.RED + "The world you are trying to load, is already loaded!");
                 return true;
@@ -31,7 +31,7 @@ public class Command_loadworld
         }
         try
         {
-            if(FOPMR_DatabaseInterface.getFromTable("NAME", args[0], "NAME", "WORLDS") == null)
+            if (FOPMR_DatabaseInterface.getFromTable("NAME", args[0], "NAME", "WORLDS") == null)
             {
                 sender.sendMessage(ChatColor.RED + "The world you are trying to load, does not exist or is not a custom FOPM: R world.");
                 return true;
@@ -40,7 +40,7 @@ public class Command_loadworld
             World world = Bukkit.getWorld(args[0]);
             FOPMR_Commons.adminAction(sender.getName(), "loading the world: \"" + world.getName() + "\" into memory.", false);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

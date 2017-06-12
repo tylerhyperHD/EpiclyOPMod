@@ -36,13 +36,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public final class FOPMR_ToggleableEventsListener implements Listener
 {
+
     private Random random;
 
     public FOPMR_ToggleableEventsListener()
     {
         init();
     }
-    
+
     public void init()
     {
         Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
@@ -111,22 +112,23 @@ public final class FOPMR_ToggleableEventsListener implements Listener
             event.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void onBlockIgnite(BlockIgniteEvent event)
     {
-        if(!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.fire"))
+        if (!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.fire"))
         {
             event.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void onSheepRegrowWool(SheepRegrowWoolEvent event)
     {
         random = new Random();
-    
-        if (FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.srgwool")) {
+
+        if (FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.srgwool"))
+        {
             Collection<? extends Player> p = Bukkit.getServer().getOnlinePlayers();
             Player t = (Player) p.toArray()[random.nextInt(p.toArray().length)];
             Location l = t.getLocation();
@@ -134,7 +136,9 @@ public final class FOPMR_ToggleableEventsListener implements Listener
             ItemStack is = new ItemStack(m);
             t.getWorld().dropItemNaturally(l, is);
         }
-        else { /* do nothing */ }
+        else
+        {
+            /* do nothing */ }
     }
 
     @EventHandler
@@ -171,12 +175,12 @@ public final class FOPMR_ToggleableEventsListener implements Listener
             event.setCancelled(true);
         }
     }
-    
+
     @EventHandler
     public void onEntityDie(EntityDeathEvent event)
     {
         final Location loc = event.getEntity().getLocation();
-        if(!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.drops"))
+        if (!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.drops"))
         {
             event.setDroppedExp(0);
             new BukkitRunnable()
@@ -184,9 +188,9 @@ public final class FOPMR_ToggleableEventsListener implements Listener
                 @Override
                 public void run()
                 {
-                    for(Entity entity : loc.getWorld().getEntities())
+                    for (Entity entity : loc.getWorld().getEntities())
                     {
-                        if(!(entity instanceof LivingEntity) && entity.getLocation().distance(loc) < 10)
+                        if (!(entity instanceof LivingEntity) && entity.getLocation().distance(loc) < 10)
                         {
                             entity.remove();
                         }
@@ -257,7 +261,7 @@ public final class FOPMR_ToggleableEventsListener implements Listener
         }
         else if (spawned instanceof Wither)
         {
-            if(!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.wither"))
+            if (!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.wither"))
             {
                 event.setCancelled(true);
             }

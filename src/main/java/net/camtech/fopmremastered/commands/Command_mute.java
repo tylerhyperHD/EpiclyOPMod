@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 
 public class Command_mute extends FOPMR_Command
 {
+
     public Command_mute()
     {
         super("mute", "/mute [player]", "Mute a player.", Rank.ADMIN);
@@ -40,7 +41,7 @@ public class Command_mute extends FOPMR_Command
         {
             FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), !(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "MUTE", "PLAYERS")), "MUTE", "PLAYERS");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

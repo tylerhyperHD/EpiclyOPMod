@@ -14,30 +14,30 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name = "verify", usage = "/verify <<set> <forum user ID> | <verify> <code> | <sendcode>>", description = "Forum-based verification command!", rank=Rank.IMPOSTER)
+@CommandParameters(name = "verify", usage = "/verify <<set> <forum user ID> | <verify> <code> | <sendcode>>", description = "Forum-based verification command!", rank = Rank.IMPOSTER)
 public class Command_verify
 {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage(ChatColor.RED + "Only in-game players can execute this command.");
             return true;
         }
         Player player = (Player) sender;
-        if(args.length == 1)
+        if (args.length == 1)
         {
-            if(args[0].equalsIgnoreCase("sendcode"))
+            if (args[0].equalsIgnoreCase("sendcode"))
             {
                 try
                 {
-                    if(FOPMR_Rank.getRank(sender) != Rank.IMPOSTER)
+                    if (FOPMR_Rank.getRank(sender) != Rank.IMPOSTER)
                     {
                         sender.sendMessage(ChatColor.RED + "You are not an imposter, you don't need to verify.");
                         return true;
                     }
-                    if(FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "FORUMID", "VERIFICATION") == null)
+                    if (FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "FORUMID", "VERIFICATION") == null)
                     {
                         sender.sendMessage(ChatColor.GREEN + "There is no user defined as your forum user.");
                         return false;
@@ -48,18 +48,18 @@ public class Command_verify
                     FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), code, "CODE", "VERIFICATION");
                     return true;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     FreedomOpModRemastered.plugin.handleException(ex);
                 }
             }
             return false;
         }
-        else if(args.length == 2)
+        else if (args.length == 2)
         {
-            if(args[0].equalsIgnoreCase("set"))
+            if (args[0].equalsIgnoreCase("set"))
             {
-                if(!FOPMR_Rank.isAdmin(sender))
+                if (!FOPMR_Rank.isAdmin(sender))
                 {
                     sender.sendMessage(ChatColor.RED + "You must be a verified admin to set your forum user ID.");
                     return true;
@@ -69,7 +69,7 @@ public class Command_verify
                 {
                     i = Integer.parseInt(args[1]);
                 }
-                catch(NumberFormatException ex)
+                catch (NumberFormatException ex)
                 {
                     sender.sendMessage("Your second argument must be your forum user ID.");
                     return true;
@@ -84,7 +84,7 @@ public class Command_verify
                     statement.executeUpdate();
                     c.commit();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     sender.sendMessage(ChatColor.RED + "There was an SQL Error, please contact a developer.");
                     FreedomOpModRemastered.plugin.handleException(ex);
@@ -93,18 +93,18 @@ public class Command_verify
                 sender.sendMessage(ChatColor.GREEN + "Your user ID was successfully set to " + i + ".");
                 return true;
             }
-            if(args[0].equalsIgnoreCase("verify"))
+            if (args[0].equalsIgnoreCase("verify"))
             {
                 try
                 {
                     Object obj = FOPMR_DatabaseInterface.getFromTable("UUID", player.getUniqueId().toString(), "CODE", "VERIFICATION");
-                    if(!(obj instanceof String))
+                    if (!(obj instanceof String))
                     {
                         sender.sendMessage(ChatColor.RED + "There is no code set as your verification code.");
                         return false;
                     }
                     String real = (String) obj;
-                    if(args[1].equals(real))
+                    if (args[1].equals(real))
                     {
                         FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), null, "CODE", "VERIFICATION");
                         FOPMR_Rank.unImposter(player);
@@ -115,7 +115,7 @@ public class Command_verify
                     FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), null, "CODE", "VERIFICATION");
                     return true;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }

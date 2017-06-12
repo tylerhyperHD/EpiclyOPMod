@@ -9,16 +9,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="testas", usage="/testas <rank> <command to test>", description="Test a command as a different rank.")
+@CommandParameters(name = "testas", usage = "/testas <rank> <command to test>", description = "Test a command as a different rank.")
 public class Command_testas
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length < 2)
+        if (args.length < 2)
         {
             return false;
         }
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage(ChatColor.RED + "Only in-game players can use this command.");
             return true;
@@ -28,13 +29,13 @@ public class Command_testas
         {
             level = Integer.parseInt(args[0]);
         }
-        catch(NumberFormatException ex)
+        catch (NumberFormatException ex)
         {
             sender.sendMessage(ChatColor.RED + "The rank must be an integer lower than your current rank.");
             return false;
         }
         Rank trueRank = FOPMR_Rank.getRank(sender);
-        if(level >= trueRank.level)
+        if (level >= trueRank.level)
         {
             sender.sendMessage(ChatColor.RED + "The rank must be an integer lower than your current rank.");
             return true;

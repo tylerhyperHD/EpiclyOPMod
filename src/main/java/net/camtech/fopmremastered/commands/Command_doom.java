@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 
 public class Command_doom extends FOPMR_Command
 {
+
     public Command_doom()
     {
         super("doom", "/doom [player] [reason]", "Ban someone and remove them from the admin list.", Rank.SUPER);

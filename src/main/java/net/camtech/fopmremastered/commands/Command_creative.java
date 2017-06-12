@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 public class Command_creative extends FOPMR_Command
 {
+
     public Command_creative()
     {
         super("creative", "/creative <player>", "Set yourself to creative mode.", Arrays.asList("gmc"));

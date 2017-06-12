@@ -49,16 +49,16 @@ public class FreedomOpModRemastered extends JavaPlugin
     {
         plugin = this;
     }
-    
+
     @Override
     public void onEnable()
     {
         PluginDescriptionFile pdf = this.getDescription();
-        
+
         new CUtils_Listeners();
-        
+
         configs = new FOPMR_Configs();
-        
+
         plugin.getLogger().log(Level.INFO, "{0}{1} v. {2} by {3} has been enabled!", new Object[]
         {
             ChatColor.BLUE, pdf.getName(), pdf.getVersion(), pdf.getAuthors()
@@ -67,7 +67,7 @@ public class FreedomOpModRemastered extends JavaPlugin
         {
             FOPMR_DatabaseInterface.prepareDatabase();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             plugin.handleException(ex);
         }
@@ -81,7 +81,7 @@ public class FreedomOpModRemastered extends JavaPlugin
         worldeditlistener = new FOPMR_WorldEditListener();
         config = this.getConfig();
         this.saveDefaultConfig();
-        if(!config.getBoolean("general.owner"))
+        if (!config.getBoolean("general.owner"))
         {
             System.out.println("Welcome to the FreedomOpMod: Remastered, an Owner has not yet been defined, to set yourself to Owner please run \"/owner " + FOPMR_Commons.verifyCode + "\" in-game to set yourself to the Owner rank!");
         }
@@ -92,16 +92,16 @@ public class FreedomOpModRemastered extends JavaPlugin
         FOPMR_WorldManager.loadWorldsFromConfig();
         FOPMR_Announcements.setup();
         FOPMR_Rank rank = new FOPMR_Rank();
-        for(Player player : Bukkit.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
             try
             {
-                if(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "IMPOSTER", "PLAYERS"))
+                if (FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "IMPOSTER", "PLAYERS"))
                 {
                     FOPMR_Commons.imposters.add(player.getName());
                 }
             }
-            catch(SQLException ex)
+            catch (SQLException ex)
             {
                 Logger.getLogger(FreedomOpModRemastered.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -132,7 +132,7 @@ public class FreedomOpModRemastered extends JavaPlugin
         {
             socketServer.sock.close();
         }
-        catch(IOException ex)
+        catch (IOException ex)
         {
             Logger.getLogger(FreedomOpModRemastered.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -19,23 +19,23 @@ public class Command_report
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
     {
-        if(args.length == 0)
+        if (args.length == 0)
         {
             return false;
         }
         try
         {
-            if(args.length == 1)
+            if (args.length == 1)
             {
-                if(args[0].equalsIgnoreCase("view"))
+                if (args[0].equalsIgnoreCase("view"))
                 {
-                    if(!isAdmin(sender))
+                    if (!isAdmin(sender))
                     {
                         sender.sendMessage(ChatColor.RED + "You must be an admin to view reports.");
                         return true;
                     }
                     ResultSet set = FOPMR_DatabaseInterface.getAllResults(null, null, "REPORTS");
-                    while(set.next())
+                    while (set.next())
                     {
                         sender.sendMessage(ChatColor.GREEN + (String) set.getObject("REPORTED") + ChatColor.GOLD + " was reported by " + ChatColor.GREEN + (String) set.getObject("REPORTER") + ChatColor.GOLD + " for the reason: " + ChatColor.GREEN + set.getObject("REASON") + ChatColor.GOLD + ".");
                     }
@@ -43,17 +43,17 @@ public class Command_report
                 }
                 return false;
             }
-            if(args.length == 2)
+            if (args.length == 2)
             {
-                if(args[0].equalsIgnoreCase("delete"))
+                if (args[0].equalsIgnoreCase("delete"))
                 {
-                    if(!isAdmin(sender))
+                    if (!isAdmin(sender))
                     {
                         sender.sendMessage(ChatColor.RED + "You must be an admin to delete reports.");
                         return true;
                     }
                     String name = args[1];
-                    if(Bukkit.getPlayer(name) != null)
+                    if (Bukkit.getPlayer(name) != null)
                     {
                         name = Bukkit.getPlayer(name).getName();
                     }
@@ -67,7 +67,7 @@ public class Command_report
             }
             String reason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
             String name = args[0];
-            if(Bukkit.getPlayer(name) != null)
+            if (Bukkit.getPlayer(name) != null)
             {
                 name = Bukkit.getPlayer(name).getName();
             }
@@ -80,7 +80,7 @@ public class Command_report
             statement.executeUpdate();
             c.commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

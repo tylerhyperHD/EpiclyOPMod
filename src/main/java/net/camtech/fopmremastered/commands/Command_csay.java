@@ -107,7 +107,7 @@ public class Command_csay
             }
             if (Bukkit.getPluginManager().getPlugin("BukkitTelnet").isEnabled())
             {
-                for (ClientSession session : BukkitTelnet.plugin().telnet.getSessions())
+                for (ClientSession session : BukkitTelnet.getInstance().telnet.getSessions())
                 {
                     String name = session.getCommandSender().getName().replaceAll("[^A-Za-z0-9]", "");
                     Rank rank = FOPMR_Rank.getFromUsername(name);

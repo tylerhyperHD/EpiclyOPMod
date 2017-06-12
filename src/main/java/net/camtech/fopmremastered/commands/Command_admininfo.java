@@ -5,12 +5,13 @@ import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-@CommandParameters(name="admininfo", description="Find how to become admin.", usage="/admininfo",aliases="ai")
+@CommandParameters(name = "admininfo", description = "Find how to become admin.", usage = "/admininfo", aliases = "ai")
 public class Command_admininfo
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String args[])
     {
-        if(!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.apps"))
+        if (!FreedomOpModRemastered.plugin.getConfig().getBoolean("toggles.apps"))
         {
             sender.sendMessage(CUtils_Methods.randomChatColour() + "Unfortunately, applications are currently closed. Please speak with " + FreedomOpModRemastered.plugin.getConfig().getString("general.adminmanager") + " for more info.");
             return true;

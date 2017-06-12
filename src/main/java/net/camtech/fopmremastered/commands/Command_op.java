@@ -10,14 +10,15 @@ import org.bukkit.entity.Player;
 @CommandParameters(name = "op", usage = "/op [player]", description = "Op a player.", rank = FOPMR_Rank.Rank.OP)
 public class Command_op
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 1)
+        if (args.length != 1)
         {
             return false;
         }
         Player player = FOPMR_Rank.getPlayer(args[0]);
-        if(player == null)
+        if (player == null)
         {
             sender.sendMessage(ChatColor.RED + args[0] + " is offline.");
             return true;

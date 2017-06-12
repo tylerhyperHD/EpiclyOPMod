@@ -24,11 +24,11 @@ public class Command_nick extends FOPMR_Command
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length == 0)
+        if (args.length == 0)
         {
             return false;
         }
-        if(!(sender instanceof Player))
+        if (!(sender instanceof Player))
         {
             sender.sendMessage("This can only be used in-game.");
             return true;
@@ -36,21 +36,21 @@ public class Command_nick extends FOPMR_Command
         Player player = (Player) sender;
         String nick = StringUtils.join(args, " ");
         int standard = 0;
-        for(char Char : nick.toCharArray())
+        for (char Char : nick.toCharArray())
         {
-            if(standard >= 3)
+            if (standard >= 3)
             {
                 continue;
             }
-            else if(Char >= 'a' && Char <= 'z')
+            else if (Char >= 'a' && Char <= 'z')
             {
                 standard++;
             }
-            else if(Char >= 'A' && Char <= 'Z')
+            else if (Char >= 'A' && Char <= 'Z')
             {
                 standard++;
             }
-            else if(Char >= '0' && Char <= '9')
+            else if (Char >= '0' && Char <= '9')
             {
                 standard++;
             }
@@ -59,7 +59,7 @@ public class Command_nick extends FOPMR_Command
                 standard = 0;
             }
         }
-        if(standard < 3)
+        if (standard < 3)
         {
             sender.sendMessage(ChatColor.RED + "Your nick must have at least 3 alphanumeric characters consecutively.");
             return true;
@@ -75,7 +75,7 @@ public class Command_nick extends FOPMR_Command
             FOPMR_Rank.nicks.put(player.getName(), nick + "&r");
             c.commit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

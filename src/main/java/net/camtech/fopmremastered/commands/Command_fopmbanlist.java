@@ -17,7 +17,7 @@ public class Command_fopmbanlist
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if(args.length != 0 && args.length != 2)
+        if (args.length != 0 && args.length != 2)
         {
             return false;
         }
@@ -26,10 +26,10 @@ public class Command_fopmbanlist
         ArrayList<String> uuids = new ArrayList<>();
         try
         {
-            for(Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "NAME", "NAME_BANS"))
+            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "NAME", "NAME_BANS"))
             {
                 String name = (String) obj;
-                if(FOPMR_DatabaseInterface.getBooleanFromTable("NAME", name, "PERM", "NAME_BANS"))
+                if (FOPMR_DatabaseInterface.getBooleanFromTable("NAME", name, "PERM", "NAME_BANS"))
                 {
                     names.add(ChatColor.RED + name);
                 }
@@ -38,10 +38,10 @@ public class Command_fopmbanlist
                     names.add(ChatColor.AQUA + name);
                 }
             }
-            for(Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "IP", "IP_BANS"))
+            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "IP", "IP_BANS"))
             {
                 String ip = (String) obj;
-                if(FOPMR_DatabaseInterface.getBooleanFromTable("IP", ip, "PERM", "IP_BANS"))
+                if (FOPMR_DatabaseInterface.getBooleanFromTable("IP", ip, "PERM", "IP_BANS"))
                 {
                     ips.add(ChatColor.RED + ip);
                 }
@@ -50,10 +50,10 @@ public class Command_fopmbanlist
                     ips.add(ChatColor.AQUA + ip);
                 }
             }
-            for(Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "UUID", "UUID_BANS"))
+            for (Object obj : FOPMR_DatabaseInterface.getAsArrayList(null, null, "UUID", "UUID_BANS"))
             {
                 String uuid = (String) obj;
-                if(FOPMR_DatabaseInterface.getBooleanFromTable("UUID", uuid, "PERM", "UUID_BANS"))
+                if (FOPMR_DatabaseInterface.getBooleanFromTable("UUID", uuid, "PERM", "UUID_BANS"))
                 {
                     uuids.add(ChatColor.RED + uuid);
                 }
@@ -62,20 +62,20 @@ public class Command_fopmbanlist
                     uuids.add(ChatColor.AQUA + uuid);
                 }
             }
-            if(args.length == 0)
+            if (args.length == 0)
             {
                 String concatname = "No name bans...";
-                if(!names.isEmpty())
+                if (!names.isEmpty())
                 {
                     concatname = StringUtils.join(names, ", ");
                 }
                 String concatip = "No IP bans...";
-                if(!ips.isEmpty())
+                if (!ips.isEmpty())
                 {
                     concatip = StringUtils.join(ips, ", ");
                 }
                 String concatuuid = "No UUID bans...";
-                if(!uuids.isEmpty())
+                if (!uuids.isEmpty())
                 {
                     concatuuid = StringUtils.join(uuids, ", ");
                 }
@@ -89,12 +89,12 @@ public class Command_fopmbanlist
             }
             else
             {
-                if("clear".equalsIgnoreCase(args[0]))
+                if ("clear".equalsIgnoreCase(args[0]))
                 {
                     String message;
                     Connection c = FOPMR_DatabaseInterface.getConnection();
                     String table;
-                    switch(args[1].toLowerCase())
+                    switch (args[1].toLowerCase())
                     {
                         case "names":
                             message = "Name";
@@ -120,7 +120,7 @@ public class Command_fopmbanlist
                 return false;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }

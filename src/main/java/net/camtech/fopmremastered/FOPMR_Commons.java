@@ -48,7 +48,7 @@ public class FOPMR_Commons
     {
         List<List<T>> parts = new ArrayList<>();
         final int N = list.size();
-        for(int i = 0; i < N; i += L)
+        for (int i = 0; i < N; i += L)
         {
             parts.add(new ArrayList<>(
                     list.subList(i, Math.min(N, i + L)))
@@ -56,7 +56,7 @@ public class FOPMR_Commons
         }
         return parts;
     }
-    
+
     public static boolean intToBoolean(int i)
     {
         return i == 1;

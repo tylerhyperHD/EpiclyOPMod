@@ -7,6 +7,7 @@ import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CommandParameters
 {
+
     String name();
 
     String description();

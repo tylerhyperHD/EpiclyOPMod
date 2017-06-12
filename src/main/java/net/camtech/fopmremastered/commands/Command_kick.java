@@ -10,7 +10,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="kick", description="Kick a player.", usage="/kick [player] <reason>", rank=Rank.ADMIN)
+@CommandParameters(name = "kick", description = "Kick a player.", usage = "/kick [player] <reason>", rank = Rank.ADMIN)
 public class Command_kick extends FOPMR_Command
 {
 

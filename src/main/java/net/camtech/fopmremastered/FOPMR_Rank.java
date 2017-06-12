@@ -29,13 +29,13 @@ public class FOPMR_Rank
     {
         try
         {
-            if(!(player instanceof Player))
+            if (!(player instanceof Player))
             {
-                if(ranks.containsKey(player.getName()))
+                if (ranks.containsKey(player.getName()))
                 {
                     return ranks.get(player.getName());
                 }
-                if("Console".equalsIgnoreCase(player.getName()))
+                if ("Console".equalsIgnoreCase(player.getName()))
                 {
                     ranks.put(player.getName(), Rank.CONSOLE);
                     return Rank.CONSOLE;
@@ -43,14 +43,14 @@ public class FOPMR_Rank
                 else
                 {
                     OfflinePlayer offplayer = Bukkit.getOfflinePlayer(player.getName().replaceAll("[^A-Za-z0-9_]", ""));
-                    if(offplayer == null)
+                    if (offplayer == null)
                     {
                         ranks.put(player.getName(), Rank.SUPER);
                         return Rank.SUPER;
                     }
-                    for(Rank rank : Rank.values())
+                    for (Rank rank : Rank.values())
                     {
-                        if(FOPMR_DatabaseInterface.getRank(offplayer.getUniqueId().toString()).equalsIgnoreCase((rank.name)))
+                        if (FOPMR_DatabaseInterface.getRank(offplayer.getUniqueId().toString()).equalsIgnoreCase((rank.name)))
                         {
                             return rank;
                         }
@@ -59,31 +59,31 @@ public class FOPMR_Rank
                     return Rank.SUPER;
                 }
             }
-            if(FOPMR_Commons.imposters.contains(player.getName()))
+            if (FOPMR_Commons.imposters.contains(player.getName()))
             {
                 return Rank.IMPOSTER;
             }
-            if(ranks.containsKey(player.getName()))
+            if (ranks.containsKey(player.getName()))
             {
                 return ranks.get(player.getName());
             }
             try
             {
-                for(Rank rank : Rank.values())
+                for (Rank rank : Rank.values())
                 {
-                    if(FOPMR_DatabaseInterface.getRank(((Player) player).getUniqueId().toString()).equalsIgnoreCase(rank.name))
+                    if (FOPMR_DatabaseInterface.getRank(((Player) player).getUniqueId().toString()).equalsIgnoreCase(rank.name))
                     {
                         ranks.put(player.getName(), rank);
                         return rank;
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 FreedomOpModRemastered.plugin.handleException(ex);
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -96,22 +96,22 @@ public class FOPMR_Rank
         OfflinePlayer player = Bukkit.getOfflinePlayer(name);
         try
         {
-            if(player != null)
+            if (player != null)
             {
-                for(Rank rank : Rank.values())
+                for (Rank rank : Rank.values())
                 {
-                    if(!FOPMR_DatabaseInterface.playerExists(player.getUniqueId().toString()))
+                    if (!FOPMR_DatabaseInterface.playerExists(player.getUniqueId().toString()))
                     {
                         return Rank.OP;
                     }
-                    if(FOPMR_DatabaseInterface.getRank(player.getUniqueId().toString()).equalsIgnoreCase(rank.name))
+                    if (FOPMR_DatabaseInterface.getRank(player.getUniqueId().toString()).equalsIgnoreCase(rank.name))
                     {
                         return rank;
                     }
                 }
             }
         }
-        catch(Exception ignored)
+        catch (Exception ignored)
         {
 
         }
@@ -120,9 +120,9 @@ public class FOPMR_Rank
 
     public static Rank getFromLevel(int level)
     {
-        for(Rank rank : Rank.values())
+        for (Rank rank : Rank.values())
         {
-            if(rank.level == level)
+            if (rank.level == level)
             {
                 return rank;
             }
@@ -132,9 +132,9 @@ public class FOPMR_Rank
 
     public static Rank getFromName(String name)
     {
-        for(Rank rank : Rank.values())
+        for (Rank rank : Rank.values())
         {
-            if(rank.name.equalsIgnoreCase(name) || rank.name.split(" ")[0].equalsIgnoreCase(name))
+            if (rank.name.equalsIgnoreCase(name) || rank.name.split(" ")[0].equalsIgnoreCase(name))
             {
                 return rank;
             }
@@ -194,13 +194,13 @@ public class FOPMR_Rank
 
     public static Player getPlayer(String nick)
     {
-        for(Player player : Bukkit.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers())
         {
-            if(player.getDisplayName().toLowerCase().contains(nick.toLowerCase()))
+            if (player.getDisplayName().toLowerCase().contains(nick.toLowerCase()))
             {
                 return player;
             }
-            if(player.getName().toLowerCase().contains(nick.toLowerCase()))
+            if (player.getName().toLowerCase().contains(nick.toLowerCase()))
             {
                 return player;
             }
@@ -212,13 +212,13 @@ public class FOPMR_Rank
     {
         try
         {
-            if(!FOPMR_DatabaseInterface.playerExists(player.getUniqueId().toString()))
+            if (!FOPMR_DatabaseInterface.playerExists(player.getUniqueId().toString()))
             {
                 return false;
             }
             return FOPMR_DatabaseInterface.getBooleanFromTable("UUID", player.getUniqueId().toString(), "BUILDER", "PLAYERS");
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -229,15 +229,15 @@ public class FOPMR_Rank
     {
         try
         {
-            if(sender == null)
+            if (sender == null)
             {
                 FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), rank.name, "RANK", "PLAYERS");
                 ranks.put(player.getName(), rank);
-                if(nicks.containsKey(player.getName()))
+                if (nicks.containsKey(player.getName()))
                 {
                     nicks.remove(player.getName());
                 }
-                if(tags.containsKey(player.getName()))
+                if (tags.containsKey(player.getName()))
                 {
                     tags.remove(player.getName());
                 }
@@ -245,17 +245,17 @@ public class FOPMR_Rank
                 FOPMR_BoardManager.updateStats(player);
                 return;
             }
-            if(getRank(player) == Rank.IMPOSTER && !rank.equals(Rank.OP))
+            if (getRank(player) == Rank.IMPOSTER && !rank.equals(Rank.OP))
             {
                 FOPMR_Commons.imposters.remove(player.getName());
                 FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), false, "IMPOSTER", "PLAYERS");
                 FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), player.getAddress().getHostString(), "IP", "PLAYERS");
                 ranks.put(player.getName(), rank);
-                if(nicks.containsKey(player.getName()))
+                if (nicks.containsKey(player.getName()))
                 {
                     nicks.remove(player.getName());
                 }
-                if(tags.containsKey(player.getName()))
+                if (tags.containsKey(player.getName()))
                 {
                     tags.remove(player.getName());
                 }
@@ -264,23 +264,23 @@ public class FOPMR_Rank
                 FOPMR_BoardManager.updateStats(player);
                 return;
             }
-            if(getRank(sender).level <= getRank(player).level && rank != Rank.OP)
+            if (getRank(sender).level <= getRank(player).level && rank != Rank.OP)
             {
                 sender.sendMessage(ChatColor.RED + "You can only add people to a rank who are lower than yourself.");
                 return;
             }
-            if(rank.level >= getRank(sender).level)
+            if (rank.level >= getRank(sender).level)
             {
                 sender.sendMessage(ChatColor.RED + "You can only add people to a rank lower than yourself.");
                 return;
             }
-            if(rank.level < getRank(player).level && (!rank.equals(Rank.OP)))
+            if (rank.level < getRank(player).level && (!rank.equals(Rank.OP)))
             {
                 sender.sendMessage(ChatColor.RED + rank.name + " is a lower rank than " + player.getName() + "'s current rank of " + getRank(player).name + ".");
                 return;
             }
             String message = sender.getName() + " has promoted " + player.getName() + " to the clearance level of " + rank.level + " as " + CUtils_Methods.aOrAn(rank.name) + " " + rank.name + ".\nCongratulations! Please ensure you read the new lounges that you have access to for more details on your new rank!";
-            if(rank.equals(Rank.OP))
+            if (rank.equals(Rank.OP))
             {
                 message = sender.getName() + " has demoted " + player.getName() + " to the clearance level of 0 as an Op.\nWe hope any issues are resolved shortly.";
             }
@@ -288,18 +288,18 @@ public class FOPMR_Rank
             Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - adding " + player.getName() + " to the clearance level of " + rank.level + " as " + CUtils_Methods.aOrAn(rank.name) + " " + rank.name);
             FOPMR_DatabaseInterface.updateInTable("UUID", player.getUniqueId().toString(), rank.name, "RANK", "PLAYERS");
             ranks.put(player.getName(), rank);
-            if(nicks.containsKey(player.getName()))
+            if (nicks.containsKey(player.getName()))
             {
                 nicks.remove(player.getName());
             }
-            if(tags.containsKey(player.getName()))
+            if (tags.containsKey(player.getName()))
             {
                 tags.remove(player.getName());
             }
             colourTabName(player);
             FOPMR_BoardManager.updateStats(player);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -307,14 +307,14 @@ public class FOPMR_Rank
 
     public static String getTag(Player player)
     {
-        if(tags.containsKey(player.getName()))
+        if (tags.containsKey(player.getName()))
         {
             return tags.get(player.getName());
         }
         try
         {
             String tag = FOPMR_DatabaseInterface.getTag(player.getUniqueId().toString());
-            if("&r".equals(tag) || tag == null || "off&r".equals(tag))
+            if ("&r".equals(tag) || tag == null || "off&r".equals(tag))
             {
                 tags.put(player.getName(), getRank(player).tag);
                 return getRank(player).tag;
@@ -322,7 +322,7 @@ public class FOPMR_Rank
             tags.put(player.getName(), tag);
             return tag;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
             tags.put(player.getName(), getRank(player).tag);
@@ -332,14 +332,14 @@ public class FOPMR_Rank
 
     public static String getNick(Player player)
     {
-        if(nicks.containsKey(player.getName()))
+        if (nicks.containsKey(player.getName()))
         {
             return nicks.get(player.getName());
         }
         try
         {
             String nick = FOPMR_DatabaseInterface.getNick(player.getUniqueId().toString());
-            if("&r".equalsIgnoreCase(nick) || nick == null || "off&r".equalsIgnoreCase(nick))
+            if ("&r".equalsIgnoreCase(nick) || nick == null || "off&r".equalsIgnoreCase(nick))
             {
                 nicks.put(player.getName(), player.getName());
                 return player.getName();
@@ -350,7 +350,7 @@ public class FOPMR_Rank
                 return nick;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
             nicks.put(player.getName(), player.getName());
@@ -363,12 +363,12 @@ public class FOPMR_Rank
         try
         {
             Object result = FOPMR_DatabaseInterface.getFromTable("IP", ip, "RANK", "PLAYERS");
-            if(result instanceof String)
+            if (result instanceof String)
             {
                 return getFromName((String) result);
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -380,12 +380,12 @@ public class FOPMR_Rank
         try
         {
             Object result = FOPMR_DatabaseInterface.getFromTable("IP", ip, "NAME", "PLAYERS");
-            if(result instanceof String)
+            if (result instanceof String)
             {
                 return (String) result;
             }
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
@@ -394,14 +394,14 @@ public class FOPMR_Rank
 
     public static void colourTabName(Player player)
     {
-        if(player.getName().length() > 14)
+        if (player.getName().length() > 14)
         {
             player.sendMessage("Your name is too long to colour :(");
             return;
         }
         ChatColor colour = ChatColor.WHITE;
         int level = FOPMR_Rank.getRank(player).level;
-        switch(level)
+        switch (level)
         {
             case 1:
                 colour = ChatColor.YELLOW;
@@ -448,7 +448,7 @@ public class FOPMR_Rank
             colourTabName(player);
             FOPMR_BoardManager.updateStats(player);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.handleException(ex);
         }
