@@ -31,8 +31,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class FreedomOpModRemastered extends JavaPlugin
 {
-
     public static FreedomOpModRemastered plugin;
+    public static FOPMR_Configs configs;
+    public static FOPMR_CommandRegistry commandregistry;
+    public static FOPMR_PlayerListener playerlistener;
+    public static FOPMR_TelnetListener telnetlistener;
+    public static FOPMR_CamVerifyListener camverifylistener;
+    public static FOPMR_ToggleableEventsListener toggleableeventslistener;
+    public static FOPMR_CamzieListener camzielistener;
+    public static FOPMR_VoteListener votelistener;
+    public static FOPMR_BlockListener blocklistener;
+    public static FOPMR_JumpListener jumplistener;
     public static List<String> exploded = new ArrayList<String>();
     private SocketServer socketServer = new SocketServer();
     private Thread thread;
@@ -48,26 +57,26 @@ public class FreedomOpModRemastered extends JavaPlugin
         {
             ChatColor.BLUE, pdf.getName(), pdf.getVersion(), pdf.getAuthors()
         });
-        new FOPMR_Configs();
+        configs = new FOPMR_Configs();
         if (FOPMR_Configs.getMainConfig().getConfig().getBoolean("general.wipe"))
         {
             Bukkit.broadcastMessage("Wiping main world.");
             FOPMR_Configs.getMainConfig().getConfig().set("general.wipe", false);
             CUtils_Methods.deleteWorld(new File("world"));
         }
-        new FOPMR_CommandRegistry();
-        new FOPMR_PlayerListener();
-        new FOPMR_TelnetListener();
-        new FOPMR_CamVerifyListener();
-        new FOPMR_ToggleableEventsListener();
-        new FOPMR_CamzieListener();
-        new FOPMR_VoteListener();
-        new FOPMR_BlockListener();
-        new FOPMR_JumpListener();
+        commandregistry = new FOPMR_CommandRegistry();
+        playerlistener = new FOPMR_PlayerListener();
+        telnetlistener = new FOPMR_TelnetListener();
+        camverifylistener = new FOPMR_CamVerifyListener();
+        toggleableeventslistener = new FOPMR_ToggleableEventsListener();
+        camzielistener = new FOPMR_CamzieListener();
+        votelistener = new FOPMR_VoteListener();
+        blocklistener = new FOPMR_BlockListener();
+        jumplistener = new FOPMR_JumpListener();
         FOPMR_Announcements.setup();
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            FileConfiguration config = FOPMR_Configs.getAdmins().getConfig();
+            FileConfiguration config = configs.getAdmins().getConfig();
             if (config.getBoolean(player.getUniqueId().toString() + ".imposter"))
             {
                 FOPMR_Commons.imposters.add(player.getName());

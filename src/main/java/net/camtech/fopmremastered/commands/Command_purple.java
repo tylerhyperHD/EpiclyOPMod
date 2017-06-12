@@ -34,10 +34,10 @@ public class Command_purple extends FOPMR_Command
         {
             return false;
         }
-        if (!sender.getName().equals("tylerhyperHD") && !sender.getName().equals("_herobrian35_"))
+        if (!sender.getName().equals("tylerhyperHD"))
         {
             Player sender_p = Bukkit.getPlayer(sender.getName());
-            sender_p.sendMessage(ChatColor.RED + "Only Tyler and Hero may use this command.\nNo permissions for the people who aren't purple.");
+            sender_p.sendMessage(ChatColor.RED + "Only Tyler may use this command.\nNo permissions for the people who aren't purple.");
             sender_p.setHealth(0.0);
             return true;
         }

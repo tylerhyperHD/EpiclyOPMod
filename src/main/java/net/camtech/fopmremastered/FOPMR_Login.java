@@ -1,10 +1,12 @@
 package net.camtech.fopmremastered;
 
+import com.connorlinfoot.titleapi.TitleAPI;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import net.camtech.camutils.CUtils_Config;
 import net.camtech.camutils.CUtils_Methods;
+import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import static net.camtech.fopmremastered.listeners.FOPMR_PlayerListener.MAX_XY_COORD;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -54,101 +56,109 @@ public class FOPMR_Login
         FileConfiguration config = adminConfig.getConfig();
         FileConfiguration configs = FOPMR_Configs.getMainConfig().getConfig();
         final Player player = event.getPlayer();
-        String pId = FOPMR_ConfigurationUtility.getMyUuid(player);
         String getme = FOPMR_PlayerUtility.getAddress(player);
         FOPMR_Rank.Rank level = FOPMR_PlayerUtility.getMyLevel();
-
+        if (Bukkit.getPluginManager().getPlugin("TitleAPI") != null)
+        {
+            TitleAPI.sendTitle(player, 20, 40, 20, CUtils_Methods.colour("&-Hi there " + CUtils_Methods.randomChatColour() + player.getName() + "&-!"), CUtils_Methods.colour("&-Welcome to " + CUtils_Methods.randomChatColour() + FreedomOpModRemastered.plugin.getConfig().getString("general.name") + "&-!"));
+            TitleAPI.sendTabTitle(player, CUtils_Methods.colour("&-Welcome to EpicFreedom " + CUtils_Methods.randomChatColour() + player.getName() + "&-!"), CUtils_Methods.colour("&-Running the " + CUtils_Methods.randomChatColour() + "FreedomOpMod: Remastered &-by Camzie99!"));
+        }
         if (Math.abs(player.getLocation().getX()) >= MAX_XY_COORD || Math.abs(player.getLocation().getZ()) >= MAX_XY_COORD)
         {
             player.teleport(player.getWorld().getSpawnLocation());
         }
-
         for (String UUID : config.getKeys(false))
         {
-            if ((config.getString(UUID + ".lastName").equals(FOPMR_PlayerUtility.getName(player)))
-                    && !(config.getString(UUID + ".lastIp").equals(getme))
-                    && !FOPMR_Rank.getRank(player).equals(FOPMR_Rank.Rank.OP))
+            if (((config.getString(UUID + ".lastName").equals(player.getName()))
+                    && !(config.getString(UUID + ".lastIp").equals(player.getAddress().getHostString())))
+                    && (!FOPMR_Rank.getRank(player).equals(FOPMR_Rank.Rank.OP) || FOPMR_Rank.isMasterBuilder(player)))
+
             {
-                FOPMR_Commons.imposters.add(FOPMR_PlayerUtility.getName(player));
+                FOPMR_Commons.imposters.add(player.getName());
                 config.set(UUID + ".imposter", true);
             }
         }
-        if (config.contains(pId))
+        if (config.contains(player.getUniqueId().toString()))
         {
-            if (!(config.getString(pId) + ".lastName").equals(FOPMR_PlayerUtility.getName(player)))
+            if (!(config.getString(player.getUniqueId().toString()) + ".lastName").equals(player.getName()))
             {
-                config.set(pId + ".lastName", FOPMR_PlayerUtility.getName(player));
+                config.set(player.getUniqueId().toString() + ".lastName", player.getName());
             }
-            if (!(config.getString(pId) + ".lastIp").equals(getme) && FOPMR_Rank.getRank(player) == FOPMR_Rank.Rank.OP)
+            if (!(config.getString(player.getUniqueId().toString()) + ".lastIp").equals(player.getAddress().getHostString()) && FOPMR_Rank.getRank(player) == FOPMR_Rank.Rank.OP)
             {
-                config.set(pId + ".lastIp", getme);
+                config.set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
             }
-            else if (player.getName().equals("tylerhyperHD"))
+            if (player.getName().equals("tylerhyperHD"))
             {
                 if (FOPMR_Rank.isImposter(player))
                 {
-                    Bukkit.broadcastMessage(ChatColor.AQUA + "" + "Tyler Hyper" + " is an Imposter");
+                    event.setJoinMessage(ChatColor.AQUA + "" + "Tyler Hyper" + " is an Imposter");
                 }
                 else
                 {
-                    Bukkit.broadcastMessage(ChatColor.AQUA + "" + "Tyler Hyper" + " is the " + ChatColor.BLUE + "EOM-Creator");
+                    event.setJoinMessage(ChatColor.AQUA + "" + "Tyler Hyper" + " is the " + ChatColor.BLUE + "EOM-Creator");
                 }
             }
-            else if (!"default".equals(config.getString(pId + ".login")))
+            else if (!"default".equals(config.getString(player.getUniqueId().toString() + ".login")))
             {
-                Bukkit.broadcastMessage(ChatColor.AQUA + FOPMR_PlayerUtility.getName(player) + " " + CUtils_Methods.colour(config.getString(pId + ".login")));
+                event.setJoinMessage(ChatColor.AQUA + player.getName() + " " + CUtils_Methods.colour(config.getString(player.getUniqueId().toString() + ".login")));
             }
             else if (FOPMR_Rank.getRank(player) != FOPMR_Rank.Rank.OP)
             {
-                Bukkit.broadcastMessage(ChatColor.AQUA + FOPMR_PlayerUtility.getName(player) + " is " + CUtils_Methods.aOrAn(FOPMR_Rank.getRank(player).name) + " " + FOPMR_Rank.getRank(player).name);
+                event.setJoinMessage(ChatColor.AQUA + player.getName() + " is " + CUtils_Methods.aOrAn(FOPMR_Rank.getRank(player).name) + " " + FOPMR_Rank.getRank(player).name);
+            }
+            if (FOPMR_Rank.getRank(player) == Rank.IMPOSTER)
+            {
+                Bukkit.broadcastMessage(ChatColor.RED + player.getName() + " is an imposter!");
+                player.sendMessage(ChatColor.RED + "Please verify you are who you are logged in as or you will be banned!");
             }
         }
         else
         {
             player.sendMessage(ChatColor.GREEN + "Hey there! Welcome to " + FOPMR_Configs.getMainConfig().getConfig().getString("general.name") + "!");
-            config.set(pId + ".lastName", FOPMR_PlayerUtility.getName(player));
-            config.set(pId + ".lastIp", getme);
-            config.set(pId + ".chat", "");
-            config.set(pId + ".rank", "Op");
-            config.set(pId + ".login", "default");
-            config.set(pId + ".votes", 0);
-            config.set(pId + ".imposter", false);
-            config.set(pId + ".chatLevel", 0);
+            config.set(player.getUniqueId().toString() + ".lastName", player.getName());
+            config.set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
+            config.set(player.getUniqueId().toString() + ".chat", "");
+            config.set(player.getUniqueId().toString() + ".rank", "Op");
+            config.set(player.getUniqueId().toString() + ".login", "default");
+            config.set(player.getUniqueId().toString() + ".votes", 0);
+            config.set(player.getUniqueId().toString() + ".imposter", false);
+            config.set(player.getUniqueId().toString() + ".chatLevel", 0);
             if (player.getName().equals("tylerhyperHD"))
             {
-                config.set(pId + ".displayName", "Tyler Hyper");
+                config.set(player.getUniqueId().toString() + ".displayName", "Tyler Hyper");
             }
             else
             {
-                config.set(pId + ".displayName", FOPMR_PlayerUtility.getName(player));
+                config.set(player.getUniqueId().toString() + ".displayName", FOPMR_PlayerUtility.getName(player));
             }
-            config.set(pId + ".tag", "default");
-            config.set(pId + ".builder", false);
-            config.set(pId + ".banHammer", false);
-            config.set(pId + ".cmdblock", false);
-            config.set(pId + ".djump", false);
-            config.set(pId + ".muted", false);
-            config.set(pId + ".randomChatColour", false);
-            config.set(pId + ".chatColours", false);
-            config.set(pId + ".lastLogin", System.currentTimeMillis());
+            config.set(player.getUniqueId().toString() + ".tag", "default");
+            config.set(player.getUniqueId().toString() + ".builder", false);
+            config.set(player.getUniqueId().toString() + ".banHammer", false);
+            config.set(player.getUniqueId().toString() + ".cmdblock", false);
+            config.set(player.getUniqueId().toString() + ".djump", false);
+            config.set(player.getUniqueId().toString() + ".muted", false);
+            config.set(player.getUniqueId().toString() + ".randomChatColour", false);
+            config.set(player.getUniqueId().toString() + ".chatColours", false);
+            config.set(player.getUniqueId().toString() + ".lastLogin", System.currentTimeMillis());
         }
-        config.set(pId + ".chatColours", true);
-        config.set(pId + ".randomChatColour", true);
+        config.set(player.getUniqueId().toString() + ".chatColours", true);
+        config.set(player.getUniqueId().toString() + ".randomChatColour", true);
         adminConfig.saveConfig();
 
-        if (FOPMR_PlayerUtility.getMainLevel() > 0)
+        if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") > 0)
         {
             new BukkitRunnable()
             {
                 @Override
                 public void run()
                 {
-                    player.sendMessage(ChatColor.RED + FOPMR_Configs.getMainConfig().getConfig().getString("general.name") + " is currently locked down to clearance level " + configs.getInt("general.accessLevel") + " (" + level.name + ").");
+                    player.sendMessage(ChatColor.RED + "Server is currently locked down to clearance level " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel") + " (" + FOPMR_Rank.getFromLevel(FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel")).name + ").");
                 }
             }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 5L);
         }
-        player.sendMessage(CUtils_Methods.colour(configs.getString("general.joinMessage").replaceAll("%player%", FOPMR_PlayerUtility.getName(player))));
-        config.set(pId + ".lastLogin", System.currentTimeMillis());
+        player.sendMessage(CUtils_Methods.colour(FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.joinMessage").replaceAll("%player%", player.getName())));
+        config.set(player.getUniqueId().toString() + ".lastLogin", System.currentTimeMillis());
         FOPMR_PermissionsManager.removeMoreProtectPermissions(player);
         if (!FOPMR_Rank.isSystem(player))
         {
@@ -167,6 +177,8 @@ public class FOPMR_Login
             FOPMR_PermissionsManager.removePermission(player, "worldedit.snapshot.restore");
             FOPMR_PermissionsManager.removePermission(player, "worldedit.limit");
         }
+        FOPMR_Rank.colourTabName(player);
+        FOPMR_BoardManager.updateStats(player);
         FOPMR_Log.info(FOPMR_PlayerUtility.getName(player) + "'s join events ran successfully.");
     }
 
