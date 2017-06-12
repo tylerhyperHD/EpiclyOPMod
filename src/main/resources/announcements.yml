@@ -5,11 +5,11 @@
     #How long before the announcement repeats in seconds.
     #time: 600
 Griefing:
-    message: "&5[&eHeroFreedom&5] &bGriefing is &4NOT ALLOWED!"
+    message: "&5[&eEpicFreedom&5] &bGriefing is &4NOT ALLOWED!"
     time: 120
 Forums:
-    message: "&5[&eHeroFreedom&5] &bCheck out our forums @ http://herofreedommc.boards.net/"
+    message: "&5[&eEpicFreedom&5] &bCheck out our forums @ I DUNNO"
     time: 180
 Hacking:
-    message: "&5[&eHeroFreedom&5] &bHacking is &aALLOWED"
+    message: "&5[&eEpicFreedom&5] &bHacking is &aALLOWED"
     time: 240

@@ -2,6 +2,7 @@ package net.camtech.fopmremastered;
 
 import net.camtech.camutils.CUtils_Config;
 
+@SuppressWarnings("static-access")
 public class FOPMR_Configs
 {
 
@@ -13,6 +14,7 @@ public class FOPMR_Configs
     private static CUtils_Config announcements;
     private static CUtils_Config chats;
     private static CUtils_Config areas;
+    private static CUtils_Config worlds;
     public static boolean isBlowingShitUp = false;
     public static boolean isKillingShit = false;
 
@@ -34,24 +36,26 @@ public class FOPMR_Configs
         chats.saveDefaultConfig();
         areas = new CUtils_Config(FreedomOpModRemastered.plugin, "areas.yml");
         areas.saveDefaultConfig();
+        worlds = new CUtils_Config(FreedomOpModRemastered.plugin, "worlds.yml");
+        worlds.saveDefaultConfig();
     }
 
-    public static CUtils_Config getAdmins()
+    public CUtils_Config getAdmins()
     {
         return admins;
     }
 
-    public static CUtils_Config getCommands()
+    public CUtils_Config getCommands()
     {
         return commands;
     }
 
-    public static CUtils_Config getBans()
+    public CUtils_Config getBans()
     {
         return bans;
     }
 
-    public static CUtils_Config getMainConfig()
+    public CUtils_Config getMainConfig()
     {
         return mainconfig;
     }
@@ -76,23 +80,28 @@ public class FOPMR_Configs
         this.isKillingShit = state;
     }
 
-    public static CUtils_Config getReports()
+    public CUtils_Config getReports()
     {
         return reports;
     }
 
-    public static CUtils_Config getAnnouncements()
+    public CUtils_Config getAnnouncements()
     {
         return announcements;
     }
 
-    public static CUtils_Config getChats()
+    public CUtils_Config getChats()
     {
         return chats;
     }
 
-    public static CUtils_Config getAreas()
+    public CUtils_Config getAreas()
     {
         return areas;
+    }
+    
+    public CUtils_Config getWorlds()
+    {
+        return worlds;
     }
 }

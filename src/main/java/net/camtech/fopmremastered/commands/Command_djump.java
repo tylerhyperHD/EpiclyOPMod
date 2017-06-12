@@ -1,12 +1,12 @@
 package net.camtech.fopmremastered.commands;
 
-import net.camtech.fopmremastered.FOPMR_Configs;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 
 public class Command_djump extends FOPMR_Command
 {
@@ -26,8 +26,8 @@ public class Command_djump extends FOPMR_Command
         }
         Player player = (Player) sender;
         sender.sendMessage(ChatColor.GREEN + "Toggled double jump mode.");
-        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".djump", !FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".djump"));
-        FOPMR_Configs.getAdmins().saveConfig();
+        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".djump", !FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".djump"));
+        FreedomOpModRemastered.configs.getAdmins().saveConfig();
         return true;
     }
 

@@ -2,6 +2,7 @@ package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.FOPMR_Configs;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -11,13 +12,13 @@ public class Command_admininfo
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String args[])
     {
-        if (!FOPMR_Configs.getMainConfig().getConfig().getBoolean("toggles.apps"))
+        if (!FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.apps"))
         {
-            sender.sendMessage(CUtils_Methods.randomChatColour() + "Unfortunately, applications are currently closed. Please speak with " + FOPMR_Configs.getMainConfig().getConfig().getString("general.adminmanager") + " for more info.");
+            sender.sendMessage(CUtils_Methods.randomChatColour() + "Unfortunately, applications are currently closed. Please speak with " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.adminmanager") + " for more info.");
             return true;
         }
         sender.sendMessage(CUtils_Methods.randomChatColour() + "Interested in becoming an admin?");
-        sender.sendMessage(CUtils_Methods.randomChatColour() + "Then apply here: " + FOPMR_Configs.getMainConfig().getConfig().getString("general.admininfo"));
+        sender.sendMessage(CUtils_Methods.randomChatColour() + "Then apply here: " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.admininfo"));
         return true;
     }
 }

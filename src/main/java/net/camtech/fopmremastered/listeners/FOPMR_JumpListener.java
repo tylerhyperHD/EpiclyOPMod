@@ -1,6 +1,5 @@
 package net.camtech.fopmremastered.listeners;
 
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -27,13 +26,13 @@ public class FOPMR_JumpListener implements Listener
         {
             if (event.getTo().getY() > event.getFrom().getY())
             {
-                if (FOPMR_Configs.getMainConfig().getConfig().getBoolean("jumppads.enabled"))
+                if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("jumppads.enabled"))
                 {
                     Location loc = event.getFrom();
                     final Block block = event.getTo().getBlock();
                     if (block.getRelative(0, -1, 0).getType() == Material.WOOL)
                     {
-                        player.setVelocity(player.getVelocity().setY(FOPMR_Configs.getMainConfig().getConfig().getDouble("jumppads.strength")));
+                        player.setVelocity(player.getVelocity().setY(FreedomOpModRemastered.configs.getMainConfig().getConfig().getDouble("jumppads.strength")));
                     }
                 }
             }
@@ -45,14 +44,14 @@ public class FOPMR_JumpListener implements Listener
     {
         if (event.getPlayer().isSprinting())
         {
-            if (FOPMR_Configs.getMainConfig().getConfig().getBoolean("jumppads.speed"))
+            if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("jumppads.speed"))
             {
                 Location loc = event.getPlayer().getLocation();
                 Block one = new Location(loc.getWorld(), loc.getX(), loc.getBlockY() - 1, loc.getZ()).getBlock();
                 Block two = new Location(loc.getWorld(), loc.getX(), loc.getBlockY() - 2, loc.getZ()).getBlock();
                 if (one.getType() == Material.WOOL && two.getType() == Material.PISTON_BASE && two.getData() == 0)
                 {
-                    event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(FOPMR_Configs.getMainConfig().getConfig().getDouble("jumppads.speedstrength")).setY(0));
+                    event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(FreedomOpModRemastered.configs.getMainConfig().getConfig().getDouble("jumppads.speedstrength")).setY(0));
                 }
             }
         }

@@ -13,13 +13,13 @@ public class Command_relogger extends FOPMR_Command
 
     public Command_relogger()
     {
-        super("relogger", "/chatlevel [level]", "Change your chat level.", FOPMR_Rank.Rank.ADMIN);
+        super("relogger", "/relogger", "Make the seniors relog onto the server.", FOPMR_Rank.Rank.ADMIN);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        if (!sender.getName().equals("tylerhyperHD") && !sender.getName().equals("_herobrian35_"))
+        if (!sender.getName().equals("tylerhyperHD"))
         {
             sender.sendMessage(ChatColor.RED + "You do not have permission to this command.");
             return true;

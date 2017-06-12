@@ -52,9 +52,9 @@ public class FOPMR_Login
 
     public static void handleJoinEvent(PlayerJoinEvent event)
     {
-        CUtils_Config adminConfig = FOPMR_Configs.getAdmins();
+        CUtils_Config adminConfig = FreedomOpModRemastered.configs.getAdmins();
         FileConfiguration config = adminConfig.getConfig();
-        FileConfiguration configs = FOPMR_Configs.getMainConfig().getConfig();
+        FileConfiguration configs = FreedomOpModRemastered.configs.getMainConfig().getConfig();
         final Player player = event.getPlayer();
         String getme = FOPMR_PlayerUtility.getAddress(player);
         FOPMR_Rank.Rank level = FOPMR_PlayerUtility.getMyLevel();
@@ -115,7 +115,7 @@ public class FOPMR_Login
         }
         else
         {
-            player.sendMessage(ChatColor.GREEN + "Hey there! Welcome to " + FOPMR_Configs.getMainConfig().getConfig().getString("general.name") + "!");
+            player.sendMessage(ChatColor.GREEN + "Hey there! Welcome to " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.name") + "!");
             config.set(player.getUniqueId().toString() + ".lastName", player.getName());
             config.set(player.getUniqueId().toString() + ".lastIp", player.getAddress().getHostString());
             config.set(player.getUniqueId().toString() + ".chat", "");
@@ -187,13 +187,13 @@ public class FOPMR_Login
         UUID uuid;
         Player player = event.getPlayer();
         String username = player.getName();
-        FileConfiguration mainconfig = FOPMR_Configs.getMainConfig().getConfig();
-        FileConfiguration adminconfig = FOPMR_Configs.getAdmins().getConfig();
+        FileConfiguration mainconfig = FreedomOpModRemastered.configs.getMainConfig().getConfig();
+        FileConfiguration adminconfig = FreedomOpModRemastered.configs.getAdmins().getConfig();
         String ip = event.getAddress().getHostAddress().trim();
         String pId = FOPMR_ConfigurationUtility.getMyUuid(player);
-        String uuidhardcodebyebye = "Your UUID has been hardcoded to a permban list. You may not come back to " + FOPMR_Configs.getMainConfig().getConfig().getString("general.name") + " ever again.";
-        String iphardcodebyebye = "Your ip has been hardcoded to a permban list. You may not come back to " + FOPMR_Configs.getMainConfig().getConfig().getString("general.name") + " ever again.";
-        String hardcodebyebye = "Your username has been hardcoded to a permban list. You may not come back to " + FOPMR_Configs.getMainConfig().getConfig().getString("general.name") + " ever again.";
+        String uuidhardcodebyebye = "Your UUID has been hardcoded to a permban list. You may not come back to " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.name") + " ever again.";
+        String iphardcodebyebye = "Your ip has been hardcoded to a permban list. You may not come back to " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.name") + " ever again.";
+        String hardcodebyebye = "Your username has been hardcoded to a permban list. You may not come back to " + FreedomOpModRemastered.configs.getMainConfig().getConfig().getString("general.name") + " ever again.";
 
         for (Player player2 : Bukkit.getOnlinePlayers())
         {
@@ -245,7 +245,9 @@ public class FOPMR_Login
             return;
         }
 
-        if (player.getUniqueId().equals("9ca58c67-f77b-45c7-984f-9bf6ca8a8941"))
+        UUID venom = UUID.fromString("9ca58c67-f77b-45c7-984f-9bf6ca8a8941");
+        
+        if (player.getUniqueId().equals(venom))
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Venom_nV, go away and don't ever come back to this server.");
             return;
@@ -261,7 +263,7 @@ public class FOPMR_Login
         }
 
         // UUID ban
-        if (player.getUniqueId().equals(permbannedUuids.toString()))
+        if (player.getUniqueId().equals(UUID.fromString(permbannedUuids.toString())))
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + hardcodebyebye);
             return;

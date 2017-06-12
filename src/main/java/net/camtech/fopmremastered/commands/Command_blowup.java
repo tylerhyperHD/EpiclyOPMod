@@ -1,11 +1,13 @@
 package net.camtech.fopmremastered.commands;
 
+import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class Command_blowup extends FOPMR_Command
 {
@@ -32,18 +34,22 @@ public class Command_blowup extends FOPMR_Command
         }
 
         // Trigger blowing them up
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
-        player.getWorld().createExplosion(player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 5f, false, false);
+        player.setVelocity(player.getVelocity().clone().add(new Vector(0, 100, 0)));  
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+        FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
+
         // Kill them
         player.setHealth(0.0);
 

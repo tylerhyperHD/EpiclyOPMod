@@ -4,16 +4,14 @@ import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name = "forcechat", description = "Force a player to send a chat message.", usage = "/forchat [player] [message]", rank = Rank.SENIOR, aliases = "fc, fchat, forcec")
+@CommandParameters(name="forcechat", description="Force a player to send a chat message.", usage="/forchat [player] [message]", rank=Rank.SENIOR, aliases="fc, fchat, forcec")
 public class Command_forcechat
 {
-
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length < 2)

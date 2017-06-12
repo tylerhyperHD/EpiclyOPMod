@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.camtech.camutils.CUtils_Methods;
@@ -25,7 +26,9 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -58,10 +61,10 @@ public class FreedomOpModRemastered extends JavaPlugin
             ChatColor.BLUE, pdf.getName(), pdf.getVersion(), pdf.getAuthors()
         });
         configs = new FOPMR_Configs();
-        if (FOPMR_Configs.getMainConfig().getConfig().getBoolean("general.wipe"))
+        if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("general.wipe"))
         {
             Bukkit.broadcastMessage("Wiping main world.");
-            FOPMR_Configs.getMainConfig().getConfig().set("general.wipe", false);
+            FreedomOpModRemastered.configs.getMainConfig().getConfig().set("general.wipe", false);
             CUtils_Methods.deleteWorld(new File("world"));
         }
         commandregistry = new FOPMR_CommandRegistry();
@@ -74,6 +77,7 @@ public class FreedomOpModRemastered extends JavaPlugin
         blocklistener = new FOPMR_BlockListener();
         jumplistener = new FOPMR_JumpListener();
         FOPMR_Announcements.setup();
+        FOPMR_WorldManager.loadWorldsFromConfig();
         for (Player player : Bukkit.getOnlinePlayers())
         {
             FileConfiguration config = configs.getAdmins().getConfig();
@@ -82,17 +86,21 @@ public class FreedomOpModRemastered extends JavaPlugin
                 FOPMR_Commons.imposters.add(player.getName());
             }
         }
-        FOPMR_WorldManager.getAdminWorld();
-        FOPMR_WorldManager.getFlatlands();
-        FOPMR_WorldManager.getBuildersWorld();
         thread = new Thread(socketServer);
         thread.start();
+        this.getServer().getServicesManager().register(Function.class, FOPMR_Rank.ADMIN_SERVICE, plugin, ServicePriority.Highest);
     }
 
     @Override
     public void onDisable()
     {
         PluginDescriptionFile pdf = this.getDescription();
+        getLogger().log(Level.INFO, "{0}Unloading all FOPM: R Worlds", ChatColor.RED);
+        FOPMR_WorldManager.unloadWorlds();
+        getLogger().log(Level.INFO, "{0}Unloading all FOPM: R Listeners", ChatColor.RED);
+        HandlerList.unregisterAll(plugin);
+        getLogger().log(Level.INFO, "{0}Unloading all FOPM: R Commands", ChatColor.RED);
+        FOPMR_CommandRegistry.unregisterCommands();
         getLogger().log(Level.INFO, "{0}{1} has been disabled!", new Object[]
         {
             ChatColor.RED, pdf.getName()

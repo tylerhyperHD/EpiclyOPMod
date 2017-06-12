@@ -5,6 +5,7 @@ import net.camtech.camutils.CUtils_Config;
 import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -12,8 +13,8 @@ import org.bukkit.entity.Player;
 public class FOPMR_PrivateChats
 {
 
-    public static CUtils_Config config = FOPMR_Configs.getChats();
-    public static FileConfiguration chats = FOPMR_Configs.getChats().getConfig();
+    public static CUtils_Config config = FreedomOpModRemastered.configs.getChats();
+    public static FileConfiguration chats = FreedomOpModRemastered.configs.getChats().getConfig();
 
     public static boolean canAccess(Player player, String chat)
     {

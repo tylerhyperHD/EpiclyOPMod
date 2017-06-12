@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 
 public class Command_blockcommand extends FOPMR_Command
 {
@@ -32,14 +33,14 @@ public class Command_blockcommand extends FOPMR_Command
             sender.sendMessage("Player is not online.");
             return true;
         }
-        if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), FOPMR_Rank.getRank(sender)) && !FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".cmdblock"))
+        if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(player), FOPMR_Rank.getRank(sender)) && !FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".cmdblock"))
         {
             sender.sendMessage("You can only block the commands of a player with lower clearance than yourself.");
             return true;
         }
         Bukkit.broadcastMessage(ChatColor.AQUA + sender.getName() + " - toggling command blockage for " + player.getName() + ".");
-        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".cmdblock", !FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".cmdblock"));
-        FOPMR_Configs.getAdmins().saveConfig();
+        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".cmdblock", !FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".cmdblock"));
+        FreedomOpModRemastered.configs.getAdmins().saveConfig();
         return true;
     }
 

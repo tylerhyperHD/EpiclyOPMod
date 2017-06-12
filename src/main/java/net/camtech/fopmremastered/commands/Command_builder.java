@@ -3,6 +3,7 @@ package net.camtech.fopmremastered.commands;
 import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import net.camtech.fopmremastered.worlds.FOPMR_WorldManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -55,10 +56,10 @@ public class Command_builder
             if (args[0].equalsIgnoreCase("list"))
             {
                 sender.sendMessage(ChatColor.GREEN + "The following users are Master Builders.");
-                FOPMR_Configs.getAdmins().getConfig().getKeys(false).stream().filter((uuid) -> (FOPMR_Configs.getAdmins().getConfig().getBoolean(uuid + ".builder"))).forEach((uuid)
+                FreedomOpModRemastered.configs.getAdmins().getConfig().getKeys(false).stream().filter((uuid) -> (FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(uuid + ".builder"))).forEach((uuid)
                         -> 
                         {
-                            sender.sendMessage(ChatColor.GREEN + " - " + FOPMR_Configs.getAdmins().getConfig().getString(uuid + ".lastName"));
+                            sender.sendMessage(ChatColor.GREEN + " - " + FreedomOpModRemastered.configs.getAdmins().getConfig().getString(uuid + ".lastName"));
                 });
                 return true;
             }
@@ -79,15 +80,15 @@ public class Command_builder
             if (args[0].equalsIgnoreCase("add"))
             {
                 FOPMR_Commons.adminAction(sender.getName(), "Adding " + player.getName() + " to Master Builder.", false);
-                FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId() + ".builder", true);
-                FOPMR_Configs.getAdmins().saveConfig();
+                FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId() + ".builder", true);
+                FreedomOpModRemastered.configs.getAdmins().saveConfig();
                 return true;
             }
             if (args[0].equalsIgnoreCase("remove"))
             {
                 FOPMR_Commons.adminAction(sender.getName(), "Removing " + player.getName() + " from Master Builder.", true);
-                FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId() + ".builder", false);
-                FOPMR_Configs.getAdmins().saveConfig();
+                FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId() + ".builder", false);
+                FreedomOpModRemastered.configs.getAdmins().saveConfig();
                 return true;
             }
         }

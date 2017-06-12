@@ -11,6 +11,7 @@ import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import static net.camtech.fopmremastered.FOPMR_Rank.isSuper;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -26,7 +27,7 @@ public class Command_admin
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
-        FileConfiguration admins = FOPMR_Configs.getAdmins().getConfig();
+        FileConfiguration admins = FreedomOpModRemastered.configs.getAdmins().getConfig();
         if (args.length == 1)
         {
             if (args[0].equalsIgnoreCase("list"))

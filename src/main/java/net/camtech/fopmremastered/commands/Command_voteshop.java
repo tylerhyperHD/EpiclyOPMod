@@ -2,7 +2,7 @@ package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.FOPMR_Commons;
-import net.camtech.fopmremastered.FOPMR_Configs;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,7 +20,7 @@ public class Command_voteshop
             return true;
         }
         Player player = (Player) sender;
-        player.sendMessage(CUtils_Methods.colour("&-You have " + CUtils_Methods.randomChatColour() + FOPMR_Configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes") + " &-votes."));
+        player.sendMessage(CUtils_Methods.colour("&-You have " + CUtils_Methods.randomChatColour() + FreedomOpModRemastered.configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes") + " &-votes."));
         FOPMR_Commons.openVoteShop(player);
         return true;
     }

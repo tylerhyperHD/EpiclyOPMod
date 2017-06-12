@@ -70,7 +70,7 @@ public class Command_adminworld
         }
         catch (Exception ex)
         {
-            sender.sendMessage("The adminworld cannot be found. Please contact Camzie99.");
+            sender.sendMessage("The adminworld cannot be found. Please contact tylerhyperHD.");
         }
         return true;
     }

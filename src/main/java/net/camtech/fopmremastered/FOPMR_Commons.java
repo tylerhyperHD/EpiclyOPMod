@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import net.camtech.camutils.CUtils_Methods;
+import net.minecraft.server.v1_11_R1.Explosion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -178,7 +184,7 @@ public class FOPMR_Commons
         Inventory inv = Bukkit.createInventory(null, 27, ChatColor.GREEN + "" + ChatColor.BOLD + "$$ " + ChatColor.GOLD + "VoteShop " + ChatColor.GREEN + "" + ChatColor.BOLD + "$$");
         ItemStack randomChat = new ItemStack(Material.SIGN, 1);
         ItemMeta randomChatMeta = randomChat.getItemMeta();
-        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour"))
+        if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour"))
         {
             randomChatMeta.setDisplayName(ChatColor.BLUE + "Random Chat Colors");
             randomChatMeta.setLore(Arrays.asList(ChatColor.GREEN + "Gain access to use &- in chat, nicks and tags.", ChatColor.GREEN + "&- Randomly colours the following text!", ChatColor.GREEN + "Price: 3 Votes"));
@@ -192,7 +198,7 @@ public class FOPMR_Commons
         inv.setItem(1, randomChat);
         ItemStack chat = new ItemStack(Material.PAPER, 1);
         ItemMeta chatMeta = randomChat.getItemMeta();
-        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours"))
+        if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours"))
         {
             chatMeta.setDisplayName(ChatColor.BLUE + "Chat Colors");
             chatMeta.setLore(Arrays.asList(ChatColor.GREEN + "Gain access to use colors in chat, nicks and tags.", ChatColor.GREEN + "Price: 3 Votes"));
@@ -206,9 +212,19 @@ public class FOPMR_Commons
         inv.setItem(7, chat);
         ItemStack votes = new ItemStack(Material.DIAMOND, 1);
         ItemMeta votesMeta = votes.getItemMeta();
-        votesMeta.setDisplayName(ChatColor.BLUE + "You have " + ChatColor.GOLD + FOPMR_Configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes") + ChatColor.BLUE + " votes.");
+        votesMeta.setDisplayName(ChatColor.BLUE + "You have " + ChatColor.GOLD + FreedomOpModRemastered.configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".votes") + ChatColor.BLUE + " votes.");
         votes.setItemMeta(votesMeta);
         inv.setItem(13, votes);
         player.openInventory(inv);
+    }
+
+    public static void explode(Location loc, Entity explodeAs, float radius, boolean setFires, boolean terrainDamage)
+    {
+        Explosion explosion = new Explosion(((CraftWorld) loc.getWorld()).getHandle(),
+                ((CraftEntity) explodeAs).getHandle(), loc.getX(), loc.getY(), loc.getZ(), radius, setFires,
+                terrainDamage);
+        explosion.a();
+        explosion.a(true);
+        loc.getWorld().playEffect(loc, Effect.EXPLOSION_HUGE, 4);
     }
 }

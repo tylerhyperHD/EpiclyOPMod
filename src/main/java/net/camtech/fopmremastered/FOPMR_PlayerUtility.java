@@ -15,14 +15,14 @@ public class FOPMR_PlayerUtility
 
     public static FOPMR_Rank.Rank getMyLevel()
     {
-        FileConfiguration configs = FOPMR_Configs.getMainConfig().getConfig();
+        FileConfiguration configs = FreedomOpModRemastered.configs.getMainConfig().getConfig();
         return FOPMR_Rank.getFromLevel(configs.getInt("general.accessLevel"));
     }
 
     public static int getMainLevel()
     {
-        FileConfiguration configs = FOPMR_Configs.getMainConfig().getConfig();
-        return FOPMR_Configs.getMainConfig().getConfig().getInt("general.accessLevel");
+        FileConfiguration configs = FreedomOpModRemastered.configs.getMainConfig().getConfig();
+        return FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel");
     }
 
     public static String getName(Player player)

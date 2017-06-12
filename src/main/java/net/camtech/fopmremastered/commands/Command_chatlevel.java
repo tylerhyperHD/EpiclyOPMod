@@ -1,9 +1,9 @@
 package net.camtech.fopmremastered.commands;
 
 import java.util.Arrays;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -32,7 +32,7 @@ public class Command_chatlevel extends FOPMR_Command
             return true;
         }
         Player player = (Player) sender;
-        int oldlevel = FOPMR_Configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".chatLevel");
+        int oldlevel = FreedomOpModRemastered.configs.getAdmins().getConfig().getInt(player.getUniqueId().toString() + ".chatLevel");
         int level;
         try
         {
@@ -44,7 +44,7 @@ public class Command_chatlevel extends FOPMR_Command
         }
         if (FOPMR_Rank.getRank(sender).level >= level)
         {
-            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".chatLevel", level);
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".chatLevel", level);
             sender.sendMessage(ChatColor.GREEN + "You are now talking in " + FOPMR_Rank.getFromLevel(level).name + " Chat.");
         }
         else
@@ -55,7 +55,7 @@ public class Command_chatlevel extends FOPMR_Command
         {
             String msg = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
             player.chat(msg);
-            FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".chatLevel", oldlevel);
+            FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".chatLevel", oldlevel);
         }
         return true;
     }

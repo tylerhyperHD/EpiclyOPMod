@@ -7,6 +7,7 @@ import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import static net.camtech.fopmremastered.FreedomOpModRemastered.plugin;
+import net.camtech.fopmremastered.PrintStack;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -115,10 +116,9 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor
                 f.setAccessible(true);
                 cmap = (CommandMap) f.get(Bukkit.getServer());
                 return getCommandMap();
-            }
-            catch (Exception e)
+            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
             {
-                e.printStackTrace();
+                PrintStack.trace(e);
             }
         }
         else if (cmap != null)
@@ -128,8 +128,10 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor
         return getCommandMap();
     }
 
+    @Override
     public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
 
+    @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args)
     {
         return null;
@@ -160,10 +162,9 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor
             {
                 knownCommands.remove(registeredalias);
             }
-        }
-        catch (SecurityException | IllegalArgumentException | NoSuchFieldException | IllegalAccessException e)
+        } catch (SecurityException | IllegalArgumentException | NoSuchFieldException | IllegalAccessException e)
         {
-            e.printStackTrace();
+            PrintStack.trace(e);
         }
     }
 

@@ -1,8 +1,8 @@
 package net.camtech.fopmremastered.commands;
 
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import static net.camtech.fopmremastered.FOPMR_Rank.Rank.SYSTEM;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -21,10 +21,10 @@ public class Command_commandblock
         }
         int rank = FOPMR_Rank.getFromName(args[1]).level;
         String message = StringUtils.join(ArrayUtils.subarray(args, 3, args.length), " ", 0, ArrayUtils.subarray(args, 3, args.length).length);
-        FOPMR_Configs.getCommands().getConfig().set(args[0].toLowerCase() + ".rank", rank);
-        FOPMR_Configs.getCommands().getConfig().set(args[0].toLowerCase() + ".kick", Boolean.parseBoolean(args[2]));
-        FOPMR_Configs.getCommands().getConfig().set(args[0].toLowerCase() + ".message", message);
-        FOPMR_Configs.getCommands().saveConfig();
+        FreedomOpModRemastered.configs.getCommands().getConfig().set(args[0].toLowerCase() + ".rank", rank);
+        FreedomOpModRemastered.configs.getCommands().getConfig().set(args[0].toLowerCase() + ".kick", Boolean.parseBoolean(args[2]));
+        FreedomOpModRemastered.configs.getCommands().getConfig().set(args[0].toLowerCase() + ".message", message);
+        FreedomOpModRemastered.configs.getCommands().saveConfig();
         String not = " ";
         if (!Boolean.parseBoolean(args[2]))
         {

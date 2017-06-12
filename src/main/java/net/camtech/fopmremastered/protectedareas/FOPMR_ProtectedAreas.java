@@ -5,6 +5,7 @@ import net.camtech.camutils.CUtils_Config;
 import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -14,8 +15,8 @@ import org.bukkit.entity.Player;
 public class FOPMR_ProtectedAreas
 {
 
-    public static CUtils_Config config = FOPMR_Configs.getAreas();
-    public static FileConfiguration areas = FOPMR_Configs.getAreas().getConfig();
+    public static CUtils_Config config = FreedomOpModRemastered.configs.getAreas();
+    public static FileConfiguration areas = FreedomOpModRemastered.configs.getAreas().getConfig();
 
     public static boolean canAccess(Player player, String area)
     {

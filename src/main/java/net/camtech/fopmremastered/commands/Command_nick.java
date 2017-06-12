@@ -2,7 +2,7 @@ package net.camtech.fopmremastered.commands;
 
 import java.util.Arrays;
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_Configs;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -60,7 +60,7 @@ public class Command_nick extends FOPMR_Command
             sender.sendMessage(ChatColor.RED + "Your nick must have at least 3 alphanumeric characters consecutively.");
             return true;
         }
-        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && nick.contains("&-"))
+        if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && nick.contains("&-"))
         {
             player.sendMessage(ChatColor.RED + "You cannot use random chat colours, you must purchase it in the VoteShop (/vs).");
             nick = nick.replaceAll("&-", "");
@@ -80,13 +80,13 @@ public class Command_nick extends FOPMR_Command
             sender.sendMessage(ChatColor.RED + "&m is a prohibited symbol in nicknames.");
             return true;
         }
-        if (!FOPMR_Configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(nick))
+        if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(nick))
         {
             player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
             nick = nick.replaceAll("&.", "");
         }
-        FOPMR_Configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".displayName", nick + "&r");
-        FOPMR_Configs.getAdmins().saveConfig();
+        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".displayName", nick + "&r");
+        FreedomOpModRemastered.configs.getAdmins().saveConfig();
         player.sendMessage(ChatColor.GREEN + "Nick set to " + CUtils_Methods.colour(StringUtils.join(args, " ")));
         return true;
     }

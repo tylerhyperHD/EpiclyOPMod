@@ -1,7 +1,7 @@
 package net.camtech.fopmremastered.commands;
 
-import net.camtech.fopmremastered.FOPMR_Configs;
 import static net.camtech.fopmremastered.FOPMR_Rank.isAdmin;
+import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -28,9 +28,9 @@ public class Command_report
                     sender.sendMessage(ChatColor.RED + "You must be an admin to view reports.");
                     return true;
                 }
-                for (String reported : FOPMR_Configs.getReports().getConfig().getKeys(false))
+                for (String reported : FreedomOpModRemastered.configs.getReports().getConfig().getKeys(false))
                 {
-                    sender.sendMessage(ChatColor.RED + reported + ChatColor.GOLD + " was reported by " + ChatColor.GREEN + FOPMR_Configs.getReports().getConfig().getString(reported + ".reporter") + " for " + ChatColor.AQUA + FOPMR_Configs.getReports().getConfig().getString(reported + ".reason"));
+                    sender.sendMessage(ChatColor.RED + reported + ChatColor.GOLD + " was reported by " + ChatColor.GREEN + FreedomOpModRemastered.configs.getReports().getConfig().getString(reported + ".reporter") + " for " + ChatColor.AQUA + FreedomOpModRemastered.configs.getReports().getConfig().getString(reported + ".reason"));
                 }
                 return true;
             }
@@ -50,11 +50,11 @@ public class Command_report
                 {
                     name = Bukkit.getPlayer(name).getName();
                 }
-                for (String reported : FOPMR_Configs.getReports().getConfig().getKeys(false))
+                for (String reported : FreedomOpModRemastered.configs.getReports().getConfig().getKeys(false))
                 {
                     if (reported.equalsIgnoreCase(name))
                     {
-                        FOPMR_Configs.getReports().getConfig().set(name, null);
+                        FreedomOpModRemastered.configs.getReports().getConfig().set(name, null);
                     }
                 }
                 return true;
@@ -67,9 +67,9 @@ public class Command_report
             name = Bukkit.getPlayer(name).getName();
         }
         sender.sendMessage(ChatColor.RED + "You have reported " + name + " for \"" + reason + "\"");
-        FOPMR_Configs.getReports().getConfig().set(name + ".reporter", sender.getName());
-        FOPMR_Configs.getReports().getConfig().set(name + ".reason", reason);
-        FOPMR_Configs.getReports().saveConfig();
+        FreedomOpModRemastered.configs.getReports().getConfig().set(name + ".reporter", sender.getName());
+        FreedomOpModRemastered.configs.getReports().getConfig().set(name + ".reason", reason);
+        FreedomOpModRemastered.configs.getReports().saveConfig();
         return true;
     }
 }
