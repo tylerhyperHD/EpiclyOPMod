@@ -18,19 +18,18 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
      * @param x X co-ordinate of the block to be set in the array
      * @param y Y co-ordinate of the block to be set in the array
      * @param z Z co-ordinate of the block to be set in the array
-     * @param chunk An array containing the Block id's of all the blocks in the
-     * chunk. The first offset is the block section number. There are 16 block
-     * sections, stacked vertically, each of which 16 by 16 by 16 blocks.
+     * @param chunk An array containing the Block id's of all the blocks in the chunk. The first offset is the block section number. There are 16 block sections, stacked vertically, each of which 16
+     * by 16 by 16 blocks.
      * @param material The material to set the block to.
      */
     void setBlock(int x, int y, int z, byte[][] chunk, Material material)
     {
         //if the Block section the block is in hasn't been used yet, allocate it
-        if(chunk[y >> 4] == null)
+        if (chunk[y >> 4] == null)
         {
             chunk[y >> 4] = new byte[16 * 16 * 16];
         }
-        if(!(y <= 256 && y >= 0 && x <= 16 && x >= 0 && z <= 16 && z >= 0))
+        if (!(y <= 256 && y >= 0 && x <= 16 && x >= 0 && z <= 16 && z >= 0))
         {
             return;
         }
@@ -39,7 +38,7 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
             chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (byte) material
                     .getId();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             // do nothing
         }
@@ -48,11 +47,11 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
     byte getBlock(int x, int y, int z, byte[][] chunk)
     {
         //if the Block section the block is in hasn't been used yet, allocate it
-        if(chunk[y >> 4] == null)
+        if (chunk[y >> 4] == null)
         {
             return 0; //block is air as it hasnt been allocated
         }
-        if(!(y <= 256 && y >= 0 && x <= 16 && x >= 0 && z <= 16 && z >= 0))
+        if (!(y <= 256 && y >= 0 && x <= 16 && x >= 0 && z <= 16 && z >= 0))
         {
             return 0;
         }
@@ -60,7 +59,7 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
         {
             return chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x];
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             PrintStack.trace(e);
             return 0;
@@ -70,8 +69,7 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
     @Override
     /**
      * @param world The world the chunk belongs to
-     * @param rand Don't use this, make a new random object using the world seed
-     * (world.getSeed())
+     * @param rand Don't use this, make a new random object using the world seed (world.getSeed())
      * @param biome Use this to set/get the current biome
      * @param ChunkX and ChunkZ The x and z co-ordinates of the current chunk.
      */
@@ -90,9 +88,9 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
         int overhangsMagnitude = 16; //used when we generate the noise for the tops of the overhangs
         int bottomsMagnitude = 32;
 
-        for(int x = 0; x < 16; x++)
+        for (int x = 0; x < 16; x++)
         {
-            for(int z = 0; z < 16; z++)
+            for (int z = 0; z < 16; z++)
             {
                 int realX = x + ChunkX * 16;
                 int realZ = z + ChunkZ * 16;
@@ -102,13 +100,13 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
                 double threshold = 0.3;
 
                 //make the terrain
-                for(int y = 0; y < maxHeight; y++)
+                for (int y = 0; y < maxHeight; y++)
                 {
-                    if(y > bottomHeight)
+                    if (y > bottomHeight)
                     { //part where we do the overhangs
                         double density = overhangs.noise(realX, y, realZ, 0.5, 0.5);
 
-                        if(density > threshold)
+                        if (density > threshold)
                         {
                             setBlock(x, y, z, chunk, Material.STONE);
                         }
@@ -125,19 +123,19 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
                 setBlock(x, bottomHeight - 1, z, chunk, Material.DIRT);
                 setBlock(x, bottomHeight - 2, z, chunk, Material.DIRT);
 
-                for(int y = bottomHeight + 1; y > bottomHeight && y < maxHeight; y++)
+                for (int y = bottomHeight + 1; y > bottomHeight && y < maxHeight; y++)
                 { //the overhang
                     int thisblock = getBlock(x, y, z, chunk);
                     int blockabove = getBlock(x, y + 1, z, chunk);
 
-                    if(thisblock != Material.AIR.getId() && blockabove == Material.AIR.getId())
+                    if (thisblock != Material.AIR.getId() && blockabove == Material.AIR.getId())
                     {
                         setBlock(x, y, z, chunk, Material.GRASS);
-                        if(getBlock(x, y - 1, z, chunk) != Material.AIR.getId())
+                        if (getBlock(x, y - 1, z, chunk) != Material.AIR.getId())
                         {
                             setBlock(x, y - 1, z, chunk, Material.DIRT);
                         }
-                        if(getBlock(x, y - 2, z, chunk) != Material.AIR.getId())
+                        if (getBlock(x, y - 2, z, chunk) != Material.AIR.getId())
                         {
                             setBlock(x, y - 2, z, chunk, Material.DIRT);
                         }
@@ -150,10 +148,10 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
     }
 
     /**
-     * Returns a list of all of the block populators (that do "little" features)
-     * to be called after the chunk generator
+     * Returns a list of all of the block populators (that do "little" features) to be called after the chunk generator
+     *
      * @param world
-     * @return 
+     * @return
      */
     @Override
     public List<BlockPopulator> getDefaultPopulators(World world)

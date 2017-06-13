@@ -19,7 +19,7 @@ public class FOPMR_BoardManager
         Scoreboard board = manager.getNewScoreboard();
         String name = player.getName();
         Objective o = board.getObjective("stats");
-        if(o == null)
+        if (o == null)
         {
             o = board.registerNewObjective("stats", "dummy");
             o.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -27,11 +27,11 @@ public class FOPMR_BoardManager
         }
         String builderstring = "No";
         String djumpstring = "No";
-        if(FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".builder"))
+        if (FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".builder"))
         {
             builderstring = "Yes";
         }
-        if(FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".djump"))
+        if (FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".djump"))
         {
             djumpstring = "Yes";
         }

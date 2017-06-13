@@ -7,13 +7,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandParameters(name = "opme", description = "Op yourself.", usage = "/opme", rank = Rank.ADMIN)
-public class Command_opme
-{
+public class Command_opme {
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        if (!(sender instanceof Player))
-        {
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("This can only be executed in-game.");
             return true;
         }

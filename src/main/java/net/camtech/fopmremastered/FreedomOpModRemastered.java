@@ -34,6 +34,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class FreedomOpModRemastered extends JavaPlugin
 {
+
     public static FreedomOpModRemastered plugin;
     public static FOPMR_Configs configs;
     public static FOPMR_CommandRegistry commandregistry;
@@ -88,6 +89,7 @@ public class FreedomOpModRemastered extends JavaPlugin
         }
         thread = new Thread(socketServer);
         thread.start();
+        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"), "EpiclyOPMod has just been enabled.");
         this.getServer().getServicesManager().register(Function.class, FOPMR_Rank.ADMIN_SERVICE, plugin, ServicePriority.Highest);
     }
 
@@ -113,6 +115,7 @@ public class FreedomOpModRemastered extends JavaPlugin
         {
             this.logger.severe(ex.getMessage());
         }
+        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"), "EpiclyOPMod has just been disabled.");
     }
 
     public void checkTime()

@@ -1,8 +1,8 @@
 name: EpiclyOpMod
-version: 1.95
+version: 3.0
 description: My attempt at making a freedom plugin.
-author: Camzie99
-website: http://fop.us.to
+authors: [Camzie99, tylerhyperHD]
+website: http://3p1cfreedomcraft.boards.net/
  
 main: net.camtech.fopmremastered.FreedomOpModRemastered
 database: false

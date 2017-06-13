@@ -1,7 +1,6 @@
 package net.camtech.fopmremastered.commands;
 
 import net.camtech.camutils.CUtils_Methods;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

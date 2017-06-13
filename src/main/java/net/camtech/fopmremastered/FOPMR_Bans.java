@@ -9,6 +9,7 @@ import org.bukkit.util.Vector;
 
 public class FOPMR_Bans
 {
+
     private static boolean nameBan = false;
     private static boolean ipBan = false;
     private static boolean uuidBan = false;

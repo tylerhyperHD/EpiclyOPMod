@@ -11,12 +11,34 @@ general:
     #Should the main world wipe on start?
     wipe: false
     #What URL should be shown for ban appeals?
-    url: ""
+    url: "http://3p1cfreedomcraft.boards.net/"
     #What URL should be shown for admin applications?
-    admininfo: ""
+    admininfo: "http://3p1cfreedomcraft.boards.net/"
     #Who should Ops see for information regarding applications?
     adminmanager: tylerhyperHD
-    
+
+#Don't mess with this if you don't know what it is.
+#REST configuration details for Xenforo forums.
+rest:
+    #Is the rest API compatibility enabled?
+    enabled: false
+    #What user should the plugin post as?
+    user: ""
+    #What is the URL for your REST API?
+    url: ""
+    #What is your REST API key?
+    key: ""
+    #Thread ID for server status
+    statusid: 903
+    #Thread ID for admin removals
+    removalsid: 680
+    #Thread ID for bans
+    banid: 899
+    #Thread ID for promotions
+    promotionsid: 897
+    #Thread ID for lockdowns
+    lockdownid: 896
+
 jumppads:
     #Are jumppads enabled?
     enabled: false
@@ -60,3 +82,5 @@ toggles:
     wither: false
     #Are admin applications enabled?
     apps: true
+    #Is the SUPERBOW enabled?
+    superBow: false

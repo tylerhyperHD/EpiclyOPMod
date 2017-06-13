@@ -34,7 +34,7 @@ public class Command_blowup extends FOPMR_Command
         }
 
         // Trigger blowing them up
-        player.setVelocity(player.getVelocity().clone().add(new Vector(0, 100, 0)));  
+        player.setVelocity(player.getVelocity().clone().add(new Vector(0, 100, 0)));
         FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
         FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);
         FOPMR_Commons.explode(player.getLocation(), player, 5F, true, true);

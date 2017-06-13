@@ -7,7 +7,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-@CommandParameters(name = "efm", usage = "/efm <reload>", description = "Check info about the plugin or reload the configuration files.")
+@CommandParameters(name = "efm", usage = "/efm <reload>", description = "Check info about the plugin or reload the configuration files.", aliases = "eom, epiclyfreedommod, epicfreedommod, epicfreedom")
 public class Command_efm
 {
 
@@ -29,6 +29,7 @@ public class Command_efm
                 FreedomOpModRemastered.configs.getReports().reloadConfig();
                 FreedomOpModRemastered.configs.getAnnouncements().reloadConfig();
                 sender.sendMessage(ChatColor.GREEN + "EpiclyOpMod Configs reloaded!");
+                FOPMR_CommandRegistry.unregisterCommands();
                 FOPMR_CommandRegistry.registerCommands();
                 sender.sendMessage(ChatColor.GREEN + "EpiclyOpMod Commands reloaded!");
                 return true;

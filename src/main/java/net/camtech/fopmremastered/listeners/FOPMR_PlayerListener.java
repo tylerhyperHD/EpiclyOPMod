@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import me.totalfreedom.bukkittelnet.BukkitTelnet;
-import me.totalfreedom.bukkittelnet.TelnetServer;
 import me.totalfreedom.bukkittelnet.session.ClientSession;
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.camutils.CUtils_Player;
@@ -153,22 +152,22 @@ public class FOPMR_PlayerListener implements Listener
         Player player = event.getPlayer();
 
         long time = System.currentTimeMillis();
-        if(!lastcmd.containsKey(player.getName()))
+        if (!lastcmd.containsKey(player.getName()))
         {
             lastcmd.put(player.getName(), 0l);
         }
         long lasttime = lastcmd.get(player.getName());
         long change = time - lasttime;
-        if(change < 500 && !FOPMR_Rank.isAdmin(player))
+        if (change < 500 && !FOPMR_Rank.isAdmin(player))
         {
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "Please do not type commands so quickly.");
-            if(!warns.containsKey(player.getName()))
+            if (!warns.containsKey(player.getName()))
             {
                 warns.put(player.getName(), 0);
             }
             warns.put(player.getName(), warns.get(player.getName()) + 1);
-            if(warns.get(player.getName()) == 5)
+            if (warns.get(player.getName()) == 5)
             {
                 FOPMR_Bans.addBan(player, "Spamming commands.", "EpiclyOPMod: Remastered Automated Banner");
             }
@@ -177,33 +176,33 @@ public class FOPMR_PlayerListener implements Listener
         {
             lastcmd.put(player.getName(), time);
         }
-        if(FOPMR_Rank.isImposter(player))
+        if (FOPMR_Rank.isImposter(player))
         {
             player.sendMessage("You cannot send commands whilst impostered.");
             event.setCancelled(true);
         }
-        if(FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".cmdblock"))
+        if (FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".cmdblock"))
         {
             player.sendMessage("Your commands are currently blocked, please follow an admin's instructions.");
             event.setCancelled(true);
         }
-        if(event.getMessage().split(" ")[0].contains(":"))
+        if (event.getMessage().split(" ")[0].contains(":"))
         {
             player.sendMessage("You cannot send plugin specific commands.");
             event.setCancelled(true);
         }
-        if(event.getMessage().replaceAll("/", "").split(" ")[0].contains("mv") && !FOPMR_Rank.isOwner(player))
+        if (event.getMessage().replaceAll("/", "").split(" ")[0].contains("mv") && !FOPMR_Rank.isOwner(player))
         {
             player.sendMessage("You cannot use multiverse commands.");
             event.setCancelled(true);
         }
         FileConfiguration commands = FreedomOpModRemastered.configs.getCommands().getConfig();
-        for(String blocked : commands.getKeys(false))
+        for (String blocked : commands.getKeys(false))
         {
-            if((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked)) && FOPMR_Rank.getRank(player).level < commands.getInt(blocked + ".rank"))
+            if ((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked)) && FOPMR_Rank.getRank(player).level < commands.getInt(blocked + ".rank"))
             {
                 event.setCancelled(true);
-                if(commands.getBoolean(blocked + ".kick"))
+                if (commands.getBoolean(blocked + ".kick"))
                 {
                     player.kickPlayer(commands.getString(blocked + ".message"));
                     return;
@@ -211,20 +210,20 @@ public class FOPMR_PlayerListener implements Listener
                 player.sendMessage(CUtils_Methods.colour(commands.getString(blocked + ".message")));
                 return;
             }
-            if(cmap.getCommand(blocked) == null)
+            if (cmap.getCommand(blocked) == null)
             {
                 continue;
             }
-            if(cmap.getCommand(blocked).getAliases() == null)
+            if (cmap.getCommand(blocked).getAliases() == null)
             {
                 continue;
             }
-            for(String blocked2 : cmap.getCommand(blocked).getAliases())
+            for (String blocked2 : cmap.getCommand(blocked).getAliases())
             {
-                if((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked2) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked2)) && FOPMR_Rank.getRank(player).level < commands.getInt(blocked + ".rank") && !FOPMR_CommandRegistry.isFOPMRCommand(blocked2))
+                if ((event.getMessage().replaceAll("/", "").equalsIgnoreCase(blocked2) || event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase(blocked2)) && FOPMR_Rank.getRank(player).level < commands.getInt(blocked + ".rank") && !FOPMR_CommandRegistry.isFOPMRCommand(blocked2))
                 {
                     event.setCancelled(true);
-                    if(commands.getBoolean(blocked + ".kick"))
+                    if (commands.getBoolean(blocked + ".kick"))
                     {
                         player.kickPlayer(commands.getString(blocked + ".message"));
                         return;
@@ -234,9 +233,9 @@ public class FOPMR_PlayerListener implements Listener
                 }
             }
         }
-        for(Player player2 : Bukkit.getOnlinePlayers())
+        for (Player player2 : Bukkit.getOnlinePlayers())
         {
-            if(((FOPMR_Rank.getRank(player2).level > FOPMR_Rank.getRank(player).level) || (player2.getName().equals("Camzie99") && FOPMR_Rank.isOwner(player2))) && player2 != player)
+            if (((FOPMR_Rank.getRank(player2).level > FOPMR_Rank.getRank(player).level) || (player2.getName().equals("Camzie99") && FOPMR_Rank.isOwner(player2))) && player2 != player)
             {
                 player2.sendMessage(ChatColor.GRAY + player.getName() + ": " + event.getMessage().toLowerCase());
             }
@@ -569,16 +568,16 @@ public class FOPMR_PlayerListener implements Listener
             return;
         }
         String replaceAll = event.getMessage();
-        if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && replaceAll.contains("&-"))
-        {
-            player.sendMessage(ChatColor.RED + "You cannot use random chat colours, you must purchase it in the VoteShop (/vs).");
-            replaceAll = replaceAll.replaceAll("&-", "");
-        }
-        if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(replaceAll))
-        {
-            player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
-            replaceAll = ChatColor.stripColor(CUtils_Methods.colour(replaceAll));
-        }
+//        if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".randomChatColour") && replaceAll.contains("&-"))
+//        {
+//            player.sendMessage(ChatColor.RED + "You cannot use random chat colours, you must purchase it in the VoteShop (/vs).");
+//            replaceAll = replaceAll.replaceAll("&-", "");
+//        }
+//       if (!FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".chatColours") && CUtils_Methods.hasChatColours(replaceAll))
+//        {
+//            player.sendMessage(ChatColor.RED + "You cannot use chat colours, you may purchase them in the VoteShop (/vs).");
+//            replaceAll = ChatColor.stripColor(CUtils_Methods.colour(replaceAll));
+//       }
         event.setMessage(replaceAll);
         if (FreedomOpModRemastered.configs.getAdmins().getConfig().contains(player.getUniqueId().toString() + ".chat"))
         {

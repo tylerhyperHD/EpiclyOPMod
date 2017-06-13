@@ -7,9 +7,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name="ping", description="Pong!", usage="/ping", rank=Rank.OP)
+@CommandParameters(name = "ping", description = "Pong!", usage = "/ping", rank = Rank.OP)
 public class Command_ping
 {
+
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         Player sender_p = (Player) sender;

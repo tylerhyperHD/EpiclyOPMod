@@ -1,5 +1,6 @@
 package net.camtech.fopmremastered.commands;
 
+import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -22,6 +23,16 @@ public class Command_multirun extends FOPMR_Command
         {
             return false;
         }
+
+        if (args[0].contains("destroypussy") || args[0].contains("blowup"))
+        {
+            if (!FOPMR_Rank.isSystem(sender))
+            {
+                sender.sendMessage("Nice try.");
+                return true;
+            }
+        }
+
         if (Integer.parseInt(args[0]) == 1 || Integer.parseInt(args[0]) == 0)
         {
             sender.sendMessage(ChatColor.RED + String.format("Why are you trying to run the command %s times?", Integer.parseInt(args[0])));

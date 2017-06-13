@@ -3,6 +3,7 @@ package net.camtech.fopmremastered;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import net.camtech.camutils.CUtils_Methods;
 import net.minecraft.server.v1_11_R1.Explosion;
 import org.bukkit.Bukkit;
@@ -226,5 +227,23 @@ public class FOPMR_Commons
         explosion.a();
         explosion.a(true);
         loc.getWorld().playEffect(loc, Effect.EXPLOSION_HUGE, 4);
+    }
+
+    public static <T> List<List<T>> chopped(List<T> list, final int L)
+    {
+        List<List<T>> parts = new ArrayList<>();
+        final int N = list.size();
+        for (int i = 0; i < N; i += L)
+        {
+            parts.add(new ArrayList<>(
+                    list.subList(i, Math.min(N, i + L)))
+            );
+        }
+        return parts;
+    }
+
+    public static boolean intToBoolean(int i)
+    {
+        return i == 1;
     }
 }

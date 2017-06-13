@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.FOPMR_Commons;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import static net.camtech.fopmremastered.FOPMR_Rank.isSuper;
@@ -55,7 +54,7 @@ public class Command_admin
                 arrays.add(sysadmins);
                 arrays.add(eomcreators);
                 arrays.add(owners);
-                sender.sendMessage(ChatColor.AQUA + "HeroFreedom Admins:");
+                sender.sendMessage(ChatColor.AQUA + "EpicFreedom Admins:");
                 for (Entry<String, String> entry : adminlist.entrySet())
                 {
                     Rank rank = FOPMR_Rank.getFromName(entry.getValue());
@@ -201,6 +200,11 @@ public class Command_admin
             if (level == 0)
             {
                 Bukkit.broadcastMessage(StringUtils.join(ArrayUtils.subarray(args, 2, args.length), " ") + " is an invalid rank.");
+                return true;
+            }
+            if (level == 6 || level == 7)
+            {
+                sender.sendMessage(ChatColor.RED + "Nice try, but that's not gonna happen.");
                 return true;
             }
             FOPMR_Rank.setRank(player, FOPMR_Rank.getFromLevel(level), sender);

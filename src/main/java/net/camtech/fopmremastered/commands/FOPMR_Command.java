@@ -116,7 +116,8 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor
                 f.setAccessible(true);
                 cmap = (CommandMap) f.get(Bukkit.getServer());
                 return getCommandMap();
-            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+            }
+            catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
             {
                 PrintStack.trace(e);
             }
@@ -162,7 +163,8 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor
             {
                 knownCommands.remove(registeredalias);
             }
-        } catch (SecurityException | IllegalArgumentException | NoSuchFieldException | IllegalAccessException e)
+        }
+        catch (SecurityException | IllegalArgumentException | NoSuchFieldException | IllegalAccessException e)
         {
             PrintStack.trace(e);
         }

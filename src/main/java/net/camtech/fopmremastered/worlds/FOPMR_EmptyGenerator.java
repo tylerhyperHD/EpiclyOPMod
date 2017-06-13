@@ -13,6 +13,7 @@ public class FOPMR_EmptyGenerator extends ChunkGenerator
     {
         return true;
     }
+
     public int xyzToByte(int x, int y, int z)
     {
         return (x * 16 + z) * 128 + y;
@@ -23,7 +24,7 @@ public class FOPMR_EmptyGenerator extends ChunkGenerator
     {
         byte[] result = new byte[32768];
         int y = 0;
-        if(chunkx == 0 && chunkz == 0)
+        if (chunkx == 0 && chunkz == 0)
         {
             for (int x = 0; x < 16; x++)
             {

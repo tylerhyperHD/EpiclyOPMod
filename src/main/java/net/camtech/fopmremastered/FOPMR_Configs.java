@@ -99,7 +99,7 @@ public class FOPMR_Configs
     {
         return areas;
     }
-    
+
     public CUtils_Config getWorlds()
     {
         return worlds;

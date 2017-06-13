@@ -1,4 +1,4 @@
-##Â Welcome to FreedomOpMod: Remastered's worlds config file - By Camzie99 ##
+## World Config File - EpiclyOPMod ##
 adminworld:
     generator: flat
     rank: Admin
@@ -17,9 +17,4 @@ flatlands:
 builderworld:
     generator: flat
     rank: Specialist
-    onenable: true
-    
-empty:
-    generator: empty
-    rank: Op
     onenable: true

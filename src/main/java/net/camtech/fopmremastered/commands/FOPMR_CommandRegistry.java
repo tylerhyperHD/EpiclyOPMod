@@ -20,6 +20,7 @@ import org.bukkit.command.PluginCommand;
 
 public class FOPMR_CommandRegistry
 {
+
     private static CommandMap cmap = getCommandMap();
     private static ArrayList<String> commands = new ArrayList<>();
 
@@ -27,10 +28,10 @@ public class FOPMR_CommandRegistry
     {
         registerCommands();
     }
-    
+
     public static void unregisterCommands()
     {
-        for(String name : commands)
+        for (String name : commands)
         {
             Command cmd = cmap.getCommand(name);
             cmd.unregister(cmap);
@@ -71,14 +72,16 @@ public class FOPMR_CommandRegistry
                                 command.register();
                                 commands.add(command.command);
                             }
-                        } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
+                        }
+                        catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                         {
                             Bukkit.broadcastMessage("" + ex);
                         }
                     }
                 }
             }
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.getLogger().severe(ex.getLocalizedMessage());
         }
@@ -105,7 +108,8 @@ public class FOPMR_CommandRegistry
                 f.setAccessible(true);
                 cmap = (CommandMap) f.get(Bukkit.getServer());
                 return getCommandMap();
-            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+            }
+            catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
             {
                 PrintStack.trace(e);
             }

@@ -246,7 +246,7 @@ public class FOPMR_Login
         }
 
         UUID venom = UUID.fromString("9ca58c67-f77b-45c7-984f-9bf6ca8a8941");
-        
+
         if (player.getUniqueId().equals(venom))
         {
             event.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Venom_nV, go away and don't ever come back to this server.");

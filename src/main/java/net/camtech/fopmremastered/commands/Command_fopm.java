@@ -28,9 +28,10 @@ public class Command_fopm
                 FreedomOpModRemastered.configs.getMainConfig().reloadConfig();
                 FreedomOpModRemastered.configs.getReports().reloadConfig();
                 FreedomOpModRemastered.configs.getAnnouncements().reloadConfig();
-                sender.sendMessage(ChatColor.GREEN + "FOPM: Remastered Configs reloaded!");
+                sender.sendMessage(ChatColor.GREEN + "EpiclyOPMod Configs reloaded!");
+                FOPMR_CommandRegistry.unregisterCommands();
                 FOPMR_CommandRegistry.registerCommands();
-                sender.sendMessage(ChatColor.GREEN + "FOPM: Remastered Commands reloaded!");
+                sender.sendMessage(ChatColor.GREEN + "EpiclyOPMod Commands reloaded!");
                 return true;
             }
             return false;

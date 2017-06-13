@@ -4,11 +4,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.CodeSource;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.apache.commons.lang3.StringUtils;
@@ -17,12 +20,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-@CommandParameters(name = "fopmhelp", description = "Receive info on the new commands in the FOPM: R.", usage = "/fopmhelp", aliases = "adminhelp")
+@CommandParameters(name = "fopmhelp", description = "Receive info on the new commands in the FOPM: R.", usage = "/fopmhelp [page number]")
 public class Command_fopmhelp
 {
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
+        if (args.length != 1)
+        {
+            return false;
+        }
+        ArrayList<String> messages = new ArrayList<>();
+        List<List<String>> pages = null;
         sender.sendMessage(ChatColor.GOLD + "Command :|: Description :|: Usage :|: Aliases");
         try
         {
@@ -60,8 +69,9 @@ public class Command_fopmhelp
                             }
                             if (FOPMR_Rank.isEqualOrHigher(FOPMR_Rank.getRank(sender), cmdconstructed.rank))
                             {
-                                sender.sendMessage(message);
+                                messages.add(message);
                             }
+                            pages = FOPMR_Commons.chopped(messages, 10);
                         }
                         catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex)
                         {
@@ -74,6 +84,19 @@ public class Command_fopmhelp
         catch (Exception ex)
         {
             FreedomOpModRemastered.plugin.getLogger().severe(ex.getLocalizedMessage());
+        }
+        try
+        {
+            int i = Integer.parseInt(args[0]);
+            for (String command : pages.get(i - 1))
+            {
+                sender.sendMessage(command);
+            }
+            sender.sendMessage(ChatColor.GOLD + "Help page " + i + " / " + pages.size());
+        }
+        catch (Exception ex)
+        {
+            sender.sendMessage(ChatColor.RED + "The argument must be a page number!");
         }
         return true;
     }

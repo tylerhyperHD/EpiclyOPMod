@@ -5,44 +5,37 @@ import java.io.PrintWriter;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class CamVerifyEvent extends Event
-{
+public class CamVerifyEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private PrintWriter out;
     private BufferedReader in;
     private String ip;
 
-    public CamVerifyEvent(PrintWriter out, BufferedReader in, String ip)
-    {
+    public CamVerifyEvent(PrintWriter out, BufferedReader in, String ip) {
         this.out = out;
         this.in = in;
         this.ip = ip;
     }
 
     @Override
-    public HandlerList getHandlers()
-    {
+    public HandlerList getHandlers() {
         return handlers;
     }
 
-    public static HandlerList getHandlerList()
-    {
+    public static HandlerList getHandlerList() {
         return handlers;
     }
 
-    public PrintWriter getOut()
-    {
+    public PrintWriter getOut() {
         return this.out;
     }
 
-    public BufferedReader getIn()
-    {
+    public BufferedReader getIn() {
         return this.in;
     }
 
-    public String getIp()
-    {
+    public String getIp() {
         return this.ip;
     }
 
