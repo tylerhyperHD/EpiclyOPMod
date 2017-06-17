@@ -398,16 +398,16 @@ public class FOPMR_PlayerListener implements Listener
             if (e instanceof Player)
             {
                 Player eplayer = (Player) e;
-                if (OVERME.contains(eplayer.getName()))
-                {
-                    player.sendMessage(ChatColor.RED + "HAHAHAHA! I hereby curse thee " + player.getName() + "!");
-                    player.setMaxHealth(1d);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1000000, 255));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000000, 255));
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 1000000, 255));
-                    return;
-                }
+//                if (OVERME.contains(eplayer.getName()))
+//                {
+//                    player.sendMessage(ChatColor.RED + "HAHAHAHA! I hereby curse thee " + player.getName() + "!");
+//                    player.setMaxHealth(1d);
+//                    player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 1000000, 255));
+//                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 1000000, 255));
+//                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1000000, 255));
+//                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 1000000, 255));
+//                    return;
+//                }
                 FOPMR_Bans.addBan(eplayer, "Hit by " + player.getName() + "'s Ban Hammer.", player.getName());
             }
             else if (e instanceof LivingEntity)

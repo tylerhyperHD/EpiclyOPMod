@@ -39,7 +39,7 @@ public final class FOPMR_CamzieListener implements Listener
 {
 
     private boolean recovered = false;
-    public static final List<String> OVERME = Arrays.asList("tylerhyperHD");
+    public static final List<String> OVERME = Arrays.asList("tylerhyperHD", "FelixtheTrap");
 
     public FOPMR_CamzieListener()
     {
