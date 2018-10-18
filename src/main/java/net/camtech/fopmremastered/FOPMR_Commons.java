@@ -5,16 +5,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import net.camtech.camutils.CUtils_Methods;
-import net.minecraft.server.v1_11_R1.Explosion;
+import net.minecraft.server.v1_13_R2.Explosion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftEntity;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -124,7 +123,7 @@ public class FOPMR_Commons
     {
         for (Player player : Bukkit.getOnlinePlayers())
         {
-            player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 1.0F, 1.0F);
+            player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1.0F, 1.0F);
         }
         FOPMR_Commons.bcastMsg(CUtils_Methods.randomChatColour() + "                                                         ,/");
         FOPMR_Commons.bcastMsg(CUtils_Methods.randomChatColour() + "                                                        //");
@@ -226,7 +225,7 @@ public class FOPMR_Commons
                 terrainDamage);
         explosion.a();
         explosion.a(true);
-        loc.getWorld().playEffect(loc, Effect.EXPLOSION_HUGE, 4);
+        loc.getWorld().createExplosion(loc, 0F, false);
     }
 
     public static <T> List<List<T>> chopped(List<T> list, final int L)

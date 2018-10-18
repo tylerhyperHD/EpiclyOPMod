@@ -38,7 +38,8 @@ public class FOPMR_CommandRegistry
         }
     }
 
-    public static void registerCommands()
+    @SuppressWarnings("rawtypes")
+	public static void registerCommands()
     {
         try
         {

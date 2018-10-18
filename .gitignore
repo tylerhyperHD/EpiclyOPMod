@@ -2,3 +2,6 @@
 /dist/
 /nbproject/private/
 /target/
+.classpath
+.project
+*.prefs

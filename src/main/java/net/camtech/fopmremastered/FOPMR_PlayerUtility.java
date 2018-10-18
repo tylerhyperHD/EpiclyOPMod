@@ -19,7 +19,8 @@ public class FOPMR_PlayerUtility
         return FOPMR_Rank.getFromLevel(configs.getInt("general.accessLevel"));
     }
 
-    public static int getMainLevel()
+    @SuppressWarnings("unused")
+	public static int getMainLevel()
     {
         FileConfiguration configs = FreedomOpModRemastered.configs.getMainConfig().getConfig();
         return FreedomOpModRemastered.configs.getMainConfig().getConfig().getInt("general.accessLevel");

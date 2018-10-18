@@ -31,6 +31,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+@SuppressWarnings("deprecation")
 public class FOPMR_ToggleableEventsListener implements Listener
 {
 
@@ -40,7 +41,7 @@ public class FOPMR_ToggleableEventsListener implements Listener
         checkTime();
     }
 
-    public static void checkTime()
+	public static void checkTime()
     {
         if (!FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.time"))
         {
@@ -76,11 +77,11 @@ public class FOPMR_ToggleableEventsListener implements Listener
             return;
         }
         ItemStack item = event.getItem();
-        if ((item.getType() == Material.WATER || item.getType() == Material.WATER_BUCKET || item.getType() == Material.STATIONARY_WATER) && !FOPMR_Rank.isAdmin(player) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.waterplace"))
+        if ((item.getType() == Material.WATER || item.getType() == Material.WATER_BUCKET || item.getType() == Material.LEGACY_STATIONARY_WATER) && !FOPMR_Rank.isAdmin(player) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.waterplace"))
         {
             event.setCancelled(true);
         }
-        if ((item.getType() == Material.LAVA || item.getType() == Material.LAVA_BUCKET || item.getType() == Material.STATIONARY_LAVA) && !FOPMR_Rank.isAdmin(player) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.lavaplace"))
+        if ((item.getType() == Material.LAVA || item.getType() == Material.LAVA_BUCKET || item.getType() == Material.LEGACY_STATIONARY_LAVA) && !FOPMR_Rank.isAdmin(player) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.lavaplace"))
         {
             event.setCancelled(true);
         }
@@ -88,7 +89,7 @@ public class FOPMR_ToggleableEventsListener implements Listener
         {
             event.setCancelled(true);
         }
-        if ((item.getType() == Material.FLINT_AND_STEEL || item.getType() == Material.FIRE || item.getType() == Material.FIREBALL) && !FOPMR_Rank.isAdmin(player) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.fire"))
+        if ((item.getType() == Material.FLINT_AND_STEEL || item.getType() == Material.FIRE || item.getType() == Material.FIRE_CHARGE) && !FOPMR_Rank.isAdmin(player) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.fire"))
         {
             event.setCancelled(true);
         }
@@ -115,11 +116,11 @@ public class FOPMR_ToggleableEventsListener implements Listener
     @EventHandler
     public void onLiquidSpread(BlockFromToEvent event)
     {
-        if ((event.getBlock().getType() == Material.WATER || event.getBlock().getType() == Material.STATIONARY_WATER) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.waterspread"))
+        if ((event.getBlock().getType() == Material.WATER || event.getBlock().getType() == Material.LEGACY_STATIONARY_WATER) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.waterspread"))
         {
             event.setCancelled(true);
         }
-        if ((event.getBlock().getType() == Material.LAVA || event.getBlock().getType() == Material.STATIONARY_LAVA) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.lavaspread"))
+        if ((event.getBlock().getType() == Material.LAVA || event.getBlock().getType() == Material.LEGACY_STATIONARY_LAVA) && !FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.lavaspread"))
         {
             event.setCancelled(true);
         }
@@ -183,7 +184,6 @@ public class FOPMR_ToggleableEventsListener implements Listener
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event)
     {
-        Player player = event.getPlayer();
         Entity item = event.getItemDrop();
         if (!FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("toggles.drops"))
         {

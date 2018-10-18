@@ -10,11 +10,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 
+@SuppressWarnings("unused")
 public class SocketServer implements Runnable
 {
 
     public ServerSocket sock;
-    private Socket client;
+	private Socket client;
 
     public SocketServer()
     {

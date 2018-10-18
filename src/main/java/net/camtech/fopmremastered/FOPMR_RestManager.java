@@ -12,7 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class FOPMR_RestManager
 {
 
-    @SuppressWarnings("ConvertToTryWithResources")
     public static void sendMessage(int threadId, String message)
     {
         FileConfiguration config = FreedomOpModRemastered.configs.getMainConfig().getConfig();

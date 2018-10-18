@@ -131,6 +131,6 @@ public class FreedomOpModRemastered extends JavaPlugin
                     Bukkit.getPluginManager().callEvent(event);
                 }
             }
-        }.runTaskLater(this.plugin, 20L * 10L);
+        }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 10L);
     }
 }

@@ -48,9 +48,11 @@ public class FOPMR_Login
             "167.114.97.16"
     );
 
-    private static final String IP_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+    @SuppressWarnings("unused")
+	private static final String IP_PATTERN = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
 
-    public static void handleJoinEvent(PlayerJoinEvent event)
+    @SuppressWarnings("unused")
+	public static void handleJoinEvent(PlayerJoinEvent event)
     {
         CUtils_Config adminConfig = FreedomOpModRemastered.configs.getAdmins();
         FileConfiguration config = adminConfig.getConfig();
@@ -182,7 +184,8 @@ public class FOPMR_Login
         FOPMR_Log.info(FOPMR_PlayerUtility.getName(player) + "'s join events ran successfully.");
     }
 
-    public static void handleLogin(PlayerLoginEvent event)
+    @SuppressWarnings("unused")
+	public static void handleLogin(PlayerLoginEvent event)
     {
         UUID uuid;
         Player player = event.getPlayer();

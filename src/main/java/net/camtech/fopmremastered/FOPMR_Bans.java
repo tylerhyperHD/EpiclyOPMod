@@ -35,10 +35,11 @@ public class FOPMR_Bans
         addBan(player.getName(), reason, banner);
     }
 
-    public static void addBan(String name, String reason, String banner)
+    @SuppressWarnings({ "unused", "deprecation" })
+	public static void addBan(String name, String reason, String banner)
     {
 
-        String message = name + " has been banned by " + banner + " with the reason: " + reason.split(" â€” ")[0] + ".";
+        String message = name + " has been banned by " + banner + " with the reason: " + reason.split(" Ã¢â‚¬â€� ")[0] + ".";
         if (!FreedomOpModRemastered.configs.getAdmins().getConfig().contains(Bukkit.getOfflinePlayer(name).getUniqueId().toString()))
         {
             Bukkit.broadcastMessage(ChatColor.RED + name + " could not be found.");
@@ -88,7 +89,8 @@ public class FOPMR_Bans
         unBan(player.getName());
     }
 
-    public static void unBan(String name)
+    @SuppressWarnings("deprecation")
+	public static void unBan(String name)
     {
         if (!FreedomOpModRemastered.configs.getAdmins().getConfig().contains(Bukkit.getOfflinePlayer(name).getUniqueId().toString()))
         {
@@ -181,7 +183,8 @@ public class FOPMR_Bans
         return isBanned(name, FreedomOpModRemastered.configs.getAdmins().getConfig().getString(name + ".lastIp"));
     }
 
-    public static boolean isBanned(String name, String ip)
+    @SuppressWarnings("deprecation")
+	public static boolean isBanned(String name, String ip)
     {
 
         if (FreedomOpModRemastered.configs.getBans().getConfig().contains("names." + name))
@@ -217,7 +220,8 @@ public class FOPMR_Bans
         return false;
     }
 
-    public static String getReason(String name, String ip)
+    @SuppressWarnings("deprecation")
+	public static String getReason(String name, String ip)
     {
         if (!isBanned(name, ip))
         {
@@ -250,7 +254,8 @@ public class FOPMR_Bans
         return "Player is not banned.";
     }
 
-    public static String getReason(String name)
+    @SuppressWarnings("deprecation")
+	public static String getReason(String name)
     {
         if (!isBanned(name))
         {

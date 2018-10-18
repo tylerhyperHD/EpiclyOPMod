@@ -89,7 +89,8 @@ public final class FOPMR_CamzieListener implements Listener
         }
     }
 
-    @EventHandler
+    @SuppressWarnings("deprecation")
+	@EventHandler
     public void onCamzieLightning(EntityDamageEvent event)
     {
         if (!FOPMR_Commons.camOverlordMode)
@@ -132,7 +133,8 @@ public final class FOPMR_CamzieListener implements Listener
         }
     }
 
-    @EventHandler
+    @SuppressWarnings("unused")
+	@EventHandler
     public void onCamzieInteract(PlayerInteractEvent event)
     {
         if (!FOPMR_Commons.camOverlordMode)
@@ -179,8 +181,7 @@ public final class FOPMR_CamzieListener implements Listener
                         {
                             continue;
                         }
-                        newloc.getBlock().setType(Material.WOOL);
-                        newloc.getBlock().setData((byte) 10);
+                        newloc.getBlock().setType(Material.PURPLE_WOOL);
                         new BukkitRunnable()
                         {
                             @Override
@@ -216,7 +217,8 @@ public final class FOPMR_CamzieListener implements Listener
                     player.setSneaking(false);
                     new BukkitRunnable()
                     {
-                        @Override
+                        @SuppressWarnings("deprecation")
+						@Override
                         public void run()
                         {
                             Horse horse = (Horse) player.getWorld().spawnEntity(player.getLocation(), EntityType.HORSE);
@@ -230,7 +232,7 @@ public final class FOPMR_CamzieListener implements Listener
                             horse.setCustomName(ChatColor.DARK_AQUA + ChatColor.BOLD.toString() + "tylerhyperHD's Steed");
                             horse.setPassenger(player);
                             horse.getInventory().setSaddle(new ItemStack(Material.SADDLE, 1));
-                            horse.getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING, 1));
+                            horse.getInventory().setArmor(new ItemStack(Material.LEGACY_DIAMOND_BARDING, 1));
                         }
                     }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 2L);
                 }
@@ -351,7 +353,8 @@ public final class FOPMR_CamzieListener implements Listener
             final Entity e = event.getRightClicked();
             new BukkitRunnable()
             {
-                @Override
+                @SuppressWarnings("deprecation")
+				@Override
                 public void run()
                 {
                     e.setPassenger(player);

@@ -14,7 +14,8 @@ public class FOPMR_BoardManager
 
     public static ScoreboardManager manager = Bukkit.getScoreboardManager();
 
-    public static void updateStats(Player player)
+    @SuppressWarnings({ "unused", "deprecation" })
+	public static void updateStats(Player player)
     {
         Scoreboard board = manager.getNewScoreboard();
         String name = player.getName();

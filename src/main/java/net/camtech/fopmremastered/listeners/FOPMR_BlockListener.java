@@ -1,7 +1,10 @@
 package net.camtech.fopmremastered.listeners;
 
+import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import com.sk89q.worldedit.bukkit.selections.Selection;
+import com.sk89q.worldedit.regions.Region;
+import com.sk89q.worldedit.world.World;
+
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import net.camtech.fopmremastered.protectedareas.FOPMR_ProtectedArea;
@@ -46,7 +49,7 @@ public class FOPMR_BlockListener implements Listener
     public void onBlockPlace(BlockPlaceEvent event)
     {
         Player player = event.getPlayer();
-        if (event.getBlock().getType() == Material.COMMAND && !FOPMR_Rank.isAdmin(player))
+        if (event.getBlock().getType() == Material.COMMAND_BLOCK && !FOPMR_Rank.isAdmin(player))
         {
             player.sendMessage(ChatColor.RED + "Only admins can use command blocks.");
             event.setCancelled(true);
@@ -65,18 +68,19 @@ public class FOPMR_BlockListener implements Listener
     }
 
     @EventHandler
-    public void onCommandPreprocess(PlayerCommandPreprocessEvent event)
+    public void onCommandPreprocess(PlayerCommandPreprocessEvent event) throws IncompleteRegionException
     {
         WorldEditPlugin plugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin("WordlEdit");
         final Player player = event.getPlayer();
+        final com.sk89q.worldedit.world.World world = (World) event.getPlayer().getWorld();
         if (event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase("set") && event.getMessage().replaceAll("/", "").split(" ")[0].equalsIgnoreCase("replace"))
         {
-            Selection selection = plugin.getSelection(event.getPlayer());
+            Region selection = plugin.getSession(event.getPlayer()).getSelection(world);
             FOPMR_ProtectedAreas.getFromConfig().stream().forEach((area)
                     -> 
                     {
-                        Location location = selection.getMinimumPoint();
-                        if (selection.getRegionSelector().isDefined())
+                        Location location = new Location(event.getPlayer().getWorld(), selection.getMinimumPoint().getBlockX(), selection.getMinimumPoint().getBlockY(), selection.getMinimumPoint().getBlockZ());
+                        if (plugin.getSession(event.getPlayer()).getRegionSelector(world).isDefined())
                         {
                             for (int x = 0; x < selection.getWidth(); x++)
                             {

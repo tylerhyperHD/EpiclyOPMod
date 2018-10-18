@@ -8,7 +8,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-@CommandParameters(name = "fopmbanlist", description = "View and manage bans.", usage = "/fopmbanlist [[clear] [names | ips | uuids]]", rank = Rank.ADMIN)
+@CommandParameters(name = "fopmbanlist", description = "View and manage bans.", usage = "/fopmbanlist [[clear] [names | ips | uuids]]", rank = Rank.ADMIN, aliases = "efmbanlist")
 public class Command_fopmbanlist
 {
 
@@ -72,7 +72,7 @@ public class Command_fopmbanlist
             {
                 concatuuid = StringUtils.join(uuids, ", ");
             }
-            sender.sendMessage(ChatColor.RED + "FreedomOp Banlists:");
+            sender.sendMessage(ChatColor.RED + "EpicFreedom Banlists:");
             sender.sendMessage(ChatColor.GREEN + "    Name Bans:");
             sender.sendMessage(ChatColor.AQUA + "        " + concatname);
             sender.sendMessage(ChatColor.GREEN + "    IP Bans:");

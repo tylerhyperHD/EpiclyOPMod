@@ -2,7 +2,6 @@ package net.camtech.fopmremastered.chats;
 
 import java.util.ArrayList;
 import net.camtech.camutils.CUtils_Config;
-import net.camtech.fopmremastered.FOPMR_Configs;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;

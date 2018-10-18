@@ -26,7 +26,8 @@ public class FOPMR_Rank
         }
     };
 
-    public static Rank getRank(CommandSender player)
+    @SuppressWarnings("deprecation")
+	public static Rank getRank(CommandSender player)
     {
         if (!(player instanceof Player))
         {
@@ -74,7 +75,8 @@ public class FOPMR_Rank
         return Rank.OP;
     }
 
-    public static Rank getFromUsername(String name)
+    @SuppressWarnings("deprecation")
+	public static Rank getFromUsername(String name)
     {
         OfflinePlayer player = Bukkit.getOfflinePlayer(name);
         if (player != null)

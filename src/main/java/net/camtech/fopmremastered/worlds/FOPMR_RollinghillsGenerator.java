@@ -22,7 +22,8 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
      * by 16 by 16 blocks.
      * @param material The material to set the block to.
      */
-    void setBlock(int x, int y, int z, byte[][] chunk, Material material)
+    @SuppressWarnings("deprecation")
+	void setBlock(int x, int y, int z, byte[][] chunk, Material material)
     {
         //if the Block section the block is in hasn't been used yet, allocate it
         if (chunk[y >> 4] == null)
@@ -35,8 +36,7 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
         }
         try
         {
-            chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (byte) material
-                    .getId();
+            chunk[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = (byte) material.getId();
         }
         catch (Exception e)
         {
@@ -66,15 +66,14 @@ public class FOPMR_RollinghillsGenerator extends ChunkGenerator
         }
     }
 
-    @Override
     /**
      * @param world The world the chunk belongs to
      * @param rand Don't use this, make a new random object using the world seed (world.getSeed())
      * @param biome Use this to set/get the current biome
      * @param ChunkX and ChunkZ The x and z co-ordinates of the current chunk.
      */
-    public byte[][] generateBlockSections(World world, Random rand, int ChunkX,
-            int ChunkZ, BiomeGrid biome)
+    @SuppressWarnings("deprecation")
+	public byte[][] generateBlockSections(World world, Random rand, int ChunkX, int ChunkZ, BiomeGrid biome)
     {
         //where we will store our blocks
         byte[][] chunk = new byte[world.getMaxHeight() / 16][];

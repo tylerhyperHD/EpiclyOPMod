@@ -57,7 +57,7 @@ public class Command_personal extends FOPMR_Command
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
                     PlayerInventory inv = player.getInventory();
-                    ItemStack wool = new ItemStack(Material.WOOL, 1, (short) 10);
+                    ItemStack wool = new ItemStack(Material.PURPLE_WOOL, 1);
                     FOPMR_Enchantment.enchantAll(wool);
                     ItemMeta meta = wool.getItemMeta();
                     World world = player.getWorld();
@@ -223,8 +223,6 @@ public class Command_personal extends FOPMR_Command
                     PlayerInventory inv = player.getInventory();
                     ItemStack weed = new ItemStack(Material.DEAD_BUSH, 1);
                     ItemMeta meta = weed.getItemMeta();
-                    World world = player.getWorld();
-                    Location loc = player.getLocation();
                     meta.setDisplayName(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "WEED");
                     List<String> lore = Arrays.asList(ChatColor.LIGHT_PURPLE + "Don't do drugs kids. I never should have wrote this.");
                     meta.setLore(lore);
@@ -300,7 +298,7 @@ public class Command_personal extends FOPMR_Command
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
                     PlayerInventory inv = player.getInventory();
-                    ItemStack potato = new ItemStack(Material.POTATO_ITEM, 1);
+                    ItemStack potato = new ItemStack(Material.POTATO, 1);
                     ItemMeta meta = potato.getItemMeta();
                     List<String> lore = Arrays.asList(ChatColor.DARK_PURPLE + "It's dangerous to go alone; take this!");
                     meta.setLore(lore);
@@ -358,7 +356,7 @@ public class Command_personal extends FOPMR_Command
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
                     PlayerInventory inv = player.getInventory();
-                    inv.addItem(new ItemStack(Material.SNOW_BALL, 1));
+                    inv.addItem(new ItemStack(Material.SNOWBALL, 1));
                 }
                 break;
             case "CrafterSmith12":
@@ -380,7 +378,7 @@ public class Command_personal extends FOPMR_Command
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
                     PlayerInventory inv = player.getInventory();
-                    ItemStack glados = new ItemStack(Material.POTATO_ITEM, 1);
+                    ItemStack glados = new ItemStack(Material.POTATO, 1);
                     ItemMeta meta = glados.getItemMeta();
                     meta.setDisplayName(CUtils_Methods.randomChatColour() + "" + ChatColor.BOLD + "GlaDOS");
                     glados.setItemMeta(meta);
@@ -566,7 +564,7 @@ public class Command_personal extends FOPMR_Command
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
                     PlayerInventory inv = player.getInventory();
-                    inv.addItem(new ItemStack(Material.GOLDEN_APPLE, 1, (short) 1));
+                    inv.addItem(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
                 }
                 break;
             case "Lehctas":

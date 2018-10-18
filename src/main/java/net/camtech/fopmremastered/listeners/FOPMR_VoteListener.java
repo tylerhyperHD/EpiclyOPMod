@@ -56,7 +56,8 @@ public class FOPMR_VoteListener implements Listener
 
     }
 
-    @EventHandler
+    @SuppressWarnings("deprecation")
+	@EventHandler
     public void voteMade(VotifierEvent event)
     {
         Vote vote = event.getVote();

@@ -1,6 +1,5 @@
 package net.camtech.fopmremastered.commands;
 
-import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

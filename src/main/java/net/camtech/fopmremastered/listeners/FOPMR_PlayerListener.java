@@ -4,12 +4,10 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
-import me.totalfreedom.bukkittelnet.BukkitTelnet;
-import me.totalfreedom.bukkittelnet.session.ClientSession;
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.camutils.CUtils_Player;
 import net.camtech.fopmremastered.FOPMR_Bans;
@@ -21,7 +19,6 @@ import net.camtech.fopmremastered.FreedomOpModRemastered;
 import net.camtech.fopmremastered.PrintStack;
 import net.camtech.fopmremastered.chats.FOPMR_PrivateChats;
 import net.camtech.fopmremastered.commands.FOPMR_CommandRegistry;
-import static net.camtech.fopmremastered.listeners.FOPMR_CamzieListener.OVERME;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -56,10 +53,12 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import me.totalfreedom.bukkittelnet.BukkitTelnet;
+import me.totalfreedom.bukkittelnet.session.ClientSession;
 
 public class FOPMR_PlayerListener implements Listener
 {
@@ -123,7 +122,7 @@ public class FOPMR_PlayerListener implements Listener
         {
             return;
         }
-        if (event.getClickedBlock().getType() == Material.COMMAND && !FOPMR_Rank.isAdmin(event.getPlayer()))
+        if (event.getClickedBlock().getType() == Material.COMMAND_BLOCK && !FOPMR_Rank.isAdmin(event.getPlayer()))
         {
             event.getPlayer().sendMessage(ChatColor.RED + "You cannot edit command blocks.");
             event.setCancelled(true);
@@ -137,7 +136,7 @@ public class FOPMR_PlayerListener implements Listener
         {
             if (event.hasItem())
             {
-                if (event.getItem().getType() == Material.COMMAND_MINECART && !FOPMR_Rank.isSystem(event.getPlayer()))
+                if (event.getItem().getType() == Material.COMMAND_BLOCK_MINECART && !FOPMR_Rank.isSystem(event.getPlayer()))
                 {
                     event.getPlayer().sendMessage(ChatColor.RED + "Please use command blocks, not command block minecarts!");
                     event.setCancelled(true);
@@ -255,7 +254,8 @@ public class FOPMR_PlayerListener implements Listener
         }
     }
 
-    @EventHandler
+    @SuppressWarnings("unused")
+	@EventHandler
     public void onConsoleCommand(ServerCommandEvent event)
     {
         CommandSender player = event.getSender();
@@ -280,7 +280,8 @@ public class FOPMR_PlayerListener implements Listener
         }
     }
 
-    @EventHandler
+    @SuppressWarnings("deprecation")
+	@EventHandler
     public void onPlayerMove(PlayerMoveEvent event)
     {
         // Fixes null issue
@@ -323,7 +324,8 @@ public class FOPMR_PlayerListener implements Listener
         }
     }
 
-    @EventHandler
+    @SuppressWarnings("incomplete-switch")
+	@EventHandler
     public void onBlockPlace(PlayerInteractEvent event)
     {
         final Player player = event.getPlayer();
@@ -378,7 +380,6 @@ public class FOPMR_PlayerListener implements Listener
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent event)
     {
-        Player player = event.getPlayer();
         FOPMR_Login.handleLogin(event);
     }
 
@@ -429,7 +430,7 @@ public class FOPMR_PlayerListener implements Listener
             event.setCancelled(true);
         }
 
-        if (item.getType() == Material.GOLD_PICKAXE && FOPMR_Rank.isEomcreator(player))
+        if (item.getType() == Material.GOLDEN_PICKAXE && FOPMR_Rank.isEomcreator(player))
         {
             Location location = player.getLocation().clone();
             World world = player.getWorld();
@@ -457,7 +458,7 @@ public class FOPMR_PlayerListener implements Listener
             }
         }
 
-        if (item.getType() == Material.CARROT_ITEM && FOPMR_Rank.isSpecialExecutive(player))
+        if (item.getType() == Material.CARROT && FOPMR_Rank.isSpecialExecutive(player))
         {
             Location location = player.getLocation().clone();
 
@@ -465,7 +466,7 @@ public class FOPMR_PlayerListener implements Listener
             Vector playerDirection = location.getDirection().normalize();
 
             double distance = 150.0;
-            Block targetBlock = player.getTargetBlock((HashSet<Byte>) null, (int) Math.floor(distance));
+            Block targetBlock = player.getTargetBlock((Set<Material>) null, (int) Math.floor(distance));
             if (targetBlock != null)
             {
                 distance = location.distance(targetBlock.getLocation());
@@ -510,16 +511,14 @@ public class FOPMR_PlayerListener implements Listener
         }
     }
 
-    @EventHandler
+	@EventHandler
     public void shootArrowEvent(EntityShootBowEvent event)
     {
         if (event.getProjectile() instanceof Arrow)
         {
             if (event.getEntity() instanceof Player)
             {
-                Arrow arrow = (Arrow) event.getProjectile();
                 Player player = (Player) event.getEntity();
-                Player damager = (Player) arrow.getShooter();
                 ItemStack bow = event.getBow();
                 Map<Enchantment, Integer> enchantments = bow.getEnchantments();
                 if (enchantments.size() > 10)

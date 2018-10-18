@@ -47,7 +47,8 @@ public class Command_smite
         return true;
     }
 
-    public void smite(Player player, String reason)
+    @SuppressWarnings("deprecation")
+	public void smite(Player player, String reason)
     {
         Bukkit.broadcastMessage(String.format(ChatColor.GOLD + "%s has been a naughty, naughty person.\nThey have thus been smitten!\n" + ChatColor.GOLD + "Reason: %s", player.getName(), reason));
         String full = String.format(ChatColor.RED + "%s has been smitten for %s", player.getName(), reason);

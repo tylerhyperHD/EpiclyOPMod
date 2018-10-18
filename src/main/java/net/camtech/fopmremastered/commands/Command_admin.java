@@ -20,11 +20,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-@CommandParameters(name = "admin", usage = "/admin [[add | delete] [username] <rank>] | [list] | [purge]", description = "Add somebody to admin.")
+@CommandParameters(name = "admin", usage = "/admin [[add | delete] [username] <rank>] | [list] | [purge]", description = "Add somebody to admin.", aliases = "uplink")
 public class Command_admin
 {
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
+    @SuppressWarnings("deprecation")
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         FileConfiguration admins = FreedomOpModRemastered.configs.getAdmins().getConfig();
         if (args.length == 1)

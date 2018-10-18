@@ -6,4 +6,5 @@ website: http://3p1cfreedomcraft.boards.net/
  
 main: net.camtech.fopmremastered.FreedomOpModRemastered
 database: false
+api-version: 1.13
 softdepend: [BukkitTelnet, BarAPI, CoreProtect]

@@ -12,7 +12,8 @@ import org.bukkit.inventory.ItemStack;
 public class Command_enchant
 {
 
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
+    @SuppressWarnings("deprecation")
+	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args)
     {
         if (!(sender instanceof Player))
         {

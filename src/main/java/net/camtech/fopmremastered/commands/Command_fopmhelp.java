@@ -24,7 +24,8 @@ import org.bukkit.command.CommandSender;
 public class Command_fopmhelp
 {
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
+    @SuppressWarnings("rawtypes")
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length != 1)
         {

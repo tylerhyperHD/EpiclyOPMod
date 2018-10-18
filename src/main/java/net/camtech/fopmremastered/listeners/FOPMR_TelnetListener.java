@@ -1,7 +1,5 @@
 package net.camtech.fopmremastered.listeners;
 
-import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
-import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 import org.bukkit.Bukkit;
@@ -11,6 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+
+import me.totalfreedom.bukkittelnet.api.TelnetCommandEvent;
+import me.totalfreedom.bukkittelnet.api.TelnetPreLoginEvent;
+
 
 public class FOPMR_TelnetListener implements Listener
 {

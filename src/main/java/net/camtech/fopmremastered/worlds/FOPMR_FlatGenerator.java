@@ -18,17 +18,17 @@ public class FOPMR_FlatGenerator extends ChunkGenerator
     {
         return (x * 16 + z) * 128 + y;
     }
-
+    
     @Override
-    public byte[] generate(World world, Random rand, int chunkx, int chunkz)
+    public ChunkData generateChunkData(World world, Random random, int chunkx, int chunkz, BiomeGrid biome)
     {
-        byte[] result = new byte[32768];
+        ChunkData result = createChunkData(world);
         int y = 0;
         for (int x = 0; x < 16; x++)
         {
             for (int z = 0; z < 16; z++)
             {
-                result[xyzToByte(x, y, z)] = (byte) Material.BEDROCK.getId();
+            	result.setBlock(x, y, z, Material.BEDROCK);
             }
         }
         for (y = 1; y < 50; y++)
@@ -37,7 +37,7 @@ public class FOPMR_FlatGenerator extends ChunkGenerator
             {
                 for (int z = 0; z < 16; z++)
                 {
-                    result[xyzToByte(x, y, z)] = (byte) Material.DIRT.getId();
+                	result.setBlock(x, y, z, Material.DIRT);
                 }
             }
         }
@@ -46,7 +46,8 @@ public class FOPMR_FlatGenerator extends ChunkGenerator
         {
             for (int z = 0; z < 16; z++)
             {
-                result[xyzToByte(x, y, z)] = (byte) Material.GRASS.getId();
+            	result.setBlock(x, y, z, Material.GRASS);
+
             }
         }
         return result;

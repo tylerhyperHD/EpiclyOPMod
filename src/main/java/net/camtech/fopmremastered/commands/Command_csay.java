@@ -1,7 +1,5 @@
 package net.camtech.fopmremastered.commands;
 
-import me.totalfreedom.bukkittelnet.BukkitTelnet;
-import me.totalfreedom.bukkittelnet.session.ClientSession;
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
@@ -12,6 +10,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import me.totalfreedom.bukkittelnet.BukkitTelnet;
+import me.totalfreedom.bukkittelnet.session.ClientSession;
 
 @CommandParameters(name = "csay", usage = "/csay [level] [message]", description = "Send a message to a specific chat.", rank = FOPMR_Rank.Rank.ADMIN)
 public class Command_csay
