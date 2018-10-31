@@ -15,121 +15,106 @@ import me.totalfreedom.bukkittelnet.BukkitTelnet;
 import me.totalfreedom.bukkittelnet.session.ClientSession;
 
 @CommandParameters(name = "csay", usage = "/csay [level] [message]", description = "Send a message to a specific chat.", rank = FOPMR_Rank.Rank.ADMIN)
-public class Command_csay
-{
+public class Command_csay {
 
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        if (args.length < 2)
-        {
-            return false;
-        }
-        int level = 0;
-        try
-        {
-            level = Integer.parseInt(args[0]);
-        }
-        catch (Exception ex)
-        {
-            return false;
-        }
-        String replaceAll = CUtils_Methods.colour(StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ").replaceAll("&-", ""));
-        if (FOPMR_Rank.getRank(sender).level >= level)
-        {
-            for (Player player2 : Bukkit.getOnlinePlayers())
-            {
-                if (FOPMR_Rank.getRank(player2).level >= level)
-                {
-                    ChatColor colour = ChatColor.WHITE;
-                    String levelString = "" + level;
-                    switch (levelString)
-                    {
-                        case "0":
-                            colour = ChatColor.WHITE;
-                            break;
-                        case "1":
-                            colour = ChatColor.YELLOW;
-                            break;
-                        case "2":
-                            colour = ChatColor.AQUA;
-                            break;
-                        case "3":
-                            colour = ChatColor.LIGHT_PURPLE;
-                            break;
-                        case "4":
-                            colour = ChatColor.GOLD;
-                            break;
-                        case "5":
-                            colour = ChatColor.GREEN;
-                            break;
-                        case "6":
-                            colour = ChatColor.DARK_PURPLE;
-                            break;
-                        case "7":
-                            colour = ChatColor.DARK_RED;
-                            break;
-                        default:
-                            break;
-                    }
-                    if (FOPMR_Rank.getRank(player2).level >= 0)
-                    {
-                        player2.sendMessage(ChatColor.GRAY + "[CONSOLE]" + ChatColor.WHITE + sender.getName() + ": " + replaceAll);
-                    }
-                    else
-                    {
-                        player2.sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + sender.getName() + ": " + replaceAll);
-                    }
-                }
-            }
-            ChatColor colour = ChatColor.WHITE;
-            String levelString = "" + level;
-            switch (levelString)
-            {
-                case "1":
-                    colour = ChatColor.YELLOW;
-                    break;
-                case "2":
-                    colour = ChatColor.AQUA;
-                    break;
-                case "3":
-                    colour = ChatColor.LIGHT_PURPLE;
-                    break;
-                case "4":
-                    colour = ChatColor.GOLD;
-                    break;
-                case "5":
-                    colour = ChatColor.GREEN;
-                    break;
-                case "6":
-                    colour = ChatColor.DARK_PURPLE;
-                    break;
-                case "7":
-                    colour = ChatColor.DARK_RED;
-                    break;
-                default:
-                    break;
-            }
-            if (level <= 3)
-            {
-                Bukkit.getConsoleSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + sender.getName() + ": " + replaceAll);
-            }
-            if (Bukkit.getPluginManager().getPlugin("BukkitTelnet").isEnabled())
-            {
-                for (ClientSession session : BukkitTelnet.getClientSessions())
-                {
-                    String name = session.getCommandSender().getName().replaceAll("[^A-Za-z0-9]", "");
-                    Rank rank = FOPMR_Rank.getFromUsername(name);
-                    if (rank.level >= level)
-                    {
-                        session.getCommandSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] " + sender.getName() + ": " + replaceAll);
-                    }
-                }
-            }
-        }
-        else
-        {
-            sender.sendMessage(ChatColor.RED + "You do not have permission to use this chat level.");
-        }
-        return true;
-    }
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (args.length < 2) {
+			return false;
+		}
+		int level = 0;
+		try {
+			level = Integer.parseInt(args[0]);
+		} catch (Exception ex) {
+			return false;
+		}
+		String replaceAll = CUtils_Methods
+				.colour(StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ").replaceAll("&-", ""));
+		if (FOPMR_Rank.getRank(sender).level >= level) {
+			for (Player player2 : Bukkit.getOnlinePlayers()) {
+				if (FOPMR_Rank.getRank(player2).level >= level) {
+					ChatColor colour = ChatColor.WHITE;
+					String levelString = "" + level;
+					switch (levelString) {
+					case "0":
+						colour = ChatColor.WHITE;
+						break;
+					case "1":
+						colour = ChatColor.YELLOW;
+						break;
+					case "2":
+						colour = ChatColor.AQUA;
+						break;
+					case "3":
+						colour = ChatColor.LIGHT_PURPLE;
+						break;
+					case "4":
+						colour = ChatColor.GOLD;
+						break;
+					case "5":
+						colour = ChatColor.GREEN;
+						break;
+					case "6":
+						colour = ChatColor.DARK_PURPLE;
+						break;
+					case "7":
+						colour = ChatColor.DARK_RED;
+						break;
+					default:
+						break;
+					}
+					if (FOPMR_Rank.getRank(player2).level >= 0) {
+						player2.sendMessage(
+								ChatColor.GRAY + "[CONSOLE]" + ChatColor.WHITE + sender.getName() + ": " + replaceAll);
+					} else {
+						player2.sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] "
+								+ sender.getName() + ": " + replaceAll);
+					}
+				}
+			}
+			ChatColor colour = ChatColor.WHITE;
+			String levelString = "" + level;
+			switch (levelString) {
+			case "1":
+				colour = ChatColor.YELLOW;
+				break;
+			case "2":
+				colour = ChatColor.AQUA;
+				break;
+			case "3":
+				colour = ChatColor.LIGHT_PURPLE;
+				break;
+			case "4":
+				colour = ChatColor.GOLD;
+				break;
+			case "5":
+				colour = ChatColor.GREEN;
+				break;
+			case "6":
+				colour = ChatColor.DARK_PURPLE;
+				break;
+			case "7":
+				colour = ChatColor.DARK_RED;
+				break;
+			default:
+				break;
+			}
+			if (level <= 3) {
+				Bukkit.getConsoleSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name + " Chat] "
+						+ sender.getName() + ": " + replaceAll);
+			}
+			if (Bukkit.getPluginManager().getPlugin("BukkitTelnet").isEnabled()) {
+				for (ClientSession session : BukkitTelnet.getClientSessions()) {
+					String name = session.getCommandSender().getName().replaceAll("[^A-Za-z0-9]", "");
+					Rank rank = FOPMR_Rank.getFromUsername(name);
+					if (rank.level >= level) {
+						session.getCommandSender().sendMessage(colour + "[" + FOPMR_Rank.getFromLevel(level).name
+								+ " Chat] " + sender.getName() + ": " + replaceAll);
+					}
+				}
+			}
+		} else {
+			sender.sendMessage(ChatColor.RED + "You do not have permission to use this chat level.");
+		}
+		return true;
+	}
 }

@@ -7,36 +7,36 @@ import org.bukkit.event.HandlerList;
 
 public class CamVerifyEvent extends Event {
 
-    private static final HandlerList handlers = new HandlerList();
-    private PrintWriter out;
-    private BufferedReader in;
-    private String ip;
+	private static final HandlerList handlers = new HandlerList();
+	private PrintWriter out;
+	private BufferedReader in;
+	private String ip;
 
-    public CamVerifyEvent(PrintWriter out, BufferedReader in, String ip) {
-        this.out = out;
-        this.in = in;
-        this.ip = ip;
-    }
+	public CamVerifyEvent(PrintWriter out, BufferedReader in, String ip) {
+		this.out = out;
+		this.in = in;
+		this.ip = ip;
+	}
 
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
+	@Override
+	public HandlerList getHandlers() {
+		return handlers;
+	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+	public static HandlerList getHandlerList() {
+		return handlers;
+	}
 
-    public PrintWriter getOut() {
-        return this.out;
-    }
+	public PrintWriter getOut() {
+		return this.out;
+	}
 
-    public BufferedReader getIn() {
-        return this.in;
-    }
+	public BufferedReader getIn() {
+		return this.in;
+	}
 
-    public String getIp() {
-        return this.ip;
-    }
+	public String getIp() {
+		return this.ip;
+	}
 
 }

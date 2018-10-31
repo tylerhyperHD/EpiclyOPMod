@@ -6,16 +6,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CommandParameters
-{
+public @interface CommandParameters {
 
-    String name();
+	String name();
 
-    String description();
+	String description();
 
-    String usage();
+	String usage();
 
-    String aliases() default "";
+	String aliases() default "";
 
-    Rank rank() default Rank.OP;
+	Rank rank() default Rank.OP;
 }

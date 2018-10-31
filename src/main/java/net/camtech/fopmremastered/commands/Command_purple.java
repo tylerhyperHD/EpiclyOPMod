@@ -2,7 +2,6 @@ package net.camtech.fopmremastered.commands;
 
 import java.util.Arrays;
 import java.util.List;
-import net.camtech.fopmremastered.FOPMR_Commons;
 import net.camtech.fopmremastered.FOPMR_Enchantment;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import org.bukkit.Bukkit;
@@ -25,6 +24,7 @@ public class Command_purple extends FOPMR_Command {
 		super("purple", "/purple", "Only tyler can harness this power.", FOPMR_Rank.Rank.ADMIN);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (!(sender instanceof Player)) {

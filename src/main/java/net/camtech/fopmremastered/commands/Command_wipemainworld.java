@@ -7,19 +7,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public class Command_wipemainworld extends FOPMR_Command
-{
+public class Command_wipemainworld extends FOPMR_Command {
 
-    public Command_wipemainworld()
-    {
-        super("wipemainworld", "/wipemainwold", "Wipe the main world.", Rank.SPECIALEXEC);
-    }
+	public Command_wipemainworld() {
+		super("wipemainworld", "/wipemainwold", "Wipe the main world.", Rank.SPECIALEXEC);
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        FOPMR_WorldManager.wipeMainWorld();
-        Bukkit.broadcastMessage(ChatColor.GREEN + sender.getName() + " - Wiping Main World.");
-        return true;
-    }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		FOPMR_WorldManager.wipeMainWorld();
+		Bukkit.broadcastMessage(ChatColor.GREEN + sender.getName() + " - Wiping Main World.");
+		return true;
+	}
 }

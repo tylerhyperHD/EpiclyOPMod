@@ -6,7 +6,7 @@ import java.util.List;
 import net.camtech.camutils.CUtils_Methods;
 import net.camtech.fopmremastered.FOPMR_Rank;
 import net.camtech.fopmremastered.FOPMR_Rank.Rank;
-import net.camtech.fopmremastered.PrintStack;
+import static net.camtech.fopmremastered.FreedomOpModRemastered.plugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -91,21 +91,21 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor {
 	}
 
 	final CommandMap getCommandMap() {
-		try {
-			if (cmap == null) {
+		if (cmap == null) {
+			try {
 				final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
 				f.setAccessible(true);
 				cmap = (CommandMap) f.get(Bukkit.getServer());
 				return getCommandMap();
-			} else if (cmap != null) {
-				return cmap;
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception exception) {
-			throw new IllegalArgumentException(exception);
+		} else if (cmap != null) {
+			return cmap;
 		}
 		return getCommandMap();
 	}
-	
+
 	@Override
 	public abstract boolean onCommand(CommandSender sender, Command cmd, String label, String[] args);
 
@@ -126,7 +126,7 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor {
 
 	private void unRegisterBukkitCommand(PluginCommand cmd) {
 		try {
-			Object result = getPrivateField(Bukkit.getServer().getPluginManager(), "commandMap");
+			Object result = getPrivateField(plugin.getServer().getPluginManager(), "commandMap");
 			SimpleCommandMap commandMap = (SimpleCommandMap) result;
 			Object map = getPrivateField(commandMap, "knownCommands");
 			@SuppressWarnings("unchecked")
@@ -136,7 +136,7 @@ public abstract class FOPMR_Command implements CommandExecutor, TabExecutor {
 				knownCommands.remove(registeredalias);
 			}
 		} catch (SecurityException | IllegalArgumentException | NoSuchFieldException | IllegalAccessException e) {
-			PrintStack.trace(e);
+			e.printStackTrace();
 		}
 	}
 

@@ -8,31 +8,25 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Command_deopall extends FOPMR_Command
-{
+public class Command_deopall extends FOPMR_Command {
 
-    public Command_deopall()
-    {
-        super("deopall", "/deopall", "Deop all players on the server.", Rank.SYSTEM);
-    }
+	public Command_deopall() {
+		super("deopall", "/deopall", "Deop all players on the server.", Rank.SYSTEM);
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        if (!FOPMR_Rank.isSuper(sender))
-        {
-            sender.sendMessage(ChatColor.RED + "You don't have permissions to execute this command.");
-            return true;
-        }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!FOPMR_Rank.isSuper(sender)) {
+			sender.sendMessage(ChatColor.RED + "You don't have permissions to execute this command.");
+			return true;
+		}
 
-        for (Player player : Bukkit.getOnlinePlayers())
-        {
-            if (!FOPMR_Rank.isAdmin(player))
-            {
-                player.setOp(false);
-            }
-        }
-        return true;
-    }
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (!FOPMR_Rank.isAdmin(player)) {
+				player.setOp(false);
+			}
+		}
+		return true;
+	}
 
 }

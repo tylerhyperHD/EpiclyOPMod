@@ -16,6 +16,7 @@ general:
     admininfo: "http://3p1cfreedomcraft.boards.net/"
     #Who should Ops see for information regarding applications?
     adminmanager: tylerhyperHD
+    owner: tylerhyperHD
 
 #Don't mess with this if you don't know what it is.
 #REST configuration details for Xenforo forums.
@@ -84,3 +85,5 @@ toggles:
     apps: true
     #Is the SUPERBOW enabled?
     superBow: false
+    #Are random items dropped when a sheep regrows wool?
+    srgwool: false

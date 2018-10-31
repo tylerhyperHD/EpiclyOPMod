@@ -11,36 +11,31 @@ import org.bukkit.entity.LivingEntity;
 
 import java.util.Arrays;
 
-public class Command_rd extends FOPMR_Command
-{
+public class Command_rd extends FOPMR_Command {
 
-    public Command_rd()
-    {
-        super("rd", "/rd", "Remove all server entities.", Arrays.asList("re"), Rank.ADMIN);
-    }
+	public Command_rd() {
+		super("rd", "/rd", "Remove all server entities.", Arrays.asList("re"), Rank.ADMIN);
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        int cleared = 0;
-        int entities = 0;
-        int worlds = 0;
-        for (World world : Bukkit.getWorlds())
-        {
-            worlds++;
-            for (Entity e : world.getEntities())
-            {
-                entities++;
-                if (!(e instanceof LivingEntity))
-                {
-                    e.remove();
-                    cleared++;
-                }
-            }
-        }
-        Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - removing all server entities.");
-        sender.sendMessage(ChatColor.RED + "Removed " + cleared + "/" + entities + " entities in " + worlds + " worlds.");
-        return true;
-    }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		int cleared = 0;
+		int entities = 0;
+		int worlds = 0;
+		for (World world : Bukkit.getWorlds()) {
+			worlds++;
+			for (Entity e : world.getEntities()) {
+				entities++;
+				if (!(e instanceof LivingEntity)) {
+					e.remove();
+					cleared++;
+				}
+			}
+		}
+		Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - removing all server entities.");
+		sender.sendMessage(
+				ChatColor.RED + "Removed " + cleared + "/" + entities + " entities in " + worlds + " worlds.");
+		return true;
+	}
 
 }

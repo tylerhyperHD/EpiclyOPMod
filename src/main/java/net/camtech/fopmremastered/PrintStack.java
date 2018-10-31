@@ -3,11 +3,9 @@
  */
 package net.camtech.fopmremastered;
 
-public class PrintStack
-{
+public class PrintStack {
 
-    public static void trace(Exception ex)
-    {
-        ex.printStackTrace();
-    }
+	public static void trace(Exception ex) {
+		ex.printStackTrace();
+	}
 }

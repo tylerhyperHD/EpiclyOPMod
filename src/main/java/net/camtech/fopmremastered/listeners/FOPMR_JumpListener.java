@@ -11,51 +11,44 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 @SuppressWarnings("deprecation")
-public class FOPMR_JumpListener implements Listener
-{
+public class FOPMR_JumpListener implements Listener {
 
-    public FOPMR_JumpListener()
-    {
-        Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
-    }
+	public FOPMR_JumpListener() {
+		Bukkit.getPluginManager().registerEvents(this, FreedomOpModRemastered.plugin);
+	}
 
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	@EventHandler
-    public void onPlayerJump(PlayerMoveEvent event)
-    {
-        Player player = event.getPlayer();
-        if (!player.isFlying())
-        {
-            if (event.getTo().getY() > event.getFrom().getY())
-            {
-                if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("jumppads.enabled"))
-                {
-                    Location loc = event.getFrom();
-                    final Block block = event.getTo().getBlock();
-                    if (block.getRelative(0, -1, 0).getType() == Material.LEGACY_WOOL)
-                    {
-                        player.setVelocity(player.getVelocity().setY(FreedomOpModRemastered.configs.getMainConfig().getConfig().getDouble("jumppads.strength")));
-                    }
-                }
-            }
-        }
-    }
+	public void onPlayerJump(PlayerMoveEvent event) {
+		Player player = event.getPlayer();
+		if (!player.isFlying()) {
+			if (event.getTo().getY() > event.getFrom().getY()) {
+				if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("jumppads.enabled")) {
+					Location loc = event.getFrom();
+					final Block block = event.getTo().getBlock();
+					if (block.getRelative(0, -1, 0).getType() == Material.LEGACY_WOOL) {
+						player.setVelocity(player.getVelocity().setY(FreedomOpModRemastered.configs.getMainConfig()
+								.getConfig().getDouble("jumppads.strength")));
+					}
+				}
+			}
+		}
+	}
 
 	@EventHandler
-    public void onPlayerMove(PlayerMoveEvent event)
-    {
-        if (event.getPlayer().isSprinting())
-        {
-            if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("jumppads.speed"))
-            {
-                Location loc = event.getPlayer().getLocation();
-                Block one = new Location(loc.getWorld(), loc.getX(), loc.getBlockY() - 1, loc.getZ()).getBlock();
-                Block two = new Location(loc.getWorld(), loc.getX(), loc.getBlockY() - 2, loc.getZ()).getBlock();
-                if (one.getType() == Material.LEGACY_WOOL && two.getType() == Material.PISTON_HEAD && two.getData() == 0)
-                {
-                    event.getPlayer().setVelocity(event.getPlayer().getLocation().getDirection().multiply(FreedomOpModRemastered.configs.getMainConfig().getConfig().getDouble("jumppads.speedstrength")).setY(0));
-                }
-            }
-        }
-    }
+	public void onPlayerMove(PlayerMoveEvent event) {
+		if (event.getPlayer().isSprinting()) {
+			if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("jumppads.speed")) {
+				Location loc = event.getPlayer().getLocation();
+				Block one = new Location(loc.getWorld(), loc.getX(), loc.getBlockY() - 1, loc.getZ()).getBlock();
+				Block two = new Location(loc.getWorld(), loc.getX(), loc.getBlockY() - 2, loc.getZ()).getBlock();
+				if (one.getType() == Material.LEGACY_WOOL && two.getType() == Material.PISTON_HEAD
+						&& two.getData() == 0) {
+					event.getPlayer().setVelocity(
+							event.getPlayer().getLocation().getDirection().multiply(FreedomOpModRemastered.configs
+									.getMainConfig().getConfig().getDouble("jumppads.speedstrength")).setY(0));
+				}
+			}
+		}
+	}
 }

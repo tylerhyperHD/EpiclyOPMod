@@ -6,11 +6,11 @@
 
 	<groupId>net.camtech</groupId>
 	<artifactId>fopmremastered</artifactId>
-	<version>1.95</version>
+	<version>2.0</version>
 	<packaging>jar</packaging>
 
 	<name>EpiclyOPMod</name>
-	<description>Server modification for the EpicFreedom server, coming soon.</description>
+	<description>Server modification for the EpicFreedom server that never happened.</description>
 	<url>https://github.com/tylerhyperHD/EpiclyOPMod</url>
 
 	<scm>
@@ -102,6 +102,7 @@
 
 
 	<build>
+	   <finalName>EpiclyOPMod</finalName>
 		<!-- Filter resources for build.properties -->
 		<resources>
 			<resource>
@@ -122,10 +123,8 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
+				<version>3.8.0</version>
 				<configuration>
-					<outputFileName>EpiclyOPMod.jar</outputFileName>
-					<compilerVersion>1.8</compilerVersion>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
@@ -141,13 +140,6 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
-						<configuration>
-							<tasks>
-								<echo># You are compiling EpiclyOpMod by tylerhyperHD #</echo>
-								<echo># This was specifically designed for 1.13.1     #</echo>
-								<echo># All hail Camzie99                             #</echo>
-							</tasks>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>

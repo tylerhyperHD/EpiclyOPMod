@@ -10,29 +10,24 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class Command_wipeflatlands extends FOPMR_Command
-{
+public class Command_wipeflatlands extends FOPMR_Command {
 
-    public Command_wipeflatlands()
-    {
-        super("wipeflatlands", "/wipeflatlands", "Wipe the flatlands.", Rank.SPECIALEXEC);
-    }
+	public Command_wipeflatlands() {
+		super("wipeflatlands", "/wipeflatlands", "Wipe the flatlands.", Rank.SPECIALEXEC);
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        World flatlands = Bukkit.getWorld("flatlands");
-        CUtils_Methods.unloadWorld(flatlands);
-        CUtils_Methods.deleteWorld(flatlands.getWorldFolder());
-        new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-            }
-        }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 5L);
-        Bukkit.broadcastMessage(ChatColor.GREEN + sender.getName() + " - Wiping flatlands.");
-        return true;
-    }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		World flatlands = Bukkit.getWorld("flatlands");
+		CUtils_Methods.unloadWorld(flatlands);
+		CUtils_Methods.deleteWorld(flatlands.getWorldFolder());
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+			}
+		}.runTaskLater(FreedomOpModRemastered.plugin, 20L * 5L);
+		Bukkit.broadcastMessage(ChatColor.GREEN + sender.getName() + " - Wiping flatlands.");
+		return true;
+	}
 
 }

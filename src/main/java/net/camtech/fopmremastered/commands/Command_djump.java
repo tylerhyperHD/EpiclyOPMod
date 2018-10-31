@@ -8,27 +8,25 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import net.camtech.fopmremastered.FreedomOpModRemastered;
 
-public class Command_djump extends FOPMR_Command
-{
+public class Command_djump extends FOPMR_Command {
 
-    public Command_djump()
-    {
-        super("djump", "/djump", "Toggle your double jumping ability.", Arrays.asList("doublejump"));
-    }
+	public Command_djump() {
+		super("djump", "/djump", "Toggle your double jumping ability.", Arrays.asList("doublejump"));
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        if (!(sender instanceof Player))
-        {
-            sender.sendMessage("This can only be used in game.");
-            return true;
-        }
-        Player player = (Player) sender;
-        sender.sendMessage(ChatColor.GREEN + "Toggled double jump mode.");
-        FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".djump", !FreedomOpModRemastered.configs.getAdmins().getConfig().getBoolean(player.getUniqueId().toString() + ".djump"));
-        FreedomOpModRemastered.configs.getAdmins().saveConfig();
-        return true;
-    }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("This can only be used in game.");
+			return true;
+		}
+		Player player = (Player) sender;
+		sender.sendMessage(ChatColor.GREEN + "Toggled double jump mode.");
+		FreedomOpModRemastered.configs.getAdmins().getConfig().set(player.getUniqueId().toString() + ".djump",
+				!FreedomOpModRemastered.configs.getAdmins().getConfig()
+						.getBoolean(player.getUniqueId().toString() + ".djump"));
+		FreedomOpModRemastered.configs.getAdmins().saveConfig();
+		return true;
+	}
 
 }

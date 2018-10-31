@@ -11,42 +11,36 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Command_wildcard extends FOPMR_Command
-{
-    public Command_wildcard()
-    {
-        super("wildcard", "/wildcard [command]", "Run a command once for every player on the server (? gets replaced with their name).", Rank.SUPER);
-    }
+public class Command_wildcard extends FOPMR_Command {
+	public Command_wildcard() {
+		super("wildcard", "/wildcard [command]",
+				"Run a command once for every player on the server (? gets replaced with their name).", Rank.SUPER);
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
-    {
-        if (args.length == 0)
-        {
-            return false;
-        }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (args.length == 0) {
+			return false;
+		}
 
-        List<String> blocked = Arrays.asList("doom", "ban", "wildcard", "smite", "forcechat", "fchat", "fc");
+		List<String> blocked = Arrays.asList("doom", "ban", "wildcard", "smite", "forcechat", "fchat", "fc");
 
-        String baseCommand = StringUtils.join(args, " ");
+		String baseCommand = StringUtils.join(args, " ");
 
-        for (String block : blocked)
-        {
-            if (baseCommand.toLowerCase().contains(block) && !FOPMR_Rank.isSpecialExecutive(sender))
-            {
-                sender.sendMessage(ChatColor.RED + String.format("You cannot use %s in a WildCard!", block));
-                return true;
-            }
-        }
+		for (String block : blocked) {
+			if (baseCommand.toLowerCase().contains(block) && !FOPMR_Rank.isSpecialExecutive(sender)) {
+				sender.sendMessage(ChatColor.RED + String.format("You cannot use %s in a WildCard!", block));
+				return true;
+			}
+		}
 
-        for (Player player : server.getOnlinePlayers())
-        {
-            String out_command = baseCommand.replaceAll("\\x3f", player.getName());
-            sender.sendMessage("Running Command: " + out_command);
-            server.dispatchCommand(sender, out_command);
-        }
+		for (Player player : server.getOnlinePlayers()) {
+			String out_command = baseCommand.replaceAll("\\x3f", player.getName());
+			sender.sendMessage("Running Command: " + out_command);
+			server.dispatchCommand(sender, out_command);
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 }

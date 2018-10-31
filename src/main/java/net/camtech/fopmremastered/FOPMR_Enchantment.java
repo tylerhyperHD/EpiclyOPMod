@@ -12,19 +12,15 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author tyler
  */
-public class FOPMR_Enchantment
-{
+public class FOPMR_Enchantment {
 
-    public static ItemStack enchantAll(ItemStack type)
-    {
-        for (Enchantment ench : Enchantment.values())
-        {
-            if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS))
-            {
-                continue;
-            }
-            type.addUnsafeEnchantment(ench, 32767);
-        }
-        return type;
-    }
+	public static ItemStack enchantAll(ItemStack type) {
+		for (Enchantment ench : Enchantment.values()) {
+			if (ench.equals(Enchantment.LOOT_BONUS_MOBS) || ench.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
+				continue;
+			}
+			type.addUnsafeEnchantment(ench, 32767);
+		}
+		return type;
+	}
 }

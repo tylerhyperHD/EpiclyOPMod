@@ -18,6 +18,7 @@ import net.camtech.fopmremastered.listeners.FOPMR_PlayerListener;
 import net.camtech.fopmremastered.listeners.FOPMR_TelnetListener;
 import net.camtech.fopmremastered.listeners.FOPMR_ToggleableEventsListener;
 import net.camtech.fopmremastered.listeners.FOPMR_VoteListener;
+import net.camtech.fopmremastered.listeners.FOPMR_WorldEditListener;
 import net.camtech.fopmremastered.verification.SocketServer;
 import net.camtech.fopmremastered.worlds.FOPMR_WorldManager;
 import org.bukkit.Bukkit;
@@ -32,105 +33,103 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class FreedomOpModRemastered extends JavaPlugin
-{
+public class FreedomOpModRemastered extends JavaPlugin {
 
-    public static FreedomOpModRemastered plugin;
-    public static FOPMR_Configs configs;
-    public static FOPMR_CommandRegistry commandregistry;
-    public static FOPMR_PlayerListener playerlistener;
-    public static FOPMR_TelnetListener telnetlistener;
-    public static FOPMR_CamVerifyListener camverifylistener;
-    public static FOPMR_ToggleableEventsListener toggleableeventslistener;
-    public static FOPMR_CamzieListener camzielistener;
-    public static FOPMR_VoteListener votelistener;
-    public static FOPMR_BlockListener blocklistener;
-    public static FOPMR_JumpListener jumplistener;
-    public static List<String> exploded = new ArrayList<String>();
-    private SocketServer socketServer = new SocketServer();
-    private Thread thread;
-    Logger logger;
+	public static FreedomOpModRemastered plugin;
+	public static FOPMR_Configs configs;
+	public static FOPMR_CommandRegistry commandregistry;
+	public static FOPMR_PlayerListener playerlistener;
+	public static FOPMR_TelnetListener telnetlistener;
+	public static FOPMR_CamVerifyListener camverifylistener;
+	public static FOPMR_ToggleableEventsListener toggleableeventslistener;
+	public static FOPMR_CamzieListener camzielistener;
+	public static FOPMR_VoteListener votelistener;
+	public static FOPMR_BlockListener blocklistener;
+	public static FOPMR_JumpListener jumplistener;
+	public static FOPMR_WorldEditListener worldeditlistener;
+	public static List<String> exploded = new ArrayList<String>();
+	private SocketServer socketServer = new SocketServer();
+	private Thread thread;
+	Logger logger;
 
-    @Override
-    public void onEnable()
-    {
-        plugin = this;
-        this.logger = Logger.getLogger("Minecraft");
-        PluginDescriptionFile pdf = this.getDescription();
-        getLogger().log(Level.INFO, "{0}{1} v. {2} by {3} has been enabled!", new Object[]
-        {
-            ChatColor.BLUE, pdf.getName(), pdf.getVersion(), pdf.getAuthors()
-        });
-        configs = new FOPMR_Configs();
-        if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("general.wipe"))
-        {
-            Bukkit.broadcastMessage("Wiping main world.");
-            FreedomOpModRemastered.configs.getMainConfig().getConfig().set("general.wipe", false);
-            CUtils_Methods.deleteWorld(new File("world"));
-        }
-        commandregistry = new FOPMR_CommandRegistry();
-        playerlistener = new FOPMR_PlayerListener();
-        telnetlistener = new FOPMR_TelnetListener();
-        camverifylistener = new FOPMR_CamVerifyListener();
-        toggleableeventslistener = new FOPMR_ToggleableEventsListener();
-        camzielistener = new FOPMR_CamzieListener();
-        votelistener = new FOPMR_VoteListener();
-        blocklistener = new FOPMR_BlockListener();
-        jumplistener = new FOPMR_JumpListener();
-        FOPMR_Announcements.setup();
-        FOPMR_WorldManager.loadWorldsFromConfig();
-        for (Player player : Bukkit.getOnlinePlayers())
-        {
-            FileConfiguration config = configs.getAdmins().getConfig();
-            if (config.getBoolean(player.getUniqueId().toString() + ".imposter"))
-            {
-                FOPMR_Commons.imposters.add(player.getName());
-            }
-        }
-        thread = new Thread(socketServer);
-        thread.start();
-        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"), "EpiclyOPMod has just been enabled.");
-        this.getServer().getServicesManager().register(Function.class, FOPMR_Rank.ADMIN_SERVICE, plugin, ServicePriority.Highest);
-    }
+	public static FileConfiguration config;
 
-    @Override
-    public void onDisable()
-    {
-        PluginDescriptionFile pdf = this.getDescription();
-        getLogger().log(Level.INFO, "{0}Unloading all FOPM: R Worlds", ChatColor.RED);
-        FOPMR_WorldManager.unloadWorlds();
-        getLogger().log(Level.INFO, "{0}Unloading all FOPM: R Listeners", ChatColor.RED);
-        HandlerList.unregisterAll(plugin);
-        getLogger().log(Level.INFO, "{0}Unloading all FOPM: R Commands", ChatColor.RED);
-        FOPMR_CommandRegistry.unregisterCommands();
-        getLogger().log(Level.INFO, "{0}{1} has been disabled!", new Object[]
-        {
-            ChatColor.RED, pdf.getName()
-        });
-        try
-        {
-            this.socketServer.sock.close();
-        }
-        catch (IOException ex)
-        {
-            this.logger.severe(ex.getMessage());
-        }
-        FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"), "EpiclyOPMod has just been disabled.");
-    }
+	@Override
+	public void onEnable() {
+		plugin = this;
+		this.logger = Logger.getLogger("Minecraft");
+		PluginDescriptionFile pdf = this.getDescription();
+		getLogger().log(Level.INFO, "{0}{1} v. {2} by {3} has been enabled!",
+				new Object[] { ChatColor.BLUE, pdf.getName(), pdf.getVersion(), pdf.getAuthors() });
+		configs = new FOPMR_Configs();
+		if (FreedomOpModRemastered.configs.getMainConfig().getConfig().getBoolean("general.wipe")) {
+			Bukkit.broadcastMessage("Wiping main world.");
+			FreedomOpModRemastered.configs.getMainConfig().getConfig().set("general.wipe", false);
+			CUtils_Methods.deleteWorld(new File("world"));
+		}
+		commandregistry = new FOPMR_CommandRegistry();
+		playerlistener = new FOPMR_PlayerListener();
+		telnetlistener = new FOPMR_TelnetListener();
+		camverifylistener = new FOPMR_CamVerifyListener();
+		toggleableeventslistener = new FOPMR_ToggleableEventsListener();
+		camzielistener = new FOPMR_CamzieListener();
+		votelistener = new FOPMR_VoteListener();
+		blocklistener = new FOPMR_BlockListener();
+		jumplistener = new FOPMR_JumpListener();
+		worldeditlistener = new FOPMR_WorldEditListener();
+		config = this.getConfig();
+		this.saveDefaultConfig();
+		if (!config.getBoolean("general.owner")) {
+			System.out.println(
+					"Welcome to the EpiclyOpMod! an Owner has not yet been defined, to set yourself to Owner please run \"/owner "
+							+ FOPMR_Commons.verifyCode + "\" in-game to set yourself to the Owner rank!");
+		} else {
+			FOPMR_Commons.verifyCode = null;
+		}
+		FOPMR_Announcements.setup();
+		FOPMR_WorldManager.loadWorldsFromConfig();
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			FileConfiguration config = configs.getAdmins().getConfig();
+			if (config.getBoolean(player.getUniqueId().toString() + ".imposter")) {
+				FOPMR_Commons.imposters.add(player.getName());
+			}
+		}
+		thread = new Thread(socketServer);
+		thread.start();
+		FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"),
+				"EpiclyOPMod has just been enabled.");
+		this.getServer().getServicesManager().register(Function.class, FOPMR_Rank.ADMIN_SERVICE, plugin,
+				ServicePriority.Highest);
+	}
 
-    public void checkTime()
-    {
-        new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                for (World world : Bukkit.getWorlds())
-                {
-                    Event event = new WorldTimeChangeEvent(world, world.getTime());
-                    Bukkit.getPluginManager().callEvent(event);
-                }
-            }
-        }.runTaskLater(FreedomOpModRemastered.plugin, 20L * 10L);
-    }
+	@Override
+	public void onDisable() {
+		PluginDescriptionFile pdf = this.getDescription();
+		getLogger().log(Level.INFO, "{0}Unloading all EpiclyOPMod Worlds", ChatColor.RED);
+		FOPMR_WorldManager.unloadWorlds();
+		getLogger().log(Level.INFO, "{0}Unloading all EpiclyOPMod Listeners", ChatColor.RED);
+		HandlerList.unregisterAll(plugin);
+		getLogger().log(Level.INFO, "{0}Unloading all EpiclyOPMod Commands", ChatColor.RED);
+		FOPMR_CommandRegistry.unregisterCommands();
+		getLogger().log(Level.INFO, "{0}{1} has been disabled!", new Object[] { ChatColor.RED, pdf.getName() });
+		try {
+			this.socketServer.sock.close();
+		} catch (IOException ex) {
+			this.logger.severe(ex.getMessage());
+		}
+		FOPMR_RestManager.sendMessage(configs.getMainConfig().getConfig().getInt("rest.statusid"),
+				"EpiclyOPMod has just been disabled.");
+	}
+
+	public void checkTime() {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				for (World world : Bukkit.getWorlds()) {
+					Event event = new WorldTimeChangeEvent(world, world.getTime());
+					Bukkit.getPluginManager().callEvent(event);
+				}
+			}
+		}.runTaskLater(FreedomOpModRemastered.plugin, 20L * 10L);
+	}
 }
